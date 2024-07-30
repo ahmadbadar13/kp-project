@@ -1,12 +1,16 @@
-import Logo from './assets/Logo KPU.png';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import DashboardAdmin from './pages/DashboardAdmin';
 
 function App() {
   return (
-    <div>
-      <h1>Hello World!</h1>
-      <p>Assalamualaikum barudak</p>
-      <img src={Logo} alt="Logo KPU" />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
+      </Routes>
+    </Router>
   );
 }
 
