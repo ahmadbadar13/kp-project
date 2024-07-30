@@ -49,14 +49,10 @@ const Login = () => {
           <button
             type="submit"
             className="w-full py-2 px-4 bg-indigo-600 text-white font-bold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={() => navigate('/DashboardAdmin')}
           >
             Login
           </button>
-          <div className="mt-4 text-center">
-            <Link to="/DashboardAdmin" className="text-blue-600 hover:underline">
-              Tekan Ini
-            </Link>
-          </div>
         </form>
       </div>
     </div>
