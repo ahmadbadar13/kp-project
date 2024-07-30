@@ -1,15 +1,12 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import Login from './pages/Login';
-import DashboardAdmin from './pages/DashboardAdmin';
+import Logo from './assets/Logo KPU.png';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
-      </Routes>
-    </Router>
+    <div>
+      <h1>Hello World!</h1>
+      <p>Assalamualaikum barudak</p>
+      <img src={Logo} alt="Logo KPU" />
+    </div>
   );
 }
 
