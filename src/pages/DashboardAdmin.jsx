@@ -37,7 +37,7 @@ const DashboardAdmin = () => {
                 className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
                 aria-current="page"
               >
-                Get Started
+                Divisi
               </Link>
             </li>
             <li>
@@ -45,16 +45,7 @@ const DashboardAdmin = () => {
                 to="/"
                 className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
               >
-                Product
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
-                aria-current="page"
-              >
-                Our Team
+                Sekretaris
               </Link>
             </li>
             <li>
@@ -63,7 +54,16 @@ const DashboardAdmin = () => {
                 className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
                 aria-current="page"
               >
-                Sign In
+                Sub Bagian
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/"
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
+                aria-current="page"
+              >
+                Logout
               </Link>
             </li>
           </ul>
