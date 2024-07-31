@@ -4,15 +4,15 @@ import Logo from '../../assets/Logo KPU.png';
 
 const DashboardAdmin = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const toggleDropdown = (dropdown) => {
+    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
   const toggleAdminDropdown = () => {
@@ -32,66 +32,61 @@ const DashboardAdmin = () => {
           <ul className="font-medium text-lg flex space-x-12">
             <li className="relative">
               <button
-                onClick={toggleDropdown}
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
+                onClick={() => toggleDropdown('divisi')}
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0"
               >
                 Divisi
               </button>
-              {dropdownOpen && (
-                <ul className="absolute left-0 mt-2 bg-white text-black rounded shadow-lg w-48">
+              {activeDropdown === 'divisi' && (
+                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                   <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Sub Divisi 1</Link>
+                    <Link to="/" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                   </li>
                   <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Sub Divisi 2</Link>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknik Penyelenggaraan</Link>
+                  </li>
+                  <li>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
+                  </li>
+                  <li>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Hukum dan Pengawasan</Link>
+                  </li>
+                  <li>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                   </li>
                 </ul>
               )}
             </li>
             <li className="relative">
               <button
-                onClick={toggleDropdown}
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0"
               >
                 Sekretaris
               </button>
-              {dropdownOpen && (
-                <ul className="absolute left-0 mt-2 bg-white text-black rounded shadow-lg w-48">
-                  <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Detail Sekretaris 1</Link>
-                  </li>
-                  <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Detail Sekretaris 2</Link>
-                  </li>
-                </ul>
-              )}
             </li>
             <li className="relative">
               <button
-                onClick={toggleDropdown}
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
+                onClick={() => toggleDropdown('subBagian')}
+                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0"
               >
                 Sub Bagian
               </button>
-              {dropdownOpen && (
-                <ul className="absolute left-0 mt-2 bg-white text-black rounded shadow-lg w-48">
+              {activeDropdown === 'subBagian' && (
+                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                   <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Sub Bagian 1</Link>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
                   </li>
                   <li>
-                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200">Sub Bagian 2</Link>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Perencanaan, Data & Informasi</Link>
+                  </li>
+                  <li>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Hukum & SDM</Link>
+                  </li>
+                  <li>
+                    <Link to="/" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Keuangan, Umum, & Logistik</Link>
                   </li>
                 </ul>
               )}
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0"
-                aria-current="page"
-              >
-                Logout
-              </Link>
             </li>
           </ul>
         </div>
@@ -107,15 +102,9 @@ const DashboardAdmin = () => {
               </svg>
             </button>
             {adminDropdownOpen && (
-              <ul className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48">
+              <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-30">
                 <li>
-                  <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">Profile</Link>
-                </li>
-                <li>
-                  <Link to="/settings" className="block px-4 py-2 hover:bg-gray-200">Settings</Link>
-                </li>
-                <li>
-                  <Link to="/logout" className="block px-4 py-2 hover:bg-gray-200">Logout</Link>
+                <Link to="/" className="block px-4 py-2 w-32 hover:bg-gray-200 rounded text-center">Logout</Link>
                 </li>
               </ul>
             )}
@@ -132,53 +121,6 @@ const DashboardAdmin = () => {
             </svg>
           </button>
         </div>
-      </div>
-      <div className={`w-full ${menuOpen ? 'block' : 'hidden'} md:hidden`}>
-        <ul className="font-medium text-lg flex flex-col p-4 mt-4 border-t border-gray-200">
-          <li>
-            <Link
-              to="/"
-              className="block py-2 px-3 text-white rounded hover:bg-gray-700"
-              aria-current="page"
-            >
-              Divisi
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/"
-              className="block py-2 px-3 text-white rounded hover:bg-gray-700"
-            >
-              Sekretaris
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/"
-              className="block py-2 px-3 text-white rounded hover:bg-gray-700"
-              aria-current="page"
-            >
-              Sub Bagian
-            </Link>
-          </li>
-          <li className="relative">
-            <button
-              onClick={toggleAdminDropdown}
-              className="block py-2 px-3 text-white rounded hover:bg-gray-700"
-            >
-              Hallo, Admin!
-            </button>
-            {adminDropdownOpen && (
-              <ul className="absolute left-0 mt-2 bg-white text-black rounded shadow-lg w-48">
-                <li>
-                  <Link to="/" className="block py-2 px-3 text-white rounded hover:bg-gray-700" aria-current="page">
-                    Logout
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
-        </ul>
       </div>
     </nav>
   );
