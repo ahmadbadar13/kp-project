@@ -24,7 +24,7 @@ const DashboardAdmin = () => {
     <div>
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/DashboardAdmin" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
