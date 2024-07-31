@@ -64,7 +64,7 @@ const DashboardAdmin = () => {
                 )}
               </li>
               <li>
-                <Link to="/" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                <Link to="/Sekretaris" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                   Sekretaris
                 </Link>
               </li>
@@ -162,7 +162,7 @@ const DashboardAdmin = () => {
                 )}
               </li>
               <li>
-                <Link to="/" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
+                <Link to="/Sekretaris" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
                   Sekretaris
                 </Link>
               </li>
