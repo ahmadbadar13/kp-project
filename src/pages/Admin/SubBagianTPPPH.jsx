@@ -211,7 +211,7 @@ const DashboardAdmin = () => {
       )}
 
       <div>
-        <h1>Halaman Divisi Perencanaan, Data, dan Informasi</h1>
+        <h1>Halaman Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, dan Hupmas</h1>
       </div>
     </div>
   );

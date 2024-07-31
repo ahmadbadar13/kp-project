@@ -211,7 +211,7 @@ const DashboardAdmin = () => {
       )}
 
       <div>
-        <h1>Halaman Divisi Perencanaan, Data, dan Informasi</h1>
+        <h1>Halaman Sub Bagian Keuangan, Umum, dan Logistik</h1>
       </div>
     </div>
   );
