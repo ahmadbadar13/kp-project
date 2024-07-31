@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../assets/Logo KPU.png';
+import Logo from './assets/Logo KPU.png'
 
 const Login = () => {
   const navigate = useNavigate();
