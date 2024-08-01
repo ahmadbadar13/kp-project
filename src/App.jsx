@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
-import DashboardAdmin from './pages/Admin/DashboardAdmin';
+import Dashboard from './pages/Admin/Dashboard';
 import DivisiHP from './pages/Admin/DivisiHP';
 import DivisiKURL from './pages/Admin/DivisiKURL';
 import DivisiPDI from './pages/Admin/DivisiPDI';
@@ -18,7 +18,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/DashboardAdmin" element={<DashboardAdmin />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/DivisiHP" element={<DivisiHP />} />
         <Route path="/DivisiKURL" element={<DivisiKURL />} />
         <Route path="/DivisiPDI" element={<DivisiPDI />} />
