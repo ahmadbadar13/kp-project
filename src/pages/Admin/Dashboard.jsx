@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
 
-const DashboardAdmin = () => {
+const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+  const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
+
+  useEffect(() => {
+    // Ambil informasi peran pengguna dari local storage atau API
+    const role = localStorage.getItem('userRole'); // Atau dari state management (Redux, Context, dll.)
+    setUserRole(role || ''); // Set role ke state
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -100,7 +107,7 @@ const DashboardAdmin = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center"
               >
-                Hallo, Admin!
+                Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
                 <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                 </svg>
@@ -165,13 +172,13 @@ const DashboardAdmin = () => {
                       <Link to="/DivisiTP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiDPI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiPDI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
                     </li>
                     <li>
                       <Link to="/DivisiHP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
@@ -200,7 +207,7 @@ const DashboardAdmin = () => {
                       <Link to="/SubBagianHSDM" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
                     </li>
                     <li>
-                      <Link to="/KUL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
+                      <Link to="/SubBagianKUL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
                     </li>
                   </ul>
                 )}
@@ -210,7 +217,7 @@ const DashboardAdmin = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, Admin!
+                  Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
@@ -228,4 +235,4 @@ const DashboardAdmin = () => {
   );
 };
 
-export default DashboardAdmin;
+export default Dashboard;
