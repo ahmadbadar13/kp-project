@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo KPU.png';
+import Logo from '../assets/Logo KPU.png';
 
-const DivisiPDI = () => {
+const SubBagianPDI = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -210,10 +210,10 @@ const DivisiPDI = () => {
       )}
 
       <div>
-        <h1>Halaman Divisi Perencanaan, Data, dan Informasi</h1>
+        <h1>Halaman Sub Bagian Perencanaan, Data, dan Informasi</h1>
       </div>
     </div>
   );
 };
 
-export default DivisiPDI;
+export default SubBagianPDI;

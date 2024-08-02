@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo KPU.png';
-import BackgroundImage from '../../assets/bg-KPU.png';
+import Logo from '../assets/Logo KPU.png';
 
-const Dashboard = () => {
+const DivisiSPPP_SDM = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
-  const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
-
-  useEffect(() => {
-    // Ambil informasi peran pengguna dari local storage atau API
-    const role = localStorage.getItem('userRole'); // Atau dari state management (Redux, Context, dll.)
-    setUserRole(role || ''); // Set role ke state
-  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -35,7 +27,7 @@ const Dashboard = () => {
     <div>
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/DashboardAdmin" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/Dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
@@ -107,7 +99,7 @@ const Dashboard = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center"
               >
-                Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
+                Hallo, Admin!
                 <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                 </svg>
@@ -135,26 +127,11 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      <section className="bg-center bg-no-repeat bg-gray-700 bg-blend-multiply" style={{ backgroundImage: `url(${BackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-5xl">Pengelolaan Pegawai KPU Kota Cimahi</h1>
-          <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Solusi Terbaik untuk Pengelolaan dan Pemantauan Data Pegawai KPU</p>
-          <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-              Get started
-              <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/DashboardAdmin" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/Dashboard" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -172,13 +149,13 @@ const Dashboard = () => {
                       <Link to="/DivisiTP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiPDI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiDPI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
                     </li>
                     <li>
                       <Link to="/DivisiHP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSPPP_SDM" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
@@ -207,7 +184,7 @@ const Dashboard = () => {
                       <Link to="/SubBagianHSDM" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianKUL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
+                      <Link to="/KUL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
                     </li>
                   </ul>
                 )}
@@ -217,7 +194,7 @@ const Dashboard = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
+                  Hallo, Admin!
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
@@ -231,8 +208,12 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
+      <div>
+        <h1>Halaman Divisi Sosialisasi, Pendidikan Pemilih, Parmas, dan SDM</h1>
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DivisiSPPP_SDM;

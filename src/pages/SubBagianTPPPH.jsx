@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo KPU.png';
+import Logo from '../assets/Logo KPU.png';
 
-const SubBagianPDI = () => {
+const SubBagianTPPPH = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -210,10 +210,10 @@ const SubBagianPDI = () => {
       )}
 
       <div>
-        <h1>Halaman Sub Bagian Perencanaan, Data, dan Informasi</h1>
+        <h1>Halaman Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, dan Hupmas</h1>
       </div>
     </div>
   );
 };
 
-export default SubBagianPDI;
+export default SubBagianTPPPH;

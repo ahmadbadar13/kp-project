@@ -1,17 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
-import Dashboard from './pages/Admin/Dashboard';
-import DivisiHP from './pages/Admin/DivisiHP';
-import DivisiKURL from './pages/Admin/DivisiKURL';
-import DivisiPDI from './pages/Admin/DivisiPDI';
-import DivisiSPPP_SDM from './pages/Admin/DivisiSPPP_SDM';
-import DivisiTP from './pages/Admin/DivisiTP';
-import SubBagianHSDM from './pages/Admin/SubBagianHSDM';
-import SubBagianKUL from './pages/Admin/SubBagianKUL';
-import SubBagianPDI from './pages/Admin/SubBagianPDI';
-import SubBagianTPPPH from './pages/Admin/SubBagianTPPPH';
-import Sekretaris from './pages/Sekretaris/Sekretaris';
+import Dashboard from './pages/Dashboard';
+import DivisiHP from './pages/DivisiHP';
+import DivisiKURL from './pages/DivisiKURL';
+import DivisiPDI from './pages/DivisiPDI';
+import DivisiSPPP_SDM from './pages/DivisiSPPP_SDM';
+import DivisiTP from './pages/DivisiTP';
+import SubBagianHSDM from './pages/SubBagianHSDM';
+import SubBagianKUL from './pages/SubBagianKUL';
+import SubBagianPDI from './pages/SubBagianPDI';
+import SubBagianTPPPH from './pages/SubBagianTPPPH';
+import Sekretaris from './pages/Sekretaris';
 
 function App() {
   return (

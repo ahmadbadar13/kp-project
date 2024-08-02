@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo KPU.png';
+import Logo from '../assets/Logo KPU.png';
 
-const DivisiSPPP_SDM = () => {
+const DivisiKURL = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -210,10 +210,10 @@ const DivisiSPPP_SDM = () => {
       )}
 
       <div>
-        <h1>Halaman Divisi Sosialisasi, Pendidikan Pemilih, Parmas, dan SDM</h1>
+        <h1>Halaman Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</h1>
       </div>
     </div>
   );
 };
 
-export default DivisiSPPP_SDM;
+export default DivisiKURL;
