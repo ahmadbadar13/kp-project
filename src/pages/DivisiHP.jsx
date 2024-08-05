@@ -254,7 +254,7 @@ const DivisiHP = () => {
                 required
               >
                 <option value="" disabled>Pilih Jabatan</option>
-                <option value="Kepala">Kepala</option>
+                <option value="Ketua">Ketua</option>
                 <option value="Anggota">Anggota</option>
               </select>
             </div>
@@ -300,7 +300,7 @@ const DivisiHP = () => {
                 required
               >
                 <option value="" disabled>Pilih Jabatan</option>
-                <option value="Kepala">Kepala</option>
+                <option value="Ketua">Ketua</option>
                 <option value="Anggota">Anggota</option>
               </select>
             </div>
