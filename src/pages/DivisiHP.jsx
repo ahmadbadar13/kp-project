@@ -8,8 +8,10 @@ const DivisiHP = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [isAddingUser, setIsAddingUser] = useState(false);
+  const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
+  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -18,6 +20,17 @@ const DivisiHP = () => {
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
+  const handleEditUser = (user) => {
+    setIsEditingUser(true);
+    setEditingUser({
+      id: user.id,
+      name: user.nama_div_hp,
+      nip: user.nip_div_hp,
+      position: user.jabatan_div_hp,
+      photo: user.foto_div_hp,
+    });
+  };
+  const handleCancelEditUser = () => setIsEditingUser(false);
 
   const handleSubmitNewUser = async (e) => {
     e.preventDefault();
@@ -43,6 +56,30 @@ const DivisiHP = () => {
     }
   };
 
+  const handleSubmitEditUser = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', editingUser.name);
+    formData.append('nip', editingUser.nip);
+    formData.append('position', editingUser.position);
+    if (editingUser.photo) {
+      formData.append('photo', editingUser.photo);
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:5001/api/users/${editingUser.id}`, formData);
+      if (response.data.success) {
+        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
+        setIsEditingUser(false);
+        fetchUsers(); // Reload users after editing
+      } else {
+        console.error('Error editing user:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error editing user:', error);
+    }
+  };
+
   const handleDeleteUser = async (userId) => {
     try {
       await axios.delete(`http://localhost:5001/api/users/${userId}`);
@@ -52,25 +89,22 @@ const DivisiHP = () => {
     }
   };
 
-  const handleEditUser = (_userId) => {
-    // Implement edit user logic
-    // You can set state or show another form for editing
-  };
-
   const handleFileChange = (e) => {
     setNewUser({ ...newUser, photo: e.target.files[0] });
+  };
+
+  const handleFileChangeEdit = (e) => {
+    setEditingUser({ ...editingUser, photo: e.target.files[0] });
   };
 
   const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:5001/api/users');
-      console.log(response.data); // Tambahkan ini
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
-  
 
   useEffect(() => {
     fetchUsers(); // Fetch users when the component mounts
@@ -146,19 +180,36 @@ const DivisiHP = () => {
               </li>
             </ul>
           </div>
-          <div className="hidden md:flex md:items-center">
+          <div className="hidden md:flex items-center justify-end space-x-3 md:space-x-5">
             <div className="relative">
               <button
                 onClick={toggleAdminDropdown}
-                className="text-white font-medium text-lg flex items-center"
+                className="block py-2 pl-3 pr-4 text-white bg-red-700 rounded hover:bg-red-600 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0"
               >
-                Hallo, Admin!
-                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+                <svg
+                  className="w-6 h-6"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6H20M4 12H20M4 18H11"
+                  ></path>
                 </svg>
               </button>
               {adminDropdownOpen && (
-                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-30">
+                <ul className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48">
+                  <li>
+                    <Link to="/Profile" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/Settings" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Settings</Link>
+                  </li>
                   <li>
                     <Link to="/" className="block px-4 py-2 w-32 hover:bg-gray-200 rounded text-center">Logout</Link>
                   </li>
@@ -166,200 +217,133 @@ const DivisiHP = () => {
               )}
             </div>
           </div>
-          <div className="md:hidden">
-            <button onClick={toggleMenu} className="block text-white focus:outline-none">
-              <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M4 6h16v1H4V6zm0 5h16v1H4v-1zm0 5h16v1H4v-1z"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
-          <div className="flex flex-col items-center pt-10">
-            <Link to="/Dashboard" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
-            <ul className="flex flex-col items-center space-y-4">
-              <li>
-                <button
-                  onClick={() => toggleDropdown('divisi')}
-                  className="text-white text-lg"
-                >
-                  Divisi
-                </button>
-                {activeDropdown === 'divisi' && (
-                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
-                    <li>
-                      <Link to="/DivisiKURL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
-                    </li>
-                    <li>
-                      <Link to="/DivisiTP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
-                    </li>
-                    <li>
-                      <Link to="/DivisiDPI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
-                    </li>
-                    <li>
-                      <Link to="/DivisiHP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
-                    </li>
-                    <li>
-                      <Link to="/DivisiSP" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-              <li>
-                <Link to="/Sekretaris" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
-                  Sekretaris
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={() => toggleDropdown('subBagian')}
-                  className="text-white text-lg"
-                >
-                  Sub Bagian
-                </button>
-                {activeDropdown === 'subBagian' && (
-                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
-                    <li>
-                      <Link to="/SubBagianTPPPH" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
-                    </li>
-                    <li>
-                      <Link to="/SubBagianPDI" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Perencanaan, Data & Informasi</Link>
-                    </li>
-                    <li>
-                      <Link to="/SubBagianHSDM" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
-                    </li>
-                    <li>
-                      <Link to="/KUL" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-              <li>
-                <button
-                  onClick={toggleAdminDropdown}
-                  className="text-white text-lg"
-                >
-                  Hallo, Admin!
-                </button>
-                {adminDropdownOpen && (
-                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
-                    <li>
-                      <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center" onClick={closeMenu}>Logout</Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            </ul>
-          </div>
-        </div>
-      )}
-
-      {/* Judul */}
       <div className="p-6">
-        <h1 className="text-3xl font-bold mb-6 text-center">Divisi Hukum dan Pengawasan</h1>
-        <div className="flex justify-center">
-          <button onClick={handleAddUser} className="bg-blue-500 text-white px-4 py-2 rounded">Tambah Anggota</button>
-        </div>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Hukum dan Pengawasan</h1>
 
-        {/* Formulir untuk menambah pengguna */}
         {isAddingUser && (
-          <form onSubmit={handleSubmitNewUser} className="mt-6 max-w-lg mx-auto bg-white p-6 rounded shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Tambah Anggota</h2>
+          <form onSubmit={handleSubmitNewUser} className="mb-6">
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="name">Nama</label>
+              <label className="block text-gray-700">Nama:</label>
               <input
                 type="text"
-                id="name"
+                className="border rounded w-full py-2 px-3"
                 value={newUser.name}
                 onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="nip">NIP</label>
+              <label className="block text-gray-700">NIP:</label>
               <input
                 type="text"
-                id="nip"
+                className="border rounded w-full py-2 px-3"
                 value={newUser.nip}
                 onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="position">Jabatan</label>
+              <label className="block text-gray-700">Jabatan:</label>
               <select
-                id="position"
+                className="border rounded w-full py-2 px-3"
                 value={newUser.position}
                 onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded"
               >
                 <option value="" disabled>Pilih Jabatan</option>
-                <option value="Ketua">Ketua</option>
+                <option value="Kepala">Kepala</option>
                 <option value="Anggota">Anggota</option>
               </select>
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700" htmlFor="photo">Foto</label>
-              <input
-                type="file"
-                id="photo"
-                onChange={handleFileChange}
-                className="mt-1 block w-full"
-              />
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChange} />
             </div>
             <div className="flex justify-end">
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
-              <button type="button" onClick={handleCancelAddUser} className="ml-4 bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
+              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
             </div>
           </form>
         )}
 
-        {/* Daftar Anggota */}
-        <div className="mt-6 max-w-4xl mx-auto bg-white p-6 rounded shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Daftar Anggota</h2>
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIP</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jabatan</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foto</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+        {isEditingUser && (
+          <form onSubmit={handleSubmitEditUser} className="mb-6">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nama:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.name}
+                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">NIP:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.nip}
+                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Jabatan:</label>
+              <select
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.position}
+                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
+                required
+              >
+                <option value="" disabled>Pilih Jabatan</option>
+                <option value="Kepala">Kepala</option>
+                <option value="Anggota">Anggota</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChangeEdit} />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
+            </div>
+          </form>
+        )}
+
+        <button onClick={handleAddUser} className="bg-green-500 text-white px-4 py-2 rounded mb-6">Tambah Pegawai</button>
+
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 px-4 py-2">Nama</th>
+              <th className="border border-gray-300 px-4 py-2">NIP</th>
+              <th className="border border-gray-300 px-4 py-2">Jabatan</th>
+              <th className="border border-gray-300 px-4 py-2">Foto</th>
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td className="border border-gray-300 px-4 py-2">{user.nama_div_hp}</td>
+                <td className="border border-gray-300 px-4 py-2">{user.nip_div_hp}</td>
+                <td className="border border-gray-300 px-4 py-2">{user.jabatan_div_hp}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {user.foto_div_hp && <img src={`data:image/jpeg;base64,${user.foto_div_hp}`} alt="Foto" className="h-16 w-16 object-cover" />}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  <button onClick={() => handleEditUser(user)} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Edit</button>
+                  <button onClick={() => handleDeleteUser(user.id)} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td className="py-2 px-4 border-b">{user.nama_div_hp}</td>
-                  <td className="py-2 px-4 border-b">{user.nip_div_hp}</td>
-                  <td className="py-2 px-4 border-b">{user.jabatan_div_hp}</td>
-                  <td className="py-2 px-4 border-b">
-                    <img src={`http://localhost:5001/uploads/${user.foto_div_hp}`} alt={user.nama_div_hp} className="h-16" />
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <button onClick={() => handleEditUser(user.id)} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2">
-                      Edit
-                    </button>
-                    <button onClick={() => handleDeleteUser(user.id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
