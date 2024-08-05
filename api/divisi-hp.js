@@ -54,6 +54,36 @@ app.get('/api/users', (req, res) => {
   });
 });
 
+// Endpoint untuk mengedit data pengguna
+app.put('/api/users/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const photo = req.file ? req.file.filename : null;
+
+  // Query untuk mendapatkan data pengguna yang ada
+  const getUserQuery = 'SELECT * FROM divisi_hp WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_div_hp;
+    const updatedNip = nip || results[0].nip_div_hp;
+    const updatedPosition = position || results[0].jabatan_div_hp;
+    const updatedPhoto = photo || results[0].foto_div_hp;
+
+    // Query untuk memperbarui data pengguna
+    const updateUserQuery = 'UPDATE divisi_hp SET nama_div_hp = ?, nip_div_hp = ?, jabatan_div_hp = ?, foto_div_hp = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
 // Endpoint untuk menghapus pengguna
 app.delete('/api/users/:id', (req, res) => {
   const { id } = req.params;
