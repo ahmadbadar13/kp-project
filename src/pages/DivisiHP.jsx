@@ -30,7 +30,7 @@ const DivisiHP = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users', formData);
+      const response = await axios.post('http://localhost:5001/api/users', formData);
       if (response.data.success) {
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
@@ -45,14 +45,14 @@ const DivisiHP = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`);
+      await axios.delete(`http://localhost:5001/api/users/${userId}`);
       fetchUsers(); // Reload users after deleting
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   };
 
-  const handleEditUser = (userId) => {
+  const handleEditUser = (_userId) => {
     // Implement edit user logic
     // You can set state or show another form for editing
   };
@@ -63,7 +63,7 @@ const DivisiHP = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/users');
+      const response = await axios.get('http://localhost:5001/api/users');
       console.log(response.data); // Tambahkan ini
       setUsers(response.data);
     } catch (error) {
@@ -325,7 +325,7 @@ const DivisiHP = () => {
           </form>
         )}
 
-        {/* Daftar pengguna */}
+        {/* Daftar Anggota */}
         <div className="mt-6 max-w-4xl mx-auto bg-white p-6 rounded shadow-md">
           <h2 className="text-2xl font-semibold mb-4">Daftar Anggota</h2>
           <table className="min-w-full divide-y divide-gray-200">
@@ -338,18 +338,22 @@ const DivisiHP = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.nama_div_hp}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.nip_div_hp}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.jabatan_div_hp}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {user.foto_div_hp && <img src={`http://localhost:5000/uploads/${user.foto_div_hp}`} alt="User" className="h-16" />}
+                  <td className="py-2 px-4 border-b">{user.nama_div_hp}</td>
+                  <td className="py-2 px-4 border-b">{user.nip_div_hp}</td>
+                  <td className="py-2 px-4 border-b">{user.jabatan_div_hp}</td>
+                  <td className="py-2 px-4 border-b">
+                    <img src={`http://localhost:5001/uploads/${user.foto_div_hp}`} alt={user.nama_div_hp} className="h-16" />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button onClick={() => handleEditUser(user.id)} className="text-blue-500 hover:text-blue-700">Edit</button>
-                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-500 hover:text-red-700 ml-4">Delete</button>
+                  <td className="py-2 px-4 border-b">
+                    <button onClick={() => handleEditUser(user.id)} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2">
+                      Edit
+                    </button>
+                    <button onClick={() => handleDeleteUser(user.id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                      Hapus
+                    </button>
                   </td>
                 </tr>
               ))}
