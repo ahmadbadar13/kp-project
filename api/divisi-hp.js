@@ -21,7 +21,7 @@ db.connect();
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'uploads/');
+      cb(null, '../uploads/');
     },
     filename: (req, file, cb) => {
       cb(null, Date.now() + path.extname(file.originalname));
@@ -31,11 +31,12 @@ const upload = multer({
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Endpoint untuk menambahkan pengguna
 app.post('/api/users', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
-  const photo = req.file ? req.file.filename : null;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
   const query = 'INSERT INTO divisi_hp (nama_div_hp, nip_div_hp, jabatan_div_hp, foto_div_hp) VALUES (?, ?, ?, ?)';
   
@@ -44,6 +45,7 @@ app.post('/api/users', upload.single('photo'), (req, res) => {
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
+
 
 // Endpoint untuk mendapatkan daftar pengguna
 app.get('/api/users', (req, res) => {
