@@ -10,6 +10,7 @@ const DivisiHP = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
+  const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
   const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
 
@@ -180,36 +181,19 @@ const DivisiHP = () => {
               </li>
             </ul>
           </div>
-          <div className="hidden md:flex items-center justify-end space-x-3 md:space-x-5">
+          <div className="hidden md:flex md:items-center">
             <div className="relative">
               <button
                 onClick={toggleAdminDropdown}
-                className="block py-2 pl-3 pr-4 text-white bg-red-700 rounded hover:bg-red-600 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0"
+                className="text-white font-medium text-lg flex items-center"
               >
-                <svg
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6H20M4 12H20M4 18H11"
-                  ></path>
+                Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
+                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                 </svg>
               </button>
               {adminDropdownOpen && (
-                <ul className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48">
-                  <li>
-                    <Link to="/Profile" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/Settings" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Settings</Link>
-                  </li>
+                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-30">
                   <li>
                     <Link to="/" className="block px-4 py-2 w-32 hover:bg-gray-200 rounded text-center">Logout</Link>
                   </li>
@@ -334,7 +318,11 @@ const DivisiHP = () => {
                 <td className="border border-gray-300 px-4 py-2">{user.nip_div_hp}</td>
                 <td className="border border-gray-300 px-4 py-2">{user.jabatan_div_hp}</td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {user.foto_div_hp && <img src={`data:image/jpeg;base64,${user.foto_div_hp}`} alt="Foto" className="h-16 w-16 object-cover" />}
+                  {user.foto_div_hp ? (
+                    <img src={user.foto_div_hp} alt="Foto" className="h-16 w-16 object-cover" />
+                  ) : (
+                    <p>Foto tidak tersedia</p>
+                  )}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <button onClick={() => handleEditUser(user)} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Edit</button>
