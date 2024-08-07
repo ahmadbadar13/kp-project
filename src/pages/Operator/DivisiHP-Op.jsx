@@ -10,7 +10,6 @@ const DivisiHP_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
   const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
 
@@ -108,7 +107,7 @@ const DivisiHP_Op = () => {
   };
 
   useEffect(() => {
-    fetchUsers(); // Fetch users when the component mounts
+    fetchUsers();
   }, []);
 
   return (
@@ -187,7 +186,7 @@ const DivisiHP_Op = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center"
               >
-                Hallo, {userRole === 'admin' ? 'Admin!' : userRole === 'operator' ? 'Operator!' : 'User!'}
+                Hallo, Operator!
                 <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                 </svg>
