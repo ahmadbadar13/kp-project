@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from './assets/Logo KPU.png';
+import Logo from '../assets/Logo KPU.png';
 import axios from 'axios';
 
 const Login = () => {
@@ -16,8 +16,6 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/login', { email, password });
 
       if (response.data.success) {
-        // Simpan peran pengguna di local storage
-        localStorage.setItem('userRole', response.data.role); // Pastikan server mengembalikan peran pengguna
         navigate('/Dashboard');
       } else {
         setError('Invalid credentials');
