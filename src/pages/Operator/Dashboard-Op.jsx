@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/Logo KPU.png';
-import BackgroundImage from '../assets/bg-KPU.png';
+import Logo from '../../assets/Logo KPU.png';
+import BackgroundImage from '../../assets/bg-KPU.png';
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);

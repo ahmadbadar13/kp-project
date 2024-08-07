@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../assets/Logo KPU.png';
+import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 
-const DivisiHP = () => {
+const DivisiHP_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -337,4 +337,4 @@ const DivisiHP = () => {
   );
 };
 
-export default DivisiHP;
+export default DivisiHP_Op;

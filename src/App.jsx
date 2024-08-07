@@ -12,11 +12,13 @@ import SubBagianKUL from './pages/Operator/SubBagianKUL-Op';
 import SubBagianPDI from './pages/Operator/SubBagianPDI-Op';
 import SubBagianTPPPH from './pages/Operator/SubBagianTPPPH-Op';
 import Sekretaris from './pages/Operator/Sekretaris-Op';
+import Home from './pages/Home';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/Login-Op" element={<Login />} />
         <Route path="/Dashboard-Op" element={<Dashboard />} />
         <Route path="/DivisiHP-Op" element={<DivisiHP />} />
