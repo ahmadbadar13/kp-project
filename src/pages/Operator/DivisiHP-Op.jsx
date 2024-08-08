@@ -26,7 +26,7 @@ const DivisiHP_Op = () => {
       id: user.id,
       name: user.nama_div_hp,
       nip: user.nip_div_hp,
-      position: user.jabatan_div_hp,
+      position: user.posisi_div_hp,
       photo: user.foto_div_hp,
     });
   };
@@ -43,7 +43,7 @@ const DivisiHP_Op = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/api/users', formData);
+      const response = await axios.post('http://localhost:5001/api/divisi-hp-op', formData);
       if (response.data.success) {
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
@@ -67,7 +67,7 @@ const DivisiHP_Op = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5001/api/users/${editingUser.id}`, formData);
+      const response = await axios.put(`http://localhost:5001/api/divisi-hp-op/${editingUser.id}`, formData);
       if (response.data.success) {
         setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
@@ -82,7 +82,7 @@ const DivisiHP_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/users/${userId}`);
+      await axios.delete(`http://localhost:5001/api/divisi-hp-op/${userId}`);
       fetchUsers(); // Reload users after deleting
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -99,7 +99,7 @@ const DivisiHP_Op = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/users');
+      const response = await axios.get('http://localhost:5001/api/divisi-hp-op');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -229,14 +229,14 @@ const DivisiHP_Op = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Jabatan:</label>
+              <label className="block text-gray-700">Posisi:</label>
               <select
                 className="border rounded w-full py-2 px-3"
                 value={newUser.position}
                 onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
                 required
               >
-                <option value="" disabled>Pilih Jabatan</option>
+                <option value="" disabled>Pilih Posisi</option>
                 <option value="Ketua">Ketua</option>
                 <option value="Anggota">Anggota</option>
               </select>
@@ -275,14 +275,14 @@ const DivisiHP_Op = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700">Jabatan:</label>
+              <label className="block text-gray-700">Posisi:</label>
               <select
                 className="border rounded w-full py-2 px-3"
                 value={editingUser.position}
                 onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
                 required
               >
-                <option value="" disabled>Pilih Jabatan</option>
+                <option value="" disabled>Pilih Posisi</option>
                 <option value="Ketua">Ketua</option>
                 <option value="Anggota">Anggota</option>
               </select>
@@ -305,7 +305,7 @@ const DivisiHP_Op = () => {
             <tr>
               <th className="border border-gray-300 px-4 py-2">Nama</th>
               <th className="border border-gray-300 px-4 py-2">NIP</th>
-              <th className="border border-gray-300 px-4 py-2">Jabatan</th>
+              <th className="border border-gray-300 px-4 py-2">Posisi</th>
               <th className="border border-gray-300 px-4 py-2">Foto</th>
               <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
@@ -315,7 +315,7 @@ const DivisiHP_Op = () => {
               <tr key={user.id}>
                 <td className="border border-gray-300 px-4 py-2">{user.nama_div_hp}</td>
                 <td className="border border-gray-300 px-4 py-2">{user.nip_div_hp}</td>
-                <td className="border border-gray-300 px-4 py-2">{user.jabatan_div_hp}</td>
+                <td className="border border-gray-300 px-4 py-2">{user.posisi_div_hp}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   {user.foto_div_hp ? (
                     <img src={user.foto_div_hp} alt="Foto" className="h-16 w-16 object-cover" />
