@@ -318,7 +318,7 @@ const DivisiHP_Op = () => {
                 <td className="border border-gray-300 px-4 py-2">{user.posisi_div_hp}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   {user.foto_div_hp ? (
-                    <img src={user.foto_div_hp} alt="Foto" className="h-16 w-16 object-cover" />
+                    <img src={user.foto_div_hp} alt="Foto" className="h-16 w-16 object-cover rounded-full" />
                   ) : (
                     <p>Foto tidak tersedia</p>
                   )}
