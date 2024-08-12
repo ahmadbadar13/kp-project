@@ -298,39 +298,46 @@ const DivisiHP_Op = () => {
           </form>
         )}
 
-        <button onClick={handleAddUser} className="bg-green-500 text-white px-4 py-2 rounded mb-6">Tambah Pegawai</button>
-
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">Nama</th>
-              <th className="border border-gray-300 px-4 py-2">NIP</th>
-              <th className="border border-gray-300 px-4 py-2">Posisi</th>
-              <th className="border border-gray-300 px-4 py-2">Foto</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td className="border border-gray-300 px-4 py-2">{user.nama_div_hp}</td>
-                <td className="border border-gray-300 px-4 py-2">{user.nip_div_hp}</td>
-                <td className="border border-gray-300 px-4 py-2">{user.posisi_div_hp}</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {user.foto_div_hp ? (
-                    <img src={"http://localhost:5001"+user.foto_div_hp} alt="Foto" className="h-16 w-16 object-cover rounded-full" />
-                  ) : (
-                    <p>Foto tidak tersedia</p>
-                  )}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  <button onClick={() => handleEditUser(user)} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">Edit</button>
-                  <button onClick={() => handleDeleteUser(user.id)} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {!isAddingUser && !isEditingUser && (
+          <div>
+            <button
+              onClick={handleAddUser}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mb-4"
+            >
+              Tambah Data
+            </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {users.map((user) => (
+                <div key={user.id} className="bg-white shadow-md rounded-md p-4 flex flex-col items-center">
+                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
+                    <img
+                      src={"http://localhost:5001" + user.foto_div_hp}
+                      alt={user.nama_div_hp}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
+                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
+                  <div className="flex justify-around w-full mt-2">
+                  <button
+                    onClick={() => handleEditUser(user)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                  >
+                    Hapus 
+                  </button>
+                </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
