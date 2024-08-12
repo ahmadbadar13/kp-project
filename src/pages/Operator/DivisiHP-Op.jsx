@@ -200,6 +200,17 @@ const DivisiHP_Op = () => {
               )}
             </div>
           </div>
+          <div className="md:hidden">
+            <button onClick={toggleMenu} className="block text-white focus:outline-none">
+              <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 6h16v1H4V6zm0 5h16v1H4v-1zm0 5h16v1H4v-1z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -302,13 +313,13 @@ const DivisiHP_Op = () => {
           <div>
             <button
               onClick={handleAddUser}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mb-4"
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
             >
               Tambah Data
             </button>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-white shadow-md rounded-md p-4 flex flex-col items-center">
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5001" + user.foto_div_hp}
@@ -320,25 +331,107 @@ const DivisiHP_Op = () => {
                   <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
                   <div className="flex justify-around w-full mt-2">
-                  <button
-                    onClick={() => handleEditUser(user)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteUser(user.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                  >
-                    Hapus 
-                  </button>
+                    <button
+                      onClick={() => handleEditUser(user)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Hapus 
+                    </button>
                 </div>
-                </div>
+              </div>
               ))}
             </div>
           </div>
         )}
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
+          <div className="flex flex-col items-center pt-10">
+            <Link to="/Dashboard-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <ul className="flex flex-col items-center space-y-4">
+              <li>
+                <button
+                  onClick={() => toggleDropdown('divisi')}
+                  className="text-white text-lg"
+                >
+                  Divisi
+                </button>
+                {activeDropdown === 'divisi' && (
+                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
+                    <li>
+                      <Link to="/DivisiKURL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
+                    </li>
+                    <li>
+                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
+                    </li>
+                    <li>
+                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
+                    </li>
+                    <li>
+                      <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
+                    </li>
+                    <li>
+                      <Link to="/DivisiSP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li>
+                <Link to="/Sekretaris-Op" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
+                  Sekretaris
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => toggleDropdown('subBagian')}
+                  className="text-white text-lg"
+                >
+                  Sub Bagian
+                </button>
+                {activeDropdown === 'subBagian' && (
+                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
+                    <li>
+                      <Link to="/SubBagianTPPPH-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
+                    </li>
+                    <li>
+                      <Link to="/SubBagianPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Perencanaan, Data & Informasi</Link>
+                    </li>
+                    <li>
+                      <Link to="/SubBagianHSDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
+                    </li>
+                    <li>
+                      <Link to="/SubBagianKUL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li>
+                <button
+                  onClick={toggleAdminDropdown}
+                  className="text-white text-lg"
+                >
+                  Hallo, Admin!
+                </button>
+                {adminDropdownOpen && (
+                  <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
+                    <li>
+                      <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center" onClick={closeMenu}>Logout</Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
