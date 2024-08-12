@@ -355,7 +355,7 @@ const DivisiHP_Op = () => {
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/Dashboard-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/DivisiHP-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
