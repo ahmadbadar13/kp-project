@@ -102,7 +102,7 @@ app.delete('/api/divisi-hp-op/:id', (req, res) => {
 });
 
 app.listen(5001, () => {
-  console.log('DivisiHP server running on port 5001');
+  console.log('Operator server running on port 5001');
 });
 // ===================================== Start Endpoint buat halaman Divisi HP =====================================
 
@@ -166,7 +166,4 @@ app.delete('/api/divisi-kurl-op/:id', (req, res) => {
   });
 });
 
-app.listen(5001, () => {
-  console.log('DivisiKURL server running on port 5001');
-});
 // ===================================== End endpoint buat halaman Divisi KURL =====================================
