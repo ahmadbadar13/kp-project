@@ -82,7 +82,7 @@ const DivisiTP_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/divisi-tp-op/${userId}`);
+      await axios.delete(`http://localhost:5001/api/divisi-tp/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -244,7 +244,7 @@ const DivisiTP_Op = () => {
                       <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
@@ -300,7 +300,7 @@ const DivisiTP_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Teknik Penyelenggaraan</h1>
 
         {/* Start: Form Tambah Data */}
         {isAddingUser && (
