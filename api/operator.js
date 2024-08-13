@@ -100,10 +100,6 @@ app.delete('/api/divisi-hp-op/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
-
-app.listen(5001, () => {
-  console.log('Operator server running on port 5001');
-});
 // ===================================== Start Endpoint buat halaman Divisi HP =====================================
 
 
@@ -409,3 +405,252 @@ app.delete('/api/sekretaris/:id', (req, res) => {
   });
 });
 // ===================================== End endpoint buat halaman Sekretaris =====================================
+
+
+// ===================================== Start endpoint buat halaman Sub Bagian HSDM =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/sub-bagian-hsdm-op', upload.single('photo'), (req, res) => {
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO sub_bagian_hsdm (nama_sb_hsdm, nip_sb_hsdm, posisi_sb_hsdm, foto_sb_hsdm) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, position, photo], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/sub-bagian-hsdm-op', (req, res) => {
+  const query = 'SELECT * FROM sub_bagian_hsdm';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/sub-bagian-hsdm-op/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM sub_bagian_hsdm WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_sb_hsdm;
+    const updatedNip = nip || results[0].nip_sb_hsdm;
+    const updatedPosition = position || results[0].posisi_sb_hsdm;
+    const updatedPhoto = photo || results[0].foto_sb_hsdm;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE sub_bagian_hsdm SET nama_sb_hsdm = ?, nip_sb_hsdm = ?, posisi_sb_hsdm = ?, foto_sb_hsdm = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/sub-bagian-hsdm/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM sub_bagian_hsdm WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Sub Bagian HSDM =====================================
+
+
+// ===================================== Start endpoint buat halaman Sub Bagian KUL =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/sub-bagian-kul-op', upload.single('photo'), (req, res) => {
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO sub_bagian_kul (nama_sb_kul, nip_sb_kul, posisi_sb_kul, foto_sb_kul) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, position, photo], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/sub-bagian-kul-op', (req, res) => {
+  const query = 'SELECT * FROM sub_bagian_kul';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/sub-bagian-kul-op/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM sub_bagian_kul WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_sb_kul;
+    const updatedNip = nip || results[0].nip_sb_kul;
+    const updatedPosition = position || results[0].posisi_sb_kul;
+    const updatedPhoto = photo || results[0].foto_sb_kul;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE sub_bagian_kul SET nama_sb_kul = ?, nip_sb_kul = ?, posisi_sb_kul = ?, foto_sb_kul = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/sub-bagian-kul/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM sub_bagian_kul WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Sub Bagian KUL =====================================
+
+
+// ===================================== Start endpoint buat halaman Sub Bagian PDI =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/sub-bagian-pdi-op', upload.single('photo'), (req, res) => {
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO sub_bagian_pdi (nama_sb_pdi, nip_sb_pdi, posisi_sb_pdi, foto_sb_pdi) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, position, photo], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/sub-bagian-pdi-op', (req, res) => {
+  const query = 'SELECT * FROM sub_bagian_pdi';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/sub-bagian-pdi-op/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM sub_bagian_pdi WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_sb_pdi;
+    const updatedNip = nip || results[0].nip_sb_pdi;
+    const updatedPosition = position || results[0].posisi_sb_pdi;
+    const updatedPhoto = photo || results[0].foto_sb_pdi;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE sub_bagian_pdi SET nama_sb_pdi = ?, nip_sb_pdi = ?, posisi_sb_pdi = ?, foto_sb_pdi = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/sub-bagian-pdi/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM sub_bagian_pdi WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Sub Bagian PDI =====================================
+
+
+// ===================================== Start endpoint buat halaman Sub Bagian TPPPH =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/sub-bagian-tppph-op', upload.single('photo'), (req, res) => {
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO sub_bagian_tppph (nama_sb_tppph, nip_sb_tppph, posisi_sb_tppph, foto_sb_tppph) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, position, photo], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/sub-bagian-tppph-op', (req, res) => {
+  const query = 'SELECT * FROM sub_bagian_tppph';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/sub-bagian-tppph-op/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM sub_bagian_tppph WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_sb_tppph;
+    const updatedNip = nip || results[0].nip_sb_tppph;
+    const updatedPosition = position || results[0].posisi_sb_tppph;
+    const updatedPhoto = photo || results[0].foto_sb_tppph;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE sub_bagian_tppph SET nama_sb_tppph = ?, nip_sb_tppph = ?, posisi_sb_tppph = ?, foto_sb_tppph = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/sub-bagian-tppph/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM sub_bagian_tppph WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Sub Bagian TPPPH =====================================
+
+// Memulai Server
+app.listen(5001, () => {
+  console.log('Operator server running on port 5001');
+});
