@@ -349,3 +349,63 @@ app.delete('/api/divisi-tp/:id', (req, res) => {
   });
 });
 // ===================================== End endpoint buat halaman Divisi TP =====================================
+
+
+// ===================================== Start endpoint buat halaman Sekretaris =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/sekretaris-op', upload.single('photo'), (req, res) => {
+  const { name, nip } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO sekretaris (nama_sekretaris, nip_sekretaris, foto_sekretaris) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, photo], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/sekretaris-op', (req, res) => {
+  const query = 'SELECT * FROM sekretaris';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/sekretaris-op/:id', upload.single('photo'), (req, res) => {
+  const { id } = req.params;
+  const { name, nip } = req.body;
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM sekretaris WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_sekretaris;
+    const updatedNip = nip || results[0].nip_sekretaris;
+    const updatedPhoto = photo || results[0].foto_sekretaris;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE sekretaris SET nama_sekretaris = ?, nip_sekretaris = ?, foto_sekretaris = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/sekretaris/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM sekretaris WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Sekretaris =====================================
