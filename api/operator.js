@@ -105,3 +105,46 @@ app.listen(5001, () => {
   console.log('DivisiHP server running on port 5001');
 });
 // ===================================== Start Endpoint buat halaman Divisi HP =====================================
+
+
+// ===================================== Start endpoint buat halaman Divisi KURL =====================================
+// Endpoint untuk creat data anggota
+app.post('/api/divisi-kurl-op', (req, res) => {
+  const { name, nip, position } = req.body;
+  const query = 'INSERT INTO divisi_kurl (nama_div_kurl, nip_div_kurl, posisi_div_kurl) VALUES (?, ?, ?)';
+  db.query(query, [name, nip, position], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(201).json({ success: true, message: 'User added successfully' });
+  });
+});
+
+// Endpoint untuk read data anggota
+app.get('/api/divisi-kurl-op', (req, res) => {
+  const query = 'SELECT * FROM divisi_kurl';
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json(results);
+  });
+});
+
+// Endpoint untuk update data anggota
+app.put('/api/divisi-kurl-op/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, nip, position } = req.body;
+  const query = 'UPDATE divisi_kurl SET nama_div_kurl = ?, nip_div_kurl = ?, posisi_div_kurl = ? WHERE id = ?';
+  db.query(query, [name, nip, position, id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User updated successfully' });
+  });
+});
+
+// Endpoint untuk delete data anggota
+app.delete('/api/divisi-kurl-op/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM divisi_kurl WHERE id = ?';
+  db.query(query, [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+// ===================================== End endpoint buat halaman Divisi KURL =====================================

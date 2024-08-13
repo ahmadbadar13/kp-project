@@ -71,7 +71,7 @@ const DivisiHP_Op = () => {
       if (response.data.success) {
         setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
-        fetchUsers(); // Reload users after editing
+        fetchUsers();
       } else {
         console.error('Error editing user:', response.data.message);
       }
@@ -83,7 +83,7 @@ const DivisiHP_Op = () => {
   const handleDeleteUser = async (userId) => {
     try {
       await axios.delete(`http://localhost:5001/api/divisi-hp-op/${userId}`);
-      fetchUsers(); // Reload users after deleting
+      fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
     }
@@ -112,6 +112,7 @@ const DivisiHP_Op = () => {
 
   return (
     <div>
+      {/* Start: Navbar */}
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
           <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -213,145 +214,9 @@ const DivisiHP_Op = () => {
           </div>
         </div>
       </nav>
+      {/* End: Navbar */}
 
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Hukum dan Pengawasan</h1>
-
-        {isAddingUser && (
-          <form onSubmit={handleSubmitNewUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.nip}
-                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={newUser.position}
-                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
-            </div>
-          </form>
-        )}
-
-        {isEditingUser && (
-          <form onSubmit={handleSubmitEditUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.name}
-                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.nip}
-                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.position}
-                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChangeEdit} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
-            </div>
-          </form>
-        )}
-
-        {!isAddingUser && !isEditingUser && (
-          <div>
-            <button
-              onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
-            >
-              Tambah Data
-            </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
-                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
-                    <img
-                      src={"http://localhost:5001" + user.foto_div_hp}
-                      alt={user.nama_div_hp}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
-                  <div className="flex justify-around w-full mt-2">
-                    <button
-                      onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Hapus 
-                    </button>
-                </div>
-              </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Mobile menu */}
+      {/* Start: Responsive Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
@@ -432,6 +297,150 @@ const DivisiHP_Op = () => {
           </div>
         </div>
       )}
+      {/* End: Responsive Mobile Menu */}
+
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Hukum dan Pengawasan</h1>
+
+        {/* Start: Form Tambah Data */}
+        {isAddingUser && (
+          <form onSubmit={handleSubmitNewUser} className="mb-6">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nama:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={newUser.name}
+                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">NIP:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={newUser.nip}
+                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Posisi:</label>
+              <select
+                className="border rounded w-full py-2 px-3"
+                value={newUser.position}
+                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
+                required
+              >
+                <option value="" disabled>Pilih Posisi</option>
+                <option value="Ketua">Ketua</option>
+                <option value="Anggota">Anggota</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChange} />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
+            </div>
+          </form>
+        )}
+        {/* End: Form Tambah Data */}
+
+        {/* Start: Form Edit Data */}
+        {isEditingUser && (
+          <form onSubmit={handleSubmitEditUser} className="mb-6">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nama:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.name}
+                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">NIP:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.nip}
+                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Posisi:</label>
+              <select
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.position}
+                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
+                required
+              >
+                <option value="" disabled>Pilih Posisi</option>
+                <option value="Ketua">Ketua</option>
+                <option value="Anggota">Anggota</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChangeEdit} />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
+            </div>
+          </form>
+        )}
+        {/* End: Form Edit Data */}
+
+        {/* Start: Card Read Data */}
+        {!isAddingUser && !isEditingUser && (
+          <div>
+            <button
+              onClick={handleAddUser}
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
+            >
+              Tambah Data
+            </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {users.map((user) => (
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
+                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
+                    <img
+                      src={"http://localhost:5001" + user.foto_div_hp}
+                      alt={user.nama_div_hp}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
+                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
+                  <div className="flex justify-around w-full mt-2">
+                    <button
+                      onClick={() => handleEditUser(user)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Hapus 
+                    </button>
+                </div>
+              </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {/* End: Card Read Data */}
     </div>
   );
 };
