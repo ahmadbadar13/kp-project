@@ -357,7 +357,7 @@ app.post('/api/sekretaris-op', upload.single('photo'), (req, res) => {
   const { name, nip } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO sekretaris (nama_sekretaris, nip_sekretaris, foto_sekretaris) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO sekretaris (nama_sekretaris, nip_sekretaris, foto_sekretaris) VALUES (?, ?, ?)';
   db.query(query, [name, nip, photo], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json({ success: true, message: 'User added successfully' });
