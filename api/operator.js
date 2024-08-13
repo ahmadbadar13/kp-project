@@ -109,10 +109,12 @@ app.listen(5001, () => {
 
 // ===================================== Start endpoint buat halaman Divisi KURL =====================================
 // Endpoint untuk creat data anggota
-app.post('/api/divisi-kurl-op', (req, res) => {
+app.post('/api/divisi-kurl-op', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
-  const query = 'INSERT INTO divisi_kurl (nama_div_kurl, nip_div_kurl, posisi_div_kurl) VALUES (?, ?, ?)';
-  db.query(query, [name, nip, position], (err, results) => {
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const query = 'INSERT INTO divisi_kurl (nama_div_kurl, nip_div_kurl, posisi_div_kurl, foto_div_kurl) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, nip, position, photo], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
@@ -128,13 +130,29 @@ app.get('/api/divisi-kurl-op', (req, res) => {
 });
 
 // Endpoint untuk update data anggota
-app.put('/api/divisi-kurl-op/:id', (req, res) => {
+app.put('/api/divisi-kurl-op/:id', upload.single('photo'), (req, res) => {
   const { id } = req.params;
   const { name, nip, position } = req.body;
-  const query = 'UPDATE divisi_kurl SET nama_div_kurl = ?, nip_div_kurl = ?, posisi_div_kurl = ? WHERE id = ?';
-  db.query(query, [name, nip, position, id], (err) => {
+  const photo = req.file ? `/uploads/${req.file.filename}` : null;
+
+  // Query untuk mendapatkan data anggota yang ada
+  const getUserQuery = 'SELECT * FROM divisi_kurl WHERE id = ?';
+  db.query(getUserQuery, [id], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.status(200).json({ success: true, message: 'User updated successfully' });
+    if (results.length === 0) return res.status(404).json({ error: 'User not found' });
+
+    // Data yang akan diperbarui
+    const updatedName = name || results[0].nama_div_kurl;
+    const updatedNip = nip || results[0].nip_div_kurl;
+    const updatedPosition = position || results[0].posisi_div_kurl;
+    const updatedPhoto = photo || results[0].foto_div_kurl;
+
+    // Query untuk memperbarui data anggota
+    const updateUserQuery = 'UPDATE divisi_kurl SET nama_div_kurl = ?, nip_div_kurl = ?, posisi_div_kurl = ?, foto_div_kurl = ? WHERE id = ?';
+    db.query(updateUserQuery, [updatedName, updatedNip, updatedPosition, updatedPhoto, id], (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.status(200).json({ success: true, message: 'User updated successfully' });
+    });
   });
 });
 
@@ -146,5 +164,9 @@ app.delete('/api/divisi-kurl-op/:id', (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
+});
+
+app.listen(5001, () => {
+  console.log('DivisiKURL server running on port 5001');
 });
 // ===================================== End endpoint buat halaman Divisi KURL =====================================
