@@ -1,33 +1,118 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
+import axios from 'axios';
 
 const Sekretaris_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [isEditingUser, setIsEditingUser] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [newUser, setNewUser] = useState({ name: '', nip: '', photo: null });
+  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', photo: null });
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
+  const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
+
+  const handleAddUser = () => setIsAddingUser(true);
+  const handleCancelAddUser = () => setIsAddingUser(false);
+  const handleEditUser = (user) => {
+    setIsEditingUser(true);
+    setEditingUser({
+      id: user.id,
+      name: user.nama_sekretaris,
+      nip: user.nip_sekretaris,
+      photo: user.foto_sekretaris
+    });
+  };
+  const handleCancelEditUser = () => setIsEditingUser(false);
+
+  const handleSubmitNewUser = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', newUser.name);
+    formData.append('nip', newUser.nip);
+    if (newUser.photo) {
+      formData.append('photo', newUser.photo);
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5001/api/sekretaris-op', formData);
+      if (response.data.success) {
+        setNewUser({ name: '', nip: '', photo: null });
+        setIsAddingUser(false);
+        fetchUsers(); // Reload users after adding
+      } else {
+        console.error('Error adding user:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
   };
 
-  const closeMenu = () => {
-    setMenuOpen(false);
+  const handleSubmitEditUser = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', editingUser.name);
+    formData.append('nip', editingUser.nip);
+    if (editingUser.photo) {
+      formData.append('photo', editingUser.photo);
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:5001/api/sekretaris-op/${editingUser.id}`, formData);
+      if (response.data.success) {
+        setEditingUser({ id: '', name: '', nip: '', photo: null });
+        setIsEditingUser(false);
+        fetchUsers();
+      } else {
+        console.error('Error editing user:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error editing user:', error);
+    }
   };
 
-  const toggleDropdown = (dropdown) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:5001/api/sekretaris/${userId}`);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
-  const toggleAdminDropdown = () => {
-    setAdminDropdownOpen(!adminDropdownOpen);
+  const handleFileChange = (e) => {
+    setNewUser({ ...newUser, photo: e.target.files[0] });
   };
+
+  const handleFileChangeEdit = (e) => {
+    setEditingUser({ ...editingUser, photo: e.target.files[0] });
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5001/api/sekretaris-op');
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div>
+      {/* Start: Navbar */}
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/Dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
@@ -99,7 +184,7 @@ const Sekretaris_Op = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center"
               >
-                Hallo, Admin!
+                Hallo, Operator!
                 <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                 </svg>
@@ -126,12 +211,13 @@ const Sekretaris_Op = () => {
           </div>
         </div>
       </nav>
+      {/* End: Navbar */}
 
-      {/* Mobile menu */}
+      {/* Start: Responsive Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/Dashboard-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/Sekretaris-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -149,13 +235,13 @@ const Sekretaris_Op = () => {
                       <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiDPI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
                     </li>
                     <li>
                       <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
@@ -208,11 +294,124 @@ const Sekretaris_Op = () => {
           </div>
         </div>
       )}
+      {/* End: Responsive Mobile Menu */}
 
-      <div>
-        <h1>Halaman Sekretaris</h1>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Sekretaris</h1>
+
+        {/* Start: Form Tambah Data */}
+        {isAddingUser && (
+          <form onSubmit={handleSubmitNewUser} className="mb-6">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nama:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={newUser.name}
+                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">NIP:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={newUser.nip}
+                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChange} />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
+            </div>
+          </form>
+        )}
+        {/* End: Form Tambah Data */}
+
+        {/* Start: Form Edit Data */}
+        {isEditingUser && (
+          <form onSubmit={handleSubmitEditUser} className="mb-6">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nama:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.name}
+                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">NIP:</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.nip}
+                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Foto:</label>
+              <input type="file" onChange={handleFileChangeEdit} />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
+            </div>
+          </form>
+        )}
+        {/* End: Form Edit Data */}
+
+        {/* Start: Card Read Data */}
+        {!isAddingUser && !isEditingUser && (
+          <div>
+            <button
+              onClick={handleAddUser}
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
+            >
+              Tambah Data
+            </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {users.map((user) => (
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
+                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
+                    <img
+                      src={"http://localhost:5001" + user.foto_sekretaris}
+                      alt={user.nama_sekretaris}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sekretaris}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sekretaris}</p>
+                  <div className="flex justify-around w-full mt-2">
+                    <button
+                      onClick={() => handleEditUser(user)}
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                    >
+                      Hapus 
+                    </button>
+                </div>
+              </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+      {/* End: Card Read Data */}
+    </div> 
   );
 };
 
