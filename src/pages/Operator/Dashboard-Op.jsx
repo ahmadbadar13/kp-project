@@ -254,9 +254,28 @@ const Dashboard = () => {
       {/* End: Jumbotron */}
 
       {/* Start: Konten Sementara */}    
-      <blockquote class="text-xl italic font-semibold text-gray-900 dark:text-black">
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, assumenda, excepturi eum aliquid animi maxime enim dolorem veniam vero sunt est corrupti porro modi! Sint delectus voluptatibus impedit ducimus maiores sed. Atque perspiciatis vitae sapiente fugit quod consequuntur dolorem blanditiis, voluptatem quos laboriosam ad vel? Expedita a dolores perferendis tempora possimus quas facilis odio placeat dolor fuga atque optio accusamus quae blanditiis magni aut dolorem laboriosam quidem, at nulla incidunt quasi earum assumenda accusantium? Itaque quae possimus nulla unde a, eos recusandae enim expedita explicabo dolorum quasi soluta quaerat tempora dolorem voluptatem eum sunt! A, corporis. Exercitationem quis illum nihil amet quas voluptates officia repellat nam. Ducimus soluta eos ea aliquid consectetur libero sapiente ad, rerum laudantium nostrum quidem nisi fugit doloremque repellendus est ipsum repudiandae quaerat iste esse laborum reiciendis blanditiis rem error. Nulla iure dolorem qui? Recusandae ipsa nobis nam veritatis doloribus. Laborum ab ducimus quia placeat similique, eum cupiditate perspiciatis corrupti iste nihil quam totam eveniet ex consectetur qui. Modi dolores cumque nisi, blanditiis consequuntur laudantium ad ullam illum dolorem perspiciatis aperiam aut id laborum nemo repudiandae provident quos! Magni ipsa incidunt facilis consequuntur ipsam perferendis quibusdam nam corrupti pariatur quidem illum at laudantium eveniet, accusantium id.</p>
-      </blockquote>
+      <div className="flex flex-col items-center m-20">
+        <div className="text-center mb-8 text-2xl font-semibold">
+          Aktivitas
+        </div>
+        <div className="flex space-x-4 gap-10 justify-center">
+          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
+            <div className="mb-4 text-lg font-medium">Feedback Admin</div>
+            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
+          </div>
+          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
+            <div className="mb-4 text-lg font-medium">Fitur 2</div>
+            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
+          </div>
+          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
+            <div className="mb-4 text-lg font-medium">Fitur 3</div>
+            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
+          </div>
+        </div>
+      </div>
       {/* End: Konten Sementara */}
 
       {/* Start: Footer */}
