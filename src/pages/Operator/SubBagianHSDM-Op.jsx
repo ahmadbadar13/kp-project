@@ -185,17 +185,33 @@ const SubBagianHSDM_Op = () => {
             <div className="relative">
               <button
                 onClick={toggleAdminDropdown}
-                className="text-white font-medium text-lg flex items-center"
+                className="text-white font-medium text-lg flex items-center focus:outline-none"
               >
                 Hallo, Operator!
-                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+                <svg
+                  className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${
+                    adminDropdownOpen ? 'transform rotate-180' : ''
+                  }`}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 10 6"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 4 4 4-4"
+                  />
                 </svg>
               </button>
               {adminDropdownOpen && (
-                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-30">
+                <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                    <Link to="/" className="block px-4 py-2 w-32 hover:bg-gray-200 rounded text-center">Logout</Link>
+                    <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center">
+                      Logout
+                    </Link>
                   </li>
                 </ul>
               )}
@@ -283,7 +299,7 @@ const SubBagianHSDM_Op = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, Admin!
+                  Hallo, Operator!
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
