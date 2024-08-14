@@ -256,7 +256,7 @@ const Dashboard = () => {
       {/* Start: Konten Sementara */}    
       <div className="flex flex-col items-center m-20">
         <div className="text-center mb-8 text-2xl font-semibold">
-          Aktivitas
+          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl dark:text-black">Aktivitas</h1>
         </div>
         <div className="flex space-x-4 gap-10 justify-center">
           <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
