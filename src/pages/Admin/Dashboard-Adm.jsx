@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
 
-const Dashboard = () => {
+const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -36,7 +36,7 @@ const Dashboard = () => {
       {/* Start: Navbar */}
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/DashboardAdmin" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/Dashboard-Adm" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
@@ -72,7 +72,7 @@ const Dashboard = () => {
                 )}
               </li>
               <li>
-                <Link to="/Sekretaris-AdmAdm" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                <Link to="/Sekretaris-Adm" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                   Sekretaris
                 </Link>
               </li>
@@ -108,7 +108,7 @@ const Dashboard = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center focus:outline-none"
               >
-                Hallo, Operator!
+                Hallo, Admin!
                 <svg
                   className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${
                     adminDropdownOpen ? 'transform rotate-180' : ''
@@ -187,7 +187,7 @@ const Dashboard = () => {
                 )}
               </li>
               <li>
-                <Link to="/Sekretaris-AdmAdm" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
+                <Link to="/Sekretaris-Adm" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
                   Sekretaris
                 </Link>
               </li>
@@ -368,4 +368,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard_Adm;

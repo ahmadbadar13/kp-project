@@ -32,7 +32,7 @@ const DivisiHP_Adm = () => {
       {/* Start: Navbar */}
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/Dashboard-Adm" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
@@ -153,7 +153,7 @@ const DivisiHP_Adm = () => {
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/DivisiHP-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/DivisiHP-Adm" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -216,7 +216,7 @@ const DivisiHP_Adm = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, Operator!
+                  Hallo, Admin!
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">

@@ -3,103 +3,20 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 
-const DivisiSPPP_SDM_Op = () => {
+const DivisiSPPP_SDM_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
-  const [isAddingUser, setIsAddingUser] = useState(false);
-  const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
   const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
 
-  const handleAddUser = () => setIsAddingUser(true);
-  const handleCancelAddUser = () => setIsAddingUser(false);
-  const handleEditUser = (user) => {
-    setIsEditingUser(true);
-    setEditingUser({
-      id: user.id,
-      name: user.nama_div_sppp_sdm,
-      nip: user.nip_div_sppp_sdm,
-      position: user.posisi_div_sppp_sdm,
-      photo: user.foto_div_sppp_sdm,
-    });
-  };
-  const handleCancelEditUser = () => setIsEditingUser(false);
-
-  const handleSubmitNewUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newUser.name);
-    formData.append('nip', newUser.nip);
-    formData.append('position', newUser.position);
-    if (newUser.photo) {
-      formData.append('photo', newUser.photo);
-    }
-
-    try {
-      const response = await axios.post('http://localhost:5001/api/divisi-sppp_sdm-op', formData);
-      if (response.data.success) {
-        setNewUser({ name: '', nip: '', position: '', photo: null });
-        setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
-      } else {
-        console.error('Error adding user:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error adding user:', error);
-    }
-  };
-
-  const handleSubmitEditUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', editingUser.name);
-    formData.append('nip', editingUser.nip);
-    formData.append('position', editingUser.position);
-    if (editingUser.photo) {
-      formData.append('photo', editingUser.photo);
-    }
-
-    try {
-      const response = await axios.put(`http://localhost:5001/api/divisi-sppp_sdm-op/${editingUser.id}`, formData);
-      if (response.data.success) {
-        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
-        setIsEditingUser(false);
-        fetchUsers();
-      } else {
-        console.error('Error editing user:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error editing user:', error);
-    }
-  };
-
-  const handleDeleteUser = async (userId) => {
-    try {
-      await axios.delete(`http://localhost:5001/api/divisi-sppp_sdm-op/${userId}`);
-      fetchUsers();
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    setNewUser({ ...newUser, photo: e.target.files[0] });
-  };
-
-  const handleFileChangeEdit = (e) => {
-    setEditingUser({ ...editingUser, photo: e.target.files[0] });
-  };
-
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/divisi-sppp_sdm-op');
+      const response = await axios.get('http://localhost:5001/api/divisi-sppp_sdm-adm');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -115,7 +32,7 @@ const DivisiSPPP_SDM_Op = () => {
       {/* Start: Navbar */}
       <nav className="bg-red-700 p-4 sticky top-0 z-50">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
-          <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/Dashboard-Adm" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
             <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
               Kota Cimahi
@@ -133,25 +50,25 @@ const DivisiSPPP_SDM_Op = () => {
                 {activeDropdown === 'divisi' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                     <li>
-                      <Link to="/DivisiKURL-Op" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
+                      <Link to="/DivisiKURL-Adm" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknik Penyelenggaraan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Hukum dan Pengawasan</Link>
+                      <Link to="/DivisiHP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSPPP_SDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
               </li>
               <li>
-                <Link to="/Sekretaris-Op" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                <Link to="/Sekretaris-Adm" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                   Sekretaris
                 </Link>
               </li>
@@ -165,16 +82,16 @@ const DivisiSPPP_SDM_Op = () => {
                 {activeDropdown === 'subBagian' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                     <li>
-                      <Link to="/SubBagianTPPPH-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
+                      <Link to="/SubBagianTPPPH-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Perencanaan, Data & Informasi</Link>
+                      <Link to="/SubBagianPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Perencanaan, Data & Informasi</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianHSDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Hukum & SDM</Link>
+                      <Link to="/SubBagianHSDM-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Hukum & SDM</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianKUL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Keuangan, Umum, & Logistik</Link>
+                      <Link to="/SubBagianKUL-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Keuangan, Umum, & Logistik</Link>
                     </li>
                   </ul>
                 )}
@@ -187,7 +104,7 @@ const DivisiSPPP_SDM_Op = () => {
                 onClick={toggleAdminDropdown}
                 className="text-white font-medium text-lg flex items-center focus:outline-none"
               >
-                Hallo, Operator!
+                Hallo, Admin!
                 <svg
                   className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${
                     adminDropdownOpen ? 'transform rotate-180' : ''
@@ -236,7 +153,7 @@ const DivisiSPPP_SDM_Op = () => {
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/DivisiSPPP_SDM-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/DivisiSPPP_SDM-Adm" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -248,25 +165,25 @@ const DivisiSPPP_SDM_Op = () => {
                 {activeDropdown === 'divisi' && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
                     <li>
-                      <Link to="/DivisiKURL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
+                      <Link to="/DivisiKURL-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
+                      <Link to="/DivisiHP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Hukum dan Pengawasan</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
                     </li>
                   </ul>
                 )}
               </li>
               <li>
-                <Link to="/Sekretaris-Op" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
+                <Link to="/Sekretaris-Adm" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
                   Sekretaris
                 </Link>
               </li>
@@ -280,16 +197,16 @@ const DivisiSPPP_SDM_Op = () => {
                 {activeDropdown === 'subBagian' && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-48">
                     <li>
-                      <Link to="/SubBagianTPPPH-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
+                      <Link to="/SubBagianTPPPH-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Perencanaan, Data & Informasi</Link>
+                      <Link to="/SubBagianPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Perencanaan, Data & Informasi</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianHSDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
+                      <Link to="/SubBagianHSDM-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Hukum & SDM</Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianKUL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
+                      <Link to="/SubBagianKUL-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Sub Bagian Keuangan, Umum, & Logistik</Link>
                     </li>
                   </ul>
                 )}
@@ -299,7 +216,7 @@ const DivisiSPPP_SDM_Op = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, Operator!
+                  Hallo, Admin!
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
@@ -316,113 +233,9 @@ const DivisiSPPP_SDM_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Sosialisasi, Pendidikan Pemilih, Parmas & SDM</h1>
-
-        {/* Start: Form Tambah Data */}
-        {isAddingUser && (
-          <form onSubmit={handleSubmitNewUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.nip}
-                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={newUser.position}
-                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
-            </div>
-          </form>
-        )}
-        {/* End: Form Tambah Data */}
-
-        {/* Start: Form Edit Data */}
-        {isEditingUser && (
-          <form onSubmit={handleSubmitEditUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.name}
-                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.nip}
-                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.position}
-                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChangeEdit} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
-            </div>
-          </form>
-        )}
-        {/* End: Form Edit Data */}
-
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</h1>
         {/* Start: Card Read Data */}
-        {!isAddingUser && !isEditingUser && (
           <div>
-            <button
-              onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
-            >
-              Tambah Data
-            </button>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
                 <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
@@ -436,29 +249,14 @@ const DivisiSPPP_SDM_Op = () => {
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_sppp_sdm}</h2>
                   <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_sppp_sdm}</p>
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_sppp_sdm}</p>
-                  <div className="flex justify-around w-full mt-2">
-                    <button
-                      onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Hapus 
-                    </button>
-                </div>
               </div>
               ))}
             </div>
           </div>
-        )}
       </div>
       {/* End: Card Read Data */}
-    </div> 
+    </div>
   );
 };
 
-export default DivisiSPPP_SDM_Op;
+export default DivisiSPPP_SDM_Adm;

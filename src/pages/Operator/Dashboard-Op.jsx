@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
 
-const Dashboard = () => {
+const Dashboard_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -368,4 +368,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard_Op;
