@@ -45,6 +45,22 @@ app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // ===================================== Start endpoint buat halaman Divisi HP =====================================
+// Endpoint untuk upload file
+app.post('/api/upload', upload.single('foto_div_hp'), (req, res) => {
+    const { nama_div_hp, nip_div_hp, jabatan_div_hp } = req.body;
+    const fotoPath = `/uploads/${req.file.filename}`;
+
+    const query = 'INSERT INTO divisi_hp (nama_div_hp, nip_div_hp, jabatan_div_hp, foto_div_hp) VALUES (?, ?, ?, ?)';
+    db.query(query, [nama_div_hp, nip_div_hp, jabatan_div_hp, fotoPath], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        res.status(200).json({ message: 'Data inserted successfully' });
+    });
+});
+
+
 // Endpoint untuk read data anggota
 app.get('/api/divisi-hp-adm', (req, res) => {
     const query = 'SELECT * FROM divisi_hp';
