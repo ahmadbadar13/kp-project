@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 
-const LoginOp = () => {
+const LoginAdm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +16,7 @@ const LoginOp = () => {
       const response = await axios.post('http://localhost:5000/login', { email, password });
 
       if (response.data.success) {
-        navigate('/Dashboard-Op');
+        navigate('/Dashboard-Adm');
       } else {
         setError('Invalid credentials');
       }
@@ -80,4 +80,4 @@ const LoginOp = () => {
   );
 };
 
-export default LoginOp;
+export default LoginAdm;

@@ -14,7 +14,7 @@ const Home = () => {
       <div className="bg-gray-200 p-20 rounded-lg shadow-lg flex justify-between gap-16">
         <div
           className="flex flex-col items-center justify-center bg-gray-300 p-4 m-2 rounded cursor-pointer transform transition-transform duration-300 hover:scale-105 hover:bg-gray-400"
-          onClick={() => navigate('/Dashboard-Adm')}
+          onClick={() => navigate('/Login-Adm')}
         >
           <img
             src="https://img.icons8.com/ios-filled/100/000000/admin-settings-male.png"

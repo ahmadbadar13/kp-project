@@ -3,103 +3,20 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 
-const DivisiPDI_Op = () => {
+const DivisiHP_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
-  const [isAddingUser, setIsAddingUser] = useState(false);
-  const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
   const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
 
-  const handleAddUser = () => setIsAddingUser(true);
-  const handleCancelAddUser = () => setIsAddingUser(false);
-  const handleEditUser = (user) => {
-    setIsEditingUser(true);
-    setEditingUser({
-      id: user.id,
-      name: user.nama_div_pdi,
-      nip: user.nip_div_pdi,
-      position: user.posisi_div_pdi,
-      photo: user.foto_div_pdi,
-    });
-  };
-  const handleCancelEditUser = () => setIsEditingUser(false);
-
-  const handleSubmitNewUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newUser.name);
-    formData.append('nip', newUser.nip);
-    formData.append('position', newUser.position);
-    if (newUser.photo) {
-      formData.append('photo', newUser.photo);
-    }
-
-    try {
-      const response = await axios.post('http://localhost:5002/api/divisi-pdi-op', formData);
-      if (response.data.success) {
-        setNewUser({ name: '', nip: '', position: '', photo: null });
-        setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
-      } else {
-        console.error('Error adding user:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error adding user:', error);
-    }
-  };
-
-  const handleSubmitEditUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', editingUser.name);
-    formData.append('nip', editingUser.nip);
-    formData.append('position', editingUser.position);
-    if (editingUser.photo) {
-      formData.append('photo', editingUser.photo);
-    }
-
-    try {
-      const response = await axios.put(`http://localhost:5002/api/divisi-pdi-op/${editingUser.id}`, formData);
-      if (response.data.success) {
-        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
-        setIsEditingUser(false);
-        fetchUsers();
-      } else {
-        console.error('Error editing user:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error editing user:', error);
-    }
-  };
-
-  const handleDeleteUser = async (userId) => {
-    try {
-      await axios.delete(`http://localhost:5002/api/divisi-pdi-op/${userId}`);
-      fetchUsers();
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    setNewUser({ ...newUser, photo: e.target.files[0] });
-  };
-
-  const handleFileChangeEdit = (e) => {
-    setEditingUser({ ...editingUser, photo: e.target.files[0] });
-  };
-
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/api/divisi-pdi-op');
+      const response = await axios.get('http://localhost:5001/api/divisi-hp-adm');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -236,7 +153,7 @@ const DivisiPDI_Op = () => {
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/DivisiPDI-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/DivisiHP-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -316,149 +233,30 @@ const DivisiPDI_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Perencanaan, Data, & Informasi</h1>
-
-        {/* Start: Form Tambah Data */}
-        {isAddingUser && (
-          <form onSubmit={handleSubmitNewUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.nip}
-                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={newUser.position}
-                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
-            </div>
-          </form>
-        )}
-        {/* End: Form Tambah Data */}
-
-        {/* Start: Form Edit Data */}
-        {isEditingUser && (
-          <form onSubmit={handleSubmitEditUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.name}
-                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.nip}
-                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.position}
-                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                required
-              >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChangeEdit} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
-            </div>
-          </form>
-        )}
-        {/* End: Form Edit Data */}
-
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Hukum dan Pengawasan</h1>
         {/* Start: Card Read Data */}
-        {!isAddingUser && !isEditingUser && (
           <div>
-            <button
-              onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
-            >
-              Tambah Data
-            </button>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
                 <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5002" + user.foto_div_pdi}
-                      alt={user.nama_div_pdi}
+                      src={"http://localhost:5001" + user.foto_div_hp}
+                      alt={user.nama_div_hp}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_pdi}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_pdi}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_pdi}</p>
-                  <div className="flex justify-around w-full mt-2">
-                    <button
-                      onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Hapus 
-                    </button>
-                </div>
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
+                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
               </div>
               ))}
             </div>
           </div>
-        )}
       </div>
       {/* End: Card Read Data */}
-    </div> 
+    </div>
   );
 };
 
-export default DivisiPDI_Op;
+export default DivisiHP_Op;

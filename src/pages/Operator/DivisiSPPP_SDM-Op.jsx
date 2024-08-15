@@ -43,7 +43,7 @@ const DivisiSPPP_SDM_Op = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5001/api/divisi-sppp_sdm-op', formData);
+      const response = await axios.post('http://localhost:5002/api/divisi-sppp_sdm-op', formData);
       if (response.data.success) {
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
@@ -67,7 +67,7 @@ const DivisiSPPP_SDM_Op = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5001/api/divisi-sppp_sdm-op/${editingUser.id}`, formData);
+      const response = await axios.put(`http://localhost:5002/api/divisi-sppp_sdm-op/${editingUser.id}`, formData);
       if (response.data.success) {
         setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
@@ -82,7 +82,7 @@ const DivisiSPPP_SDM_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/divisi-sppp_sdm-op/${userId}`);
+      await axios.delete(`http://localhost:5002/api/divisi-sppp_sdm-op/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -99,7 +99,7 @@ const DivisiSPPP_SDM_Op = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/divisi-sppp_sdm-op');
+      const response = await axios.get('http://localhost:5002/api/divisi-sppp_sdm-op');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -428,7 +428,7 @@ const DivisiSPPP_SDM_Op = () => {
                 <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5001" + user.foto_div_sppp_sdm}
+                      src={"http://localhost:5002" + user.foto_div_sppp_sdm}
                       alt={user.nama_div_sppp_sdm}
                       className="w-full h-full object-cover"
                     />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 
-const DivisiPDI_Op = () => {
+const SubBagianKUL_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
@@ -24,10 +24,10 @@ const DivisiPDI_Op = () => {
     setIsEditingUser(true);
     setEditingUser({
       id: user.id,
-      name: user.nama_div_pdi,
-      nip: user.nip_div_pdi,
-      position: user.posisi_div_pdi,
-      photo: user.foto_div_pdi,
+      name: user.nama_sb_kul,
+      nip: user.nip_sb_kul,
+      position: user.posisi_sb_kul,
+      photo: user.foto_sb_kul,
     });
   };
   const handleCancelEditUser = () => setIsEditingUser(false);
@@ -43,7 +43,7 @@ const DivisiPDI_Op = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5002/api/divisi-pdi-op', formData);
+      const response = await axios.post('http://localhost:5001/api/sub-bagian-kul-op', formData);
       if (response.data.success) {
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
@@ -67,7 +67,7 @@ const DivisiPDI_Op = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5002/api/divisi-pdi-op/${editingUser.id}`, formData);
+      const response = await axios.put(`http://localhost:5001/api/sub-bagian-kul-op/${editingUser.id}`, formData);
       if (response.data.success) {
         setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
@@ -82,7 +82,7 @@ const DivisiPDI_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5002/api/divisi-pdi-op/${userId}`);
+      await axios.delete(`http://localhost:5001/api/sub-bagian-kul/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -99,7 +99,7 @@ const DivisiPDI_Op = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/api/divisi-pdi-op');
+      const response = await axios.get('http://localhost:5001/api/sub-bagian-kul-op');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -236,7 +236,7 @@ const DivisiPDI_Op = () => {
       {menuOpen && (
         <div className="md:hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 z-50">
           <div className="flex flex-col items-center pt-10">
-            <Link to="/DivisiPDI-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
+            <Link to="/SubBagianKUL-Op" onClick={closeMenu} className="text-white text-2xl mb-6">≡</Link>
             <ul className="flex flex-col items-center space-y-4">
               <li>
                 <button
@@ -316,7 +316,7 @@ const DivisiPDI_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Perencanaan, Data, & Informasi</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Keuangan, Umum & Logistik</h1>
 
         {/* Start: Form Tambah Data */}
         {isAddingUser && (
@@ -428,14 +428,14 @@ const DivisiPDI_Op = () => {
                 <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5002" + user.foto_div_pdi}
-                      alt={user.nama_div_pdi}
+                      src={"http://localhost:5001" + user.foto_sb_kul}
+                      alt={user.nama_sb_kul}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_pdi}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_pdi}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_pdi}</p>
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_kul}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_kul}</p>
+                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_kul}</p>
                   <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
@@ -461,4 +461,4 @@ const DivisiPDI_Op = () => {
   );
 };
 
-export default DivisiPDI_Op;
+export default SubBagianKUL_Op;
