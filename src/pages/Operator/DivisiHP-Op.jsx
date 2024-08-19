@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 const DivisiHP_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,6 +14,8 @@ const DivisiHP_Op = () => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
+  const [comments, setComments] = useState({});
+  const [activeComments, setActiveComments] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -103,6 +107,24 @@ const DivisiHP_Op = () => {
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
+    }
+  };
+
+  const fetchComments = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:5002/api/comments/${userId}`);
+      setComments((prevComments) => ({ ...prevComments, [userId]: response.data }));
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  const toggleComments = (userId) => {
+    if (activeComments === userId) {
+      setActiveComments(null);
+    } else {
+      setActiveComments(userId);
+      fetchComments(userId);
     }
   };
 
@@ -423,34 +445,60 @@ const DivisiHP_Op = () => {
             >
               Tambah Data
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
-                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
-                    <img
-                      src={"http://localhost:5002" + user.foto_div_hp}
-                      alt={user.nama_div_hp}
-                      className="w-full h-full object-cover"
-                    />
+                <div key={user.id} className="bg-white p-4 border border-gray-200 rounded-lg shadow-md relative">
+                  <button
+                    onClick={() => toggleComments(user.id)}
+                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800"
+                  >
+                    <FontAwesomeIcon icon={faBell} />
+                  </button>
+                  <div className="flex items-center mb-4">
+                    <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
+                      <img
+                        src={"http://localhost:5002" + user.foto_div_hp}
+                        alt={user.nama_div_hp}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="ml-4">
+                      <h3 className="text-xl font-semibold">{user.nama_div_hp}</h3>
+                      <p className="text-gray-600">{user.nip_div_hp}</p>
+                      <p className="text-gray-600">{user.posisi_div_hp}</p>
+                    </div>
                   </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
-                  <div className="flex justify-around w-full mt-2">
+                  <div className="flex justify-end">
                     <button
                       onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                      className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                      className="bg-red-500 text-white px-4 py-2 rounded"
                     >
-                      Hapus 
+                      Delete
                     </button>
+                  </div>
+                  {activeComments === user.id && (
+                    <div className="mt-4 p-2 border border-gray-200 rounded bg-gray-50">
+                      <h4 className="text-lg font-semibold mb-2">Comments:</h4>
+                      {comments[user.id] && comments[user.id].length > 0 ? (
+                        <ul>
+                          {comments[user.id].map((comment, index) => (
+                            <li key={index} className="mb-2">
+                              <p>{comment}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No comments available.</p>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>
               ))}
             </div>
           </div>
