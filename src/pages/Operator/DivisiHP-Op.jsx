@@ -445,48 +445,44 @@ const DivisiHP_Op = () => {
             >
               Tambah Data
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-white p-4 border border-gray-200 rounded-lg shadow-md relative">
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative">
                   <button
                     onClick={() => toggleComments(user.id)}
-                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800"
+                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800 transition-colors"
                   >
                     <FontAwesomeIcon icon={faBell} />
                   </button>
-                  <div className="flex items-center mb-4">
-                    <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
-                      <img
-                        src={"http://localhost:5002" + user.foto_div_hp}
-                        alt={user.nama_div_hp}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="ml-4">
-                      <h3 className="text-xl font-semibold">{user.nama_div_hp}</h3>
-                      <p className="text-gray-600">{user.nip_div_hp}</p>
-                      <p className="text-gray-600">{user.posisi_div_hp}</p>
-                    </div>
+                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
+                    <img
+                      src={"http://localhost:5002" + user.foto_div_hp}
+                      alt={user.nama_div_kurl}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                  <div className="flex justify-end">
+                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
+                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
+                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
+                  <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded"
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
                     >
-                      Delete
+                      Hapus
                     </button>
                   </div>
                   {activeComments === user.id && (
-                    <div className="mt-4 p-2 border border-gray-200 rounded bg-gray-50">
+                    <div className="mt-4 p-4 border border-gray-200 rounded bg-gray-50">
                       <h4 className="text-lg font-semibold mb-2">Comments:</h4>
                       {comments[user.id] && comments[user.id].length > 0 ? (
-                        <ul>
+                        <ul className="list-disc list-inside">
                           {comments[user.id].map((comment, index) => (
                             <li key={index} className="mb-2">
                               <p>{comment}</p>
@@ -503,8 +499,8 @@ const DivisiHP_Op = () => {
             </div>
           </div>
         )}
+        {/* End: Card Read Data */}
       </div>
-      {/* End: Card Read Data */}
     </div>
   );
 };
