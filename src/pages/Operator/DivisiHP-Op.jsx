@@ -4,6 +4,9 @@ import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const DivisiHP_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -457,7 +460,7 @@ const DivisiHP_Op = () => {
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5002" + user.foto_div_hp}
-                      alt={user.nama_div_kurl}
+                      alt={user.nama_div_hp}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -478,24 +481,56 @@ const DivisiHP_Op = () => {
                       Hapus
                     </button>
                   </div>
-                  {activeComments === user.id && (
-                    <div className="mt-4 p-4 border border-gray-200 rounded bg-gray-50">
-                      <h4 className="text-lg font-semibold mb-2">Comments:</h4>
-                      {comments[user.id] && comments[user.id].length > 0 ? (
-                        <ul className="list-disc list-inside">
-                          {comments[user.id].map((comment, index) => (
-                            <li key={index} className="mb-2">
-                              <p>{comment}</p>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p>No comments available.</p>
-                      )}
-                    </div>
-                  )}
                 </div>
               ))}
+
+              {activeComments && (
+                <Modal
+                  isOpen={!!activeComments}
+                  onRequestClose={() => setActiveComments(null)}
+                  contentLabel="Comments"
+                  className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+                  overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+                >
+                  <div className="bg-white rounded-lg p-6 w-96 relative">
+                    <button
+                      onClick={() => setActiveComments(null)}
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
+                    {comments[activeComments] && comments[activeComments].length > 0 ? (
+                      <ul className="list-disc list-inside">
+                        {comments[activeComments].map((comment, index) => (
+                          <li key={index} className="mb-2">
+                            <p>{comment}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>No comments available.</p>
+                    )}
+                    <div className="flex justify-center mt-6">
+                      <button
+                        onClick={() => setActiveComments(null)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+                      >
+                        Selesai
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+              )}
             </div>
           </div>
         )}
