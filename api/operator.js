@@ -104,10 +104,17 @@ app.delete('/api/divisi-hp-op/:id', (req, res) => {
 // Endpoint untuk mengambil komentar berdasarkan id
 app.get('/api/komentar-divisi-hp/:id', (req, res) => {
   const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
   const query = 'SELECT komentar FROM divisi_hp WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
+      console.error('Database error:', err);
       return res.status(500).json({ error: 'Database error' });
     }
     if (result.length === 0) {
@@ -120,10 +127,17 @@ app.get('/api/komentar-divisi-hp/:id', (req, res) => {
 // Endpoint untuk menghapus komentar berdasarkan id
 app.delete('/api/komentar-divisi-hp/:id', (req, res) => {
   const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
   const query = 'UPDATE divisi_hp SET komentar = NULL WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
+      console.error('Database error:', err);
       return res.status(500).json({ error: 'Database error' });
     }
     if (result.affectedRows === 0) {

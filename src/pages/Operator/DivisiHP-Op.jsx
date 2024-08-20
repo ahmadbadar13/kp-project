@@ -115,20 +115,30 @@ const DivisiHP_Op = () => {
 
   const fetchComments = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5002/api/comments/${userId}`);
-      setComments((prevComments) => ({ ...prevComments, [userId]: response.data }));
+        const response = await axios.get(`http://localhost:5002/api/komentar-divisi-hp/${userId}`);
+        setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
     } catch (error) {
-      console.error('Error fetching comments:', error);
+        console.error('Error fetching comments:', error);
     }
   };
 
+  const deleteComment = async (userId) => {
+      try {
+          await axios.delete(`http://localhost:5002/api/komentar-divisi-hp/${userId}`);
+          setComments((prevComments) => ({ ...prevComments, [userId]: null }));
+          setActiveComments(null);
+      } catch (error) {
+          console.error('Error deleting comment:', error);
+      }
+  };
+
   const toggleComments = (userId) => {
-    if (activeComments === userId) {
-      setActiveComments(null);
-    } else {
-      setActiveComments(userId);
-      fetchComments(userId);
-    }
+      if (activeComments === userId) {
+          setActiveComments(null);
+      } else {
+          setActiveComments(userId);
+          fetchComments(userId);
+      }
   };
 
   useEffect(() => {
@@ -509,18 +519,18 @@ const DivisiHP_Op = () => {
                       </svg>
                     </button>
                     <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
-                    {comments[activeComments] && comments[activeComments].length > 0 ? (
-                      <ul className="list-disc list-inside">
-                        {comments[activeComments].map((comment, index) => (
-                          <li key={index} className="mb-2">
-                            <p>{comment}</p>
-                          </li>
-                        ))}
-                      </ul>
+                    {comments[activeComments] ? (
+                      <p>{comments[activeComments]}</p>
                     ) : (
                       <p>No comments available.</p>
                     )}
                     <div className="flex justify-center mt-6">
+                      <button
+                        onClick={() => deleteComment(activeComments)}
+                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md mr-4"
+                      >
+                        Hapus
+                      </button>
                       <button
                         onClick={() => setActiveComments(null)}
                         className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
