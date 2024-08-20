@@ -100,6 +100,38 @@ app.delete('/api/divisi-hp-op/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-divisi-hp/:id', (req, res) => {
+  const id = req.params.id;
+  const query = 'SELECT komentar FROM divisi_hp WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-divisi-hp/:id', (req, res) => {
+  const id = req.params.id;
+  const query = 'UPDATE divisi_hp SET komentar = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End Endpoint buat halaman Divisi HP =====================================
 
 
