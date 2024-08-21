@@ -527,13 +527,7 @@ const DivisiHP_Op = () => {
                     <div className="flex justify-center mt-6">
                       <button
                         onClick={() => deleteComment(activeComments)}
-                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md mr-4"
-                      >
-                        Hapus
-                      </button>
-                      <button
-                        onClick={() => setActiveComments(null)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-4"
                       >
                         Selesai
                       </button>
