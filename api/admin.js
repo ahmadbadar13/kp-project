@@ -74,14 +74,15 @@ app.get('/api/divisi-hp-adm', (req, res) => {
 });
 
 // Endpoint untuk menambahkan komentar
-app.post('/api/add-comment-divisi-hp', (req, res) => {
+app.post('/api/tambah-komentar-divisi-hp', (req, res) => {
     const { userId, comment } = req.body;
 
+    // Validasi input
     if (!userId || !comment) {
         return res.status(400).json({ error: 'User ID and comment are required' });
     }
 
-    const query = 'UPDATE divisi_hp SET komentar = ? WHERE id = ?';
+    const query = 'UPDATE divisi_hp SET komentar_div_hp = ? WHERE id = ?';
     db.query(query, [comment, userId], (err, results) => {
         if (err) {
             console.error('Error executing query:', err);
@@ -93,7 +94,6 @@ app.post('/api/add-comment-divisi-hp', (req, res) => {
         res.status(200).json({ message: 'Comment added successfully' });
     });
 });
-
 // ===================================== End Endpoint buat halaman Divisi HP =====================================
 
 
@@ -107,6 +107,28 @@ app.get('/api/divisi-kurl-adm', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         res.status(200).json(results);
+    });
+});
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-divisi-kurl', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE divisi_kurl SET komentar_div_kurl = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
     });
 });
 // ===================================== End Endpoint buat halaman Divisi KURL =====================================
@@ -124,6 +146,28 @@ app.get('/api/divisi-pdi-adm', (req, res) => {
         res.status(200).json(results);
     });
 });
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-divisi-pdi', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE divisi_pdi SET komentar_div_pdi = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
+    });
+});
 // ===================================== End Endpoint buat halaman Divisi PDI =====================================
 
 
@@ -139,6 +183,28 @@ app.get('/api/divisi-sppp_sdm-adm', (req, res) => {
         res.status(200).json(results);
     });
 });
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-divisi-sppp_sdm', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE divisi_sppp_sdm SET komentar_div_sppp_sdm = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
+    });
+});
 // ===================================== End Endpoint buat halaman Divisi SPPP SDM =====================================
 
 
@@ -146,12 +212,34 @@ app.get('/api/divisi-sppp_sdm-adm', (req, res) => {
 // Endpoint untuk read data anggota
 app.get('/api/divisi-tp-adm', (req, res) => {
     const query = 'SELECT * FROM divisi_tp';
-      db.query(query, (err, results) => {
+        db.query(query, (err, results) => {
             if (err) {
             console.error('Error executing query:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         res.status(200).json(results);
+    });
+});
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-divisi-tp', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE divisi_tp SET komentar_div_tp = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
     });
 });
 // ===================================== End Endpoint buat halaman Divisi TP =====================================
@@ -169,7 +257,29 @@ app.get('/api/sekretaris-adm', (req, res) => {
         res.status(200).json(results);
     });
 });
-  // ===================================== End Endpoint buat halaman Sekretaris =====================================
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-sekretaris', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE sekretaris SET komentar_sekretaris = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
+    });
+});
+// ===================================== End Endpoint buat halaman Sekretaris =====================================
 
 
 // ===================================== Start endpoint buat halaman Sub Bagian HSDM =====================================
@@ -182,6 +292,28 @@ app.get('/api/sub-bagian-hsdm-adm', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         res.status(200).json(results);
+    });
+});
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-sb-hsdm', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE sub_bagian_hsdm SET komentar_sb_hsdm = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
     });
 });
 // ===================================== End Endpoint buat halaman Sub Bagian HSDM =====================================
@@ -199,6 +331,28 @@ app.get('/api/sub-bagian-kul-adm', (req, res) => {
         res.status(200).json(results);
     });
 });
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-sb-kul', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE sub_bagian_kul SET komentar_sb_kul = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
+    });
+});
 // ===================================== End Endpoint buat halaman Sub Bagian KUL =====================================
 
 
@@ -214,6 +368,28 @@ app.get('/api/sub-bagian-pdi-adm', (req, res) => {
         res.status(200).json(results);
     });
 });
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-sb-pdi', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE sub_bagian_pdi SET komentar_sb_pdi = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
+    });
+});
 // ===================================== End Endpoint buat halaman Sub Bagian PDI =====================================
 
 
@@ -227,6 +403,28 @@ app.get('/api/sub-bagian-tppph-adm', (req, res) => {
             return res.status(500).json({ error: 'Internal Server Error' });
         }
         res.status(200).json(results);
+    });
+});
+
+// Endpoint untuk menambahkan komentar
+app.post('/api/tambah-komentar-sb-tppph', (req, res) => {
+    const { userId, comment } = req.body;
+
+    // Validasi input
+    if (!userId || !comment) {
+        return res.status(400).json({ error: 'User ID and comment are required' });
+    }
+
+    const query = 'UPDATE sub_bagian_tppph SET komentar_sb_tppph = ? WHERE id = ?';
+    db.query(query, [comment, userId], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'Comment added successfully' });
     });
 });
 // ===================================== End Endpoint buat halaman Sub Bagian TPPPH =====================================

@@ -110,7 +110,7 @@ app.get('/api/komentar-divisi-hp/:id', (req, res) => {
     return res.status(400).json({ error: 'Invalid ID format' });
   }
 
-  const query = 'SELECT komentar FROM divisi_hp WHERE id = ?';
+  const query = 'SELECT komentar_div_hp FROM divisi_hp WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
@@ -120,7 +120,7 @@ app.get('/api/komentar-divisi-hp/:id', (req, res) => {
     if (result.length === 0) {
       return res.status(404).json({ error: 'Data not found' });
     }
-    res.json({ komentar: result[0].komentar });
+    res.json({ komentar: result[0].komentar_div_hp });
   });
 });
 
@@ -133,7 +133,7 @@ app.delete('/api/komentar-divisi-hp/:id', (req, res) => {
     return res.status(400).json({ error: 'Invalid ID format' });
   }
 
-  const query = 'UPDATE divisi_hp SET komentar = NULL WHERE id = ?';
+  const query = 'UPDATE divisi_hp SET komentar_div_hp = NULL WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
@@ -207,6 +207,52 @@ app.delete('/api/divisi-kurl-op/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-divisi-kurl/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_div_kurl FROM divisi_kurl WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_div_kurl });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-divisi-kurl/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE divisi_kurl SET komentar_div_kurl = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End endpoint buat halaman Divisi KURL =====================================
 
 
@@ -266,6 +312,52 @@ app.delete('/api/divisi-pdi-op/:id', (req, res) => {
   db.query(query, [id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-divisi-pdi/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_div_pdi FROM divisi_pdi WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_div_pdi });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-divisi-pdi/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE divisi_pdi SET komentar_div_pdi = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
   });
 });
 // ===================================== End endpoint buat halaman Divisi PDI =====================================
@@ -329,6 +421,52 @@ app.delete('/api/divisi-sppp_sdm-op/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-divisi-sppp_sdm/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_div_sppp-sdm FROM divisi_sppp_sdm WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_div_sppp_sdm });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-divisi-sppp_sdm/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE divisi_sppp_sdm SET komentar_div_sppp_sdm = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End endpoint buat halaman Divisi SPPP_SDM =====================================
 
 
@@ -390,6 +528,52 @@ app.delete('/api/divisi-tp/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-divisi-tp/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_div_tp FROM divisi_tp WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_div_tp });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-divisi-tp/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE divisi_tp SET komentar_div_tp = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End endpoint buat halaman Divisi TP =====================================
 
 
@@ -448,6 +632,52 @@ app.delete('/api/sekretaris/:id', (req, res) => {
   db.query(query, [id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-sekretaris/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_sekretaris FROM sekretaris WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_sekretaris });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-sekretaris/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE sekretaris SET komentar_sekretaris = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
   });
 });
 // ===================================== End endpoint buat halaman Sekretaris =====================================
@@ -511,6 +741,52 @@ app.delete('/api/sub-bagian-hsdm/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-sb-hsdm/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_sb_hsdm FROM sub_bagian_hsdm WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_sb_hsdm });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-sb-hsdm/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE sub_bagian_hsdm SET komentar_sb_hsdm = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End endpoint buat halaman Sub Bagian HSDM =====================================
 
 
@@ -570,6 +846,52 @@ app.delete('/api/sub-bagian-kul/:id', (req, res) => {
   db.query(query, [id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-sb-kul/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_sb_kul FROM sub_bagian_kul WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_sb_kul });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-sb-kul/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE sub_bagian_kul SET komentar_sb_kul = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
   });
 });
 // ===================================== End endpoint buat halaman Sub Bagian KUL =====================================
@@ -633,6 +955,52 @@ app.delete('/api/sub-bagian-pdi/:id', (req, res) => {
     res.status(200).json({ success: true, message: 'User deleted successfully' });
   });
 });
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-sb-pdi/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_sb_pdi FROM sub_bagian_pdi WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_sb_pdi });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-sb-pdi/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE sub_bagian_pdi SET komentar_sb_pdi = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
+  });
+});
 // ===================================== End endpoint buat halaman Sub Bagian PDI =====================================
 
 
@@ -692,6 +1060,52 @@ app.delete('/api/sub-bagian-tppph/:id', (req, res) => {
   db.query(query, [id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(200).json({ success: true, message: 'User deleted successfully' });
+  });
+});
+
+// Endpoint untuk mengambil komentar berdasarkan id
+app.get('/api/komentar-sb-tppph/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'SELECT komentar_sb_tppph FROM sub_bagian_tppph WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ komentar: result[0].komentar_sb_tppph });
+  });
+});
+
+// Endpoint untuk menghapus komentar berdasarkan id
+app.delete('/api/komentar-sb-tppph/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Validasi ID
+  if (!Number.isInteger(parseInt(id))) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  const query = 'UPDATE sub_bagian_tppph SET komentar_sb_tppph = NULL WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Data not found' });
+    }
+    res.json({ message: 'Komentar berhasil dihapus' });
   });
 });
 // ===================================== End endpoint buat halaman Sub Bagian TPPPH =====================================

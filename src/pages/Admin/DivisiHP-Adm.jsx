@@ -47,7 +47,7 @@ const DivisiHP_Adm = () => {
 
   const handleCommentSubmit = async () => {
     try {
-        await axios.post('http://localhost:5001/api/add-comment-divisi-hp', {
+        await axios.post('http://localhost:5001/api/tambah-komentar-divisi-hp', {
             userId: selectedUserId,
             comment: comment,
         });
