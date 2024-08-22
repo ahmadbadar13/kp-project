@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const SubBagianHSDM_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,6 +17,8 @@ const SubBagianHSDM_Op = () => {
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
+  const [comments, setComments] = useState({});
+  const [activeComments, setActiveComments] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -82,7 +89,7 @@ const SubBagianHSDM_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5002/api/sub-bagian-hsdm/${userId}`);
+      await axios.delete(`http://localhost:5002/api/sub-bagian-hsdm-op/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -104,6 +111,34 @@ const SubBagianHSDM_Op = () => {
     } catch (error) {
       console.error('Error fetching users:', error);
     }
+  };
+
+  const fetchComments = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5002/api/komentar-sb-hsdm/${userId}`);
+        setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+    }
+  };
+
+  const deleteComment = async (userId) => {
+      try {
+          await axios.delete(`http://localhost:5002/api/komentar-sb-hsdm/${userId}`);
+          setComments((prevComments) => ({ ...prevComments, [userId]: null }));
+          setActiveComments(null);
+      } catch (error) {
+          console.error('Error deleting comment:', error);
+      }
+  };
+
+  const toggleComments = (userId) => {
+      if (activeComments === userId) {
+          setActiveComments(null);
+      } else {
+          setActiveComments(userId);
+          fetchComments(userId);
+      }
   };
 
   useEffect(() => {
@@ -423,9 +458,15 @@ const SubBagianHSDM_Op = () => {
             >
               Tambah Data
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative">
+                  <button
+                    onClick={() => toggleComments(user.id)}
+                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800 transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faBell} />
+                  </button>
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5002" + user.foto_sb_hsdm}
@@ -447,17 +488,59 @@ const SubBagianHSDM_Op = () => {
                       onClick={() => handleDeleteUser(user.id)}
                       className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
                     >
-                      Hapus 
+                      Hapus
                     </button>
+                  </div>
                 </div>
-              </div>
               ))}
+
+              {activeComments && (
+                <Modal
+                  isOpen={!!activeComments}
+                  onRequestClose={() => setActiveComments(null)}
+                  contentLabel="Comments"
+                  className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+                  overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+                >
+                  <div className="bg-white rounded-lg p-6 w-96 relative">
+                    <button
+                      onClick={() => setActiveComments(null)}
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
+                    {comments[activeComments] ? (
+                      <p>{comments[activeComments]}</p>
+                    ) : (
+                      <p>No comments available.</p>
+                    )}
+                    <div className="flex justify-center mt-6">
+                      <button
+                        onClick={() => deleteComment(activeComments)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-4"
+                      >
+                        Selesai
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+              )}
             </div>
           </div>
         )}
+        {/* End: Card Read Data */}
       </div>
-      {/* End: Card Read Data */}
-    </div> 
+    </div>
   );
 };
 

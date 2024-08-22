@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const Sekretaris_Op = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,8 +15,10 @@ const Sekretaris_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', photo: null });
+  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
+  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
+  const [comments, setComments] = useState({});
+  const [activeComments, setActiveComments] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -26,7 +33,8 @@ const Sekretaris_Op = () => {
       id: user.id,
       name: user.nama_sekretaris,
       nip: user.nip_sekretaris,
-      photo: user.foto_sekretaris
+      position: user.posisi_sekretaris,
+      photo: user.foto_sekretaris,
     });
   };
   const handleCancelEditUser = () => setIsEditingUser(false);
@@ -36,6 +44,7 @@ const Sekretaris_Op = () => {
     const formData = new FormData();
     formData.append('name', newUser.name);
     formData.append('nip', newUser.nip);
+    formData.append('position', newUser.position);
     if (newUser.photo) {
       formData.append('photo', newUser.photo);
     }
@@ -43,7 +52,7 @@ const Sekretaris_Op = () => {
     try {
       const response = await axios.post('http://localhost:5002/api/sekretaris-op', formData);
       if (response.data.success) {
-        setNewUser({ name: '', nip: '', photo: null });
+        setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
         fetchUsers(); // Reload users after adding
       } else {
@@ -59,6 +68,7 @@ const Sekretaris_Op = () => {
     const formData = new FormData();
     formData.append('name', editingUser.name);
     formData.append('nip', editingUser.nip);
+    formData.append('position', editingUser.position);
     if (editingUser.photo) {
       formData.append('photo', editingUser.photo);
     }
@@ -66,7 +76,7 @@ const Sekretaris_Op = () => {
     try {
       const response = await axios.put(`http://localhost:5002/api/sekretaris-op/${editingUser.id}`, formData);
       if (response.data.success) {
-        setEditingUser({ id: '', name: '', nip: '', photo: null });
+        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
         fetchUsers();
       } else {
@@ -79,7 +89,7 @@ const Sekretaris_Op = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5002/api/sekretaris/${userId}`);
+      await axios.delete(`http://localhost:5002/api/sekretaris-op/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -101,6 +111,34 @@ const Sekretaris_Op = () => {
     } catch (error) {
       console.error('Error fetching users:', error);
     }
+  };
+
+  const fetchComments = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5002/api/komentar-sekretaris/${userId}`);
+        setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+    }
+  };
+
+  const deleteComment = async (userId) => {
+      try {
+          await axios.delete(`http://localhost:5002/api/komentar-sekretaris/${userId}`);
+          setComments((prevComments) => ({ ...prevComments, [userId]: null }));
+          setActiveComments(null);
+      } catch (error) {
+          console.error('Error deleting comment:', error);
+      }
+  };
+
+  const toggleComments = (userId) => {
+      if (activeComments === userId) {
+          setActiveComments(null);
+      } else {
+          setActiveComments(userId);
+          fetchComments(userId);
+      }
   };
 
   useEffect(() => {
@@ -313,7 +351,7 @@ const Sekretaris_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Sekretaris</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sekretaris</h1>
 
         {/* Start: Form Tambah Data */}
         {isAddingUser && (
@@ -337,6 +375,19 @@ const Sekretaris_Op = () => {
                 onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
                 required
               />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Posisi:</label>
+              <select
+                className="border rounded w-full py-2 px-3"
+                value={newUser.position}
+                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
+                required
+              >
+                <option value="" disabled>Pilih Posisi</option>
+                <option value="Ketua">Ketua</option>
+                <option value="Anggota">Anggota</option>
+              </select>
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">Foto:</label>
@@ -374,6 +425,19 @@ const Sekretaris_Op = () => {
               />
             </div>
             <div className="mb-4">
+              <label className="block text-gray-700">Posisi:</label>
+              <select
+                className="border rounded w-full py-2 px-3"
+                value={editingUser.position}
+                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
+                required
+              >
+                <option value="" disabled>Pilih Posisi</option>
+                <option value="Ketua">Ketua</option>
+                <option value="Anggota">Anggota</option>
+              </select>
+            </div>
+            <div className="mb-4">
               <label className="block text-gray-700">Foto:</label>
               <input type="file" onChange={handleFileChangeEdit} />
             </div>
@@ -394,9 +458,15 @@ const Sekretaris_Op = () => {
             >
               Tambah Data
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
+                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative">
+                  <button
+                    onClick={() => toggleComments(user.id)}
+                    className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800 transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faBell} />
+                  </button>
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5002" + user.foto_sekretaris}
@@ -417,17 +487,59 @@ const Sekretaris_Op = () => {
                       onClick={() => handleDeleteUser(user.id)}
                       className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
                     >
-                      Hapus 
+                      Hapus
                     </button>
+                  </div>
                 </div>
-              </div>
               ))}
+
+              {activeComments && (
+                <Modal
+                  isOpen={!!activeComments}
+                  onRequestClose={() => setActiveComments(null)}
+                  contentLabel="Comments"
+                  className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+                  overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+                >
+                  <div className="bg-white rounded-lg p-6 w-96 relative">
+                    <button
+                      onClick={() => setActiveComments(null)}
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
+                    {comments[activeComments] ? (
+                      <p>{comments[activeComments]}</p>
+                    ) : (
+                      <p>No comments available.</p>
+                    )}
+                    <div className="flex justify-center mt-6">
+                      <button
+                        onClick={() => deleteComment(activeComments)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-4"
+                      >
+                        Selesai
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+              )}
             </div>
           </div>
         )}
+        {/* End: Card Read Data */}
       </div>
-      {/* End: Card Read Data */}
-    </div> 
+    </div>
   );
 };
 

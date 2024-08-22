@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
+import Modal from 'react-modal';
+
+// Mengatur elemen root untuk modal
+Modal.setAppElement('#root');
 
 const SubBagianTPPPH_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [comment, setComment] = useState('');
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -26,6 +33,31 @@ const SubBagianTPPPH_Adm = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const openModal = (userId) => {
+    setSelectedUserId(userId);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUserId(null);
+    setComment('');
+  };
+
+  const handleCommentSubmit = async () => {
+    try {
+        await axios.post('http://localhost:5001/api/tambah-komentar-sub-bagian-tppph', {
+            userId: selectedUserId,
+            comment: comment,
+        });
+        // Update UI atau beri feedback kepada pengguna
+        closeModal();
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        // Tampilkan pesan kesalahan kepada pengguna
+    }
+  };
 
   return (
     <div>
@@ -233,7 +265,7 @@ const SubBagianTPPPH_Adm = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Teknik Penyelenggaraan Pemilu Partisipasi & Hupmas</h1>
         {/* Start: Card Read Data */}
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -249,12 +281,52 @@ const SubBagianTPPPH_Adm = () => {
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_tppph}</h2>
                   <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_tppph}</p>
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_tppph}</p>
+                  <button
+                  onClick={() => openModal(user.id)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Tambah Komentar
+                  </button>
               </div>
               ))}
             </div>
           </div>
       </div>
       {/* End: Card Read Data */}
+
+      {/* Start: Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Komentar Modal"
+        className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+        overlayClassName="fixed inset-0"
+      >
+        <div className="bg-white p-6 rounded-lg w-80">
+          <h2 className="text-xl font-bold mb-4">Tambah Komentar</h2>
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="w-full h-32 p-2 border border-gray-300 rounded"
+            placeholder="Tulis komentar di sini..."
+          ></textarea>
+          <div className="flex justify-end mt-4 space-x-2">
+            <button
+              onClick={closeModal}
+              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            >
+              Batal
+            </button>
+            <button
+              onClick={handleCommentSubmit}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Kirim
+            </button>
+          </div>
+        </div>
+      </Modal>
+      {/* End: Modal */}
     </div>
   );
 };
