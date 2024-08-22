@@ -47,7 +47,7 @@ const SubBagianKUL_Adm = () => {
 
   const handleCommentSubmit = async () => {
     try {
-        await axios.post('http://localhost:5001/api/tambah-komentar-sub-bagian-kul', {
+        await axios.post('http://localhost:5001/api/tambah-komentar-sb-kul', {
             userId: selectedUserId,
             comment: comment,
         });

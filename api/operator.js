@@ -431,7 +431,7 @@ app.get('/api/komentar-divisi-sppp_sdm/:id', (req, res) => {
     return res.status(400).json({ error: 'Invalid ID format' });
   }
 
-  const query = 'SELECT komentar_div_sppp-sdm FROM divisi_sppp_sdm WHERE id = ?';
+  const query = 'SELECT komentar_div_sppp_sdm FROM divisi_sppp_sdm WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
