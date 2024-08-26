@@ -47,7 +47,7 @@ const SubBagianTPPPH_Adm = () => {
 
   const handleCommentSubmit = async () => {
     try {
-        await axios.post('http://localhost:5001/api/tambah-komentar-sub-bagian-tppph', {
+        await axios.post('http://localhost:5001/api/tambah-komentar-sb-tppph', {
             userId: selectedUserId,
             comment: comment,
         });

@@ -431,5 +431,5 @@ app.post('/api/tambah-komentar-sb-tppph', (req, res) => {
 
 // Memulai Server
 app.listen(5001, () => {
-    console.log('Operator server running on port 5001');
+    console.log('Admin server running on port 5001');
 });
