@@ -47,7 +47,7 @@ const SubBagianPDI_Adm = () => {
 
   const handleCommentSubmit = async () => {
     try {
-        await axios.post('http://localhost:5001/api/tambah-komentar-sub-bagian-pdi', {
+        await axios.post('http://localhost:5001/api/tambah-komentar-sb-pdi', {
             userId: selectedUserId,
             comment: comment,
         });

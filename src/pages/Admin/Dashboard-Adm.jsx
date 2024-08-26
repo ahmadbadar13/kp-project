@@ -220,7 +220,7 @@ const Dashboard_Adm = () => {
                   onClick={toggleAdminDropdown}
                   className="text-white text-lg"
                 >
-                  Hallo, Operator!
+                  Hallo, Admin!
                 </button>
                 {adminDropdownOpen && (
                   <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
@@ -253,28 +253,59 @@ const Dashboard_Adm = () => {
       </section>
       {/* End: Jumbotron */}
 
-      {/* Start: Konten Sementara */}    
-      <div className="flex flex-col items-center m-20">
-        <div className="text-center mb-8 text-2xl font-semibold">
-          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-4xl dark:text-black">Aktivitas</h1>
-        </div>
-        <div className="flex space-x-4 gap-10 justify-center">
-          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
-            <div className="mb-4 text-lg font-medium">Feedback Admin</div>
-            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
+      {/* Start: Konten */}    
+      <div class="flex justify-around">
+          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <a href="#">
+                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+              </a>
+              <div class="p-5">
+                  <a href="#">
+                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  </a>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Read more
+                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                      </svg>
+                  </a>
+              </div>
           </div>
-          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
-            <div className="mb-4 text-lg font-medium">Fitur 2</div>
-            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
+          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <a href="#">
+                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+              </a>
+              <div class="p-5">
+                  <a href="#">
+                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  </a>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Read more
+                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                      </svg>
+                  </a>
+              </div>
+          </div>   
+          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <a href="#">
+                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
+              </a>
+              <div class="p-5">
+                  <a href="#">
+                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  </a>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Read more
+                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                      </svg>
+                  </a>
+              </div>
           </div>
-          <div className="w-60 h-60 bg-gray-300 rounded-lg flex flex-col items-center justify-center p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-gray-600 rounded-full mb-4"></div>
-            <div className="mb-4 text-lg font-medium">Fitur 3</div>
-            <button className="bg-green-500 text-white px-4 py-2 w-full rounded-full hover:bg-green-600 transition-colors duration-300">Lihat</button>
-          </div>
-        </div>
       </div>
       {/* End: Konten Sementara */}
 
