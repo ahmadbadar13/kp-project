@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
+import { FaEye, FaCog } from 'react-icons/fa';
 
 const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -241,114 +242,75 @@ const Dashboard_Adm = () => {
         <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-5xl">Dashboard Admin</h1>
           <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Solusi Terbaik untuk Pengelolaan dan Pemantauan Data Pegawai KPU</p>
-          <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="#" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-              Get started
-              <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-              </svg>
-            </a>
-          </div>
         </div>
       </section>
       {/* End: Jumbotron */}
 
-      {/* Start: Konten */}    
-      <div class="flex justify-around">
-          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
-                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-              </a>
-              <div class="p-5">
-                  <a href="#">
-                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  </a>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                      Read more
-                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                      </svg>
-                  </a>
-              </div>
+      {/* Start: Konten */}
+      <h1 className="text-3xl font-bold mb-8 text-center m-5">Tugas Admin</h1>
+      <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-2 w-full max-w-5xl mx-auto">
+        
+        {/* Card 1 */}
+        <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg mx-4">
+          <div className="w-24 h-24 mb-4">
+            <div className="bg-gray-200 w-full h-full rounded-full flex items-center justify-center">
+              <FaEye className="w-12 h-12 text-black-500" />
+            </div>
           </div>
-          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
-                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-              </a>
-              <div class="p-5">
-                  <a href="#">
-                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  </a>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                      Read more
-                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                      </svg>
-                  </a>
-              </div>
-          </div>   
-          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <a href="#">
-                  <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-              </a>
-              <div class="p-5">
-                  <a href="#">
-                      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  </a>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                  <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                      Read more
-                      <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                      </svg>
-                  </a>
-              </div>
+          <div className="text-center">
+            <h2 className="text-xl font-bold mb-2">Memantau</h2>
+            <p className="text-gray-600 text-justify">Admin perlu secara rutin memeriksa dan mengawasi informasi yang tercatat tentang setiap pegawai. Informasi tersebut mencakup berbagai aspek penting, seperti data pribadi serta jabatan. Dengan melakukan pengawasan yang teratur, admin dapat memastikan bahwa semua data pegawai selalu diperbarui dan akurat, sehingga mendukung pengambilan keputusan yang tepat dan efektif.</p>
           </div>
+        </div>
+        
+        {/* Card 2 */}
+        <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg mx-4">
+          <div className="w-24 h-24 mb-4">
+            <div className="bg-gray-200 w-full h-full rounded-full flex items-center justify-center">
+              <FaCog className="w-12 h-12 text-black-500" />
+            </div>
+          </div>
+          <div className="text-center">
+            <h2 className="text-xl font-bold mb-2">Mengelola</h2>
+            <p className="text-gray-600 text-justify">Admin bertugas untuk memastikan keakuratan data pegawai di KPU Kota Cimahi. Admin akan memeriksa jika terdapat kesalahan input data yang dilakukan oleh Operator, melakukan verifikasi terhadap data yang dimasukkan, serta memastikan bahwa data tersebut selalu diperbarui sesuai dengan perubahan yang terjadi. Selain itu, Admin juga bertanggung jawab untuk melaporkan dan mengoreksi kesalahan data serta memberikan komentar kepada Operator untuk mencegah terjadinya kesalahan serupa.</p>
+          </div>
+        </div>
+        
       </div>
-      {/* End: Konten Sementara */}
+      {/* End: Konten */}
 
       {/* Start: Footer */}
       <footer class="bg-red dark:bg-gray-900">
           <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
               <div class="md:flex md:justify-between">
-                <div class="mb-6 md:mb-0">
+                <div class="mb-6 md:mb-0 ml-3">
                   <Link to="/Dashboard-Adm" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src={Logo} className="h-16" alt="Logo KPU" />
-                    <span className="self-center text-black text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
+                    <span className="self-center text-white text-3xl tracking-tighter font-semibold font-frank whitespace-nowrap">
                       Kota Cimahi
                     </span>
                   </Link>
                 </div>
-                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                <div class="flex ml-auto space-x-9 mr-3">
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
+                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Website</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
-                                <a href="https://jdih.kpu.go.id/jabar/cimahi/" class="hover:underline">KPU Kota Cimahi</a>
+                                <a href="https://www.kpu.go.id/" class="hover:underline">KPU RI</a>
+                            </li>
+                            <li class="mb-4">
+                                <a href="https://jdih.kpu.go.id/jabar/cimahi/" class="hover:underline">JDIH KPU Kota Cimahi</a>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
+                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">HOTLINE</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
-                                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                                <a href="https://wa.me/6281513579961" class="hover:underline ">Admin</a>
                             </li>
                             <li>
-                                <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                        <ul class="text-gray-500 dark:text-gray-400 font-medium">
-                            <li class="mb-4">
-                                <a href="#" class="hover:underline">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                                <a href="https://wa.me/6285951709433" class="hover:underline">Operator</a>
                             </li>
                         </ul>
                     </div>
@@ -356,10 +318,10 @@ const Dashboard_Adm = () => {
             </div>
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
             <div class="sm:flex sm:items-center sm:justify-between">
-              <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Komisi Pemilihan Umum</a>. All Rights Reserved.
+              <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© <a href="https://flowbite.com/" class="hover:underline">KPU Kota Cimahi</a>. All Rights Reserved.
               </span>
               <div class="flex mt-4 sm:justify-center sm:mt-0">
-                <a href="https://www.facebook.com" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                <a href="https://www.facebook.com/kpukota.cimahi/" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                   <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22.676 0H1.324C.592 0 0 .592 0 1.324v21.351C0 23.408.592 24 1.324 24H12.82v-9.294H9.692v-3.618h3.127V8.041c0-3.1 1.895-4.788 4.663-4.788 1.325 0 2.463.099 2.794.142v3.24l-1.917.001c-1.502 0-1.792.713-1.792 1.76v2.309h3.587l-.467 3.617h-3.12V24h6.113c.732 0 1.324-.592 1.324-1.324V1.324C24 .592 23.408 0 22.676 0z"/>
                   </svg>
@@ -375,7 +337,7 @@ const Dashboard_Adm = () => {
                   <span class="sr-only">Instagram</span>
                 </a>
 
-                <a href="https://x.com/JdihCimahi" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
+                <a href="https://x.com/kpu_kotacimahi" class="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5">
                   <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.954 4.569c-.885.39-1.83.654-2.825.775a4.932 4.932 0 002.163-2.724 9.864 9.864 0 01-3.127 1.197 4.918 4.918 0 00-8.379 4.482 13.944 13.944 0 01-10.125-5.134 4.822 4.822 0 00-.666 2.475 4.92 4.92 0 002.188 4.099 4.904 4.904 0 01-2.229-.616v.061a4.935 4.935 0 003.946 4.827 4.996 4.996 0 01-2.224.084 4.937 4.937 0 004.604 3.419A9.869 9.869 0 010 21.54 13.91 13.91 0 007.548 24c9.142 0 14.307-7.721 13.995-14.646a10.025 10.025 0 002.458-2.725 9.995 9.995 0 01-2.847.775 4.919 4.919 0 002.163-2.725z"/>
                   </svg>
