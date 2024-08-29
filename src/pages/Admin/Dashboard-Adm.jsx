@@ -58,7 +58,7 @@ const Dashboard_Adm = () => {
                       <Link to="/DivisiKURL-Adm" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknis Penyelenggaraan</Link>
                     </li>
                     <li>
                       <Link to="/DivisiPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
@@ -173,7 +173,7 @@ const Dashboard_Adm = () => {
                       <Link to="/DivisiKURL-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknis Penyelenggaraan</Link>
                     </li>
                     <li>
                       <Link to="/DivisiPDI-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Perencanaan, Data, & Informasi</Link>

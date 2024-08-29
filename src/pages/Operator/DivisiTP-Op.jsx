@@ -171,7 +171,7 @@ const DivisiTP_Op = () => {
                       <Link to="/DivisiKURL-Op" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknis Penyelenggaraan</Link>
                     </li>
                     <li>
                       <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
@@ -286,7 +286,7 @@ const DivisiTP_Op = () => {
                       <Link to="/DivisiKURL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknik Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm" onClick={closeMenu}>Divisi Teknis Penyelenggaraan</Link>
                     </li>
                     <li>
                       <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
@@ -351,7 +351,7 @@ const DivisiTP_Op = () => {
       {/* End: Responsive Mobile Menu */}
 
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Teknik Penyelenggaraan</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Teknis Penyelenggaraan</h1>
 
         {/* Start: Form Tambah Data */}
         {isAddingUser && (

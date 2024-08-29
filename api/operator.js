@@ -520,7 +520,7 @@ app.put('/api/divisi-tp-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/divisi-tp/:id', (req, res) => {
+app.delete('/api/divisi-tp-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM divisi_tp WHERE id = ?';
   db.query(query, [id], (err) => {
@@ -626,7 +626,7 @@ app.put('/api/sekretaris-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/sekretaris/:id', (req, res) => {
+app.delete('/api/sekretaris-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM sekretaris WHERE id = ?';
   db.query(query, [id], (err) => {
@@ -733,7 +733,7 @@ app.put('/api/sub-bagian-hsdm-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/sub-bagian-hsdm/:id', (req, res) => {
+app.delete('/api/sub-bagian-hsdm-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM sub_bagian_hsdm WHERE id = ?';
   db.query(query, [id], (err) => {
@@ -840,7 +840,7 @@ app.put('/api/sub-bagian-kul-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/sub-bagian-kul/:id', (req, res) => {
+app.delete('/api/sub-bagian-kul-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM sub_bagian_kul WHERE id = ?';
   db.query(query, [id], (err) => {
@@ -947,7 +947,7 @@ app.put('/api/sub-bagian-pdi-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/sub-bagian-pdi/:id', (req, res) => {
+app.delete('/api/sub-bagian-pdi-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM sub_bagian_pdi WHERE id = ?';
   db.query(query, [id], (err) => {
@@ -1054,7 +1054,7 @@ app.put('/api/sub-bagian-tppph-op/:id', upload.single('photo'), (req, res) => {
 });
 
 // Endpoint untuk delete data anggota
-app.delete('/api/sub-bagian-tppph/:id', (req, res) => {
+app.delete('/api/sub-bagian-tppph-op/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM sub_bagian_tppph WHERE id = ?';
   db.query(query, [id], (err) => {
