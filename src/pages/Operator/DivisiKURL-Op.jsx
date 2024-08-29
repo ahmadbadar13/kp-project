@@ -19,8 +19,6 @@ const DivisiKURL_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
-  const [showHistory, setShowHistory] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -56,7 +54,7 @@ const DivisiKURL_Op = () => {
       if (response.data.success) {
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
+        fetchUsers();
       } else {
         console.error('Error adding user:', response.data.message);
       }
@@ -146,15 +144,6 @@ const DivisiKURL_Op = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  const handleShowHistory = (user) => {
-    setSelectedUser(user);
-    setShowHistory(true);
-  };
-
-  const handleMoveUser = (user) => {
-    console.log("Memindahkan user:", user);
-  };
 
   return (
     <div>
@@ -529,61 +518,6 @@ const DivisiKURL_Op = () => {
         )}
         {/* End: Popup Komen */}
 
-        {/* Start: Popup Riwayat */}
-        {showHistory && (
-          <Modal
-            isOpen={showHistory}
-            onRequestClose={() => setShowHistory(false)}
-            contentLabel="Riwayat Data"
-            className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
-            overlayClassName="fixed inset-0 bg-black bg-opacity-50"
-          >
-            <div className="bg-white rounded-lg p-6 w-96 relative">
-              <button
-                onClick={() => setShowHistory(false)}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <h4 className="text-lg font-semibold mb-4 text-center">Riwayat Data</h4>
-              {selectedUser ? (
-                <>
-                  <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
-                    <img
-                      src={"http://localhost:5002" + selectedUser.foto}
-                      alt={selectedUser.nama}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <p className="text-center">{selectedUser.nama}</p>
-                  <p className="text-center">NIP: {selectedUser.nip}</p>
-                  <p className="text-center">Posisi: {selectedUser.posisi}</p>
-                  <div className="flex justify-center mt-6">
-                    <button
-                      onClick={() => handleMoveUser(selectedUser.id)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-                    >
-                      Pindah
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <p>Tidak ada data untuk dipindah.</p>
-              )}
-            </div>
-          </Modal>
-        )}
-        {/* End: Popup Riwayat */}
-
         {/* Start: Card Read Data */}
         {!isAddingUser && !isEditingUser && (
           <div>
@@ -593,12 +527,6 @@ const DivisiKURL_Op = () => {
                 className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
               >
                 Tambah Data
-              </button>
-              <button
-                onClick={handleShowHistory}
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-              >
-                Riwayat Data
               </button>
             </div>
             <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -620,18 +548,12 @@ const DivisiKURL_Op = () => {
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_kurl}</h2>
                   <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_kurl}</p>
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_kurl}</p>
-                  <div className="flex justify-between w-full mt-2">
+                  <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
                       className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
                     >
                       Edit
-                    </button>
-                    <button
-                      onClick={() => handleMoveUser(user.id)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
-                    >
-                      Pindah
                     </button>
                     <button
                       onClick={() => handleDeleteUser(user.id)}
