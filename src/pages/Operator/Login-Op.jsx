@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const LoginOp = () => {
   const [email, setEmail] = useState('');
@@ -16,12 +17,23 @@ const LoginOp = () => {
       const response = await axios.post('http://localhost:5000/login', { email, password });
 
       if (response.data.success) {
+        await Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Selamat Datang Operator!",
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate('/Dashboard-Op');
       } else {
         setError('Invalid credentials');
       }
     } catch (error) {
-      setError('An error occurred');
+      await Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Masukan Email atau Kata Sandi yang Sesuai!",
+      });
     }
   };
 
