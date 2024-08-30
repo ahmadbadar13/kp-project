@@ -9,7 +9,6 @@ const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
-  const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
   const [struktur, setStruktur] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
