@@ -313,7 +313,7 @@ const Dashboard_Op = () => {
           {struktur[0] && (
             <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 text-center">
               <img
-                src={"http://localhost:5002" + struktur[0].foto_div_kurl}
+                src={"http://localhost:5002" + struktur[0].foto}
                 alt={struktur[0].nama}
                 className="mx-auto w-32 h-32 rounded-full mb-2 object-cover"
               />
