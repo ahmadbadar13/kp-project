@@ -3,18 +3,32 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
 import { FaEye, FaCog } from 'react-icons/fa';
+import axios from 'axios';
 
 const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
   const [userRole, setUserRole] = useState(''); // State untuk menyimpan peran pengguna
+  const [struktur, setStruktur] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Ambil informasi peran pengguna dari local storage atau API
-    const role = localStorage.getItem('userRole'); // Atau dari state management (Redux, Context, dll.)
-    setUserRole(role || ''); // Set role ke state
+    // Fetch data from API
+    axios.get('http://localhost:5002/api/struktur-organisasi')
+      .then(response => {
+        setStruktur(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError(error.message || 'An error occurred');
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -278,6 +292,41 @@ const Dashboard_Adm = () => {
         
       </div>
       {/* End: Konten */}
+
+      {/* Start: Struktur Organisasi */}
+      <div className="p-6 bg-white min-h-screen mb-11">
+        <h1 className="text-2xl font-bold text-center mb-6">Struktur Organisasi</h1>
+        <div className="flex flex-col items-center space-y-4">
+          {/* Ketua */}
+          {struktur[0] && (
+            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 text-center">
+              <img
+                src={"http://localhost:5001" + struktur[0].foto}
+                alt={struktur[0].nama}
+                className="mx-auto w-32 h-32 rounded-full mb-2 object-cover"
+              />
+              <h2 className="text-xl font-semibold">{struktur[0].nama}</h2>
+              <p>{struktur[0].peran}</p>
+            </div>
+          )}
+
+          {/* Anggota */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full md:w-3/4">
+            {struktur.slice(1).map((item, index) => (
+              <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md text-center">
+                <img
+                  src={`http://localhost:5001${item.foto}`}
+                  alt={item.nama}
+                  className="mx-auto w-24 h-24 rounded-full mb-2 object-cover"
+                />
+                <h2 className="text-lg font-semibold">{item.nama}</h2>
+                <p>{item.peran}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* End: Struktur Organisasi */}
 
       {/* Start: Footer */}
       <footer class="bg-red dark:bg-gray-900">

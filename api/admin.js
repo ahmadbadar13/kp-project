@@ -429,6 +429,28 @@ app.post('/api/tambah-komentar-sb-tppph', (req, res) => {
 });
 // ===================================== End Endpoint buat halaman Sub Bagian TPPPH =====================================
 
+// ===================================== Start endpoint buat halaman Dashboard Struktur Organisasi =====================================
+// API untuk mendapatkan data struktur organisasi
+app.get('/api/struktur-organisasi', (req, res) => {
+    const queries = [
+      'SELECT foto_div_kurl AS foto, nama_div_kurl AS nama, "Ketua" AS peran FROM divisi_kurl LIMIT 1',
+      'SELECT foto_div_tp AS foto, nama_div_tp AS nama, "Anggota" AS peran FROM divisi_tp LIMIT 1',
+      'SELECT foto_div_pdi AS foto, nama_div_pdi AS nama, "Anggota" AS peran FROM divisi_pdi LIMIT 1',
+      'SELECT foto_div_hp AS foto, nama_div_hp AS nama, "Anggota" AS peran FROM divisi_hp LIMIT 1',
+      'SELECT foto_div_sppp_sdm AS foto, nama_div_sppp_sdm AS nama, "Anggota" AS peran FROM divisi_sppp_sdm LIMIT 1',
+    ];
+  
+    Promise.all(queries.map((query) => new Promise((resolve, reject) => {
+      db.query(query, (error, results) => {
+        if (error) return reject(error);
+        resolve(results[0]);
+      });
+    })))
+    .then(results => res.json(results))
+    .catch(err => res.status(500).json({ error: err.message }));
+  });
+// ===================================== End endpoint buat halaman Dashboard Struktur Organisasi =====================================
+  
 // Memulai Server
 app.listen(5001, () => {
     console.log('Admin server running on port 5001');
