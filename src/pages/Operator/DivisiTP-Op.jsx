@@ -353,101 +353,170 @@ const DivisiTP_Op = () => {
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Teknis Penyelenggaraan</h1>
 
-        {/* Start: Form Tambah Data */}
+        {/* Start: Popup Tambah Data */}
         {isAddingUser && (
-          <form onSubmit={handleSubmitNewUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.name}
-                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={newUser.nip}
-                onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={newUser.position}
-                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                required
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
+              <button
+                onClick={handleCancelAddUser}
+                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
               >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
+                ✕
+              </button>
+              <h2 className="text-xl font-semibold mb-4 text-center">Tambah Data Pegawai</h2>
+              <form onSubmit={handleSubmitNewUser}>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Nama:</label>
+                  <input
+                    type="text"
+                    className="border rounded w-full py-2 px-3"
+                    value={newUser.name}
+                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">NIP:</label>
+                  <input
+                    type="text"
+                    className="border rounded w-full py-2 px-3"
+                    value={newUser.nip}
+                    onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Posisi:</label>
+                  <select
+                    className="border rounded w-full py-2 px-3"
+                    value={newUser.position}
+                    onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
+                    required
+                  >
+                    <option value="" disabled>Pilih Posisi</option>
+                    <option value="Ketua">Ketua</option>
+                    <option value="Anggota">Anggota</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Foto:</label>
+                  <input type="file" onChange={handleFileChange} />
+                </div>
+                <button type="submit" className="bg-blue-500 text-white py-2 rounded w-full">
+                  Tambah
+                </button>
+              </form>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelAddUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Add User</button>
-            </div>
-          </form>
+          </div>
         )}
-        {/* End: Form Tambah Data */}
+        {/* End: Popup Tambah Data */}
 
-        {/* Start: Form Edit Data */}
+        {/* Start: Popup Edit Data */}
         {isEditingUser && (
-          <form onSubmit={handleSubmitEditUser} className="mb-6">
-            <div className="mb-4">
-              <label className="block text-gray-700">Nama:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.name}
-                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">NIP:</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.nip}
-                onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Posisi:</label>
-              <select
-                className="border rounded w-full py-2 px-3"
-                value={editingUser.position}
-                onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                required
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
+              <button
+                onClick={handleCancelEditUser}
+                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
               >
-                <option value="" disabled>Pilih Posisi</option>
-                <option value="Ketua">Ketua</option>
-                <option value="Anggota">Anggota</option>
-              </select>
+                ✕
+              </button>
+              <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
+              <form onSubmit={handleSubmitEditUser}>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Nama:</label>
+                  <input
+                    type="text"
+                    className="border rounded w-full py-2 px-3"
+                    value={editingUser.name}
+                    onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">NIP:</label>
+                  <input
+                    type="text"
+                    className="border rounded w-full py-2 px-3"
+                    value={editingUser.nip}
+                    onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Posisi:</label>
+                  <select
+                    className="border rounded w-full py-2 px-3"
+                    value={editingUser.position}
+                    onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
+                    required
+                  >
+                    <option value="" disabled>Pilih Posisi</option>
+                    <option value="Ketua">Ketua</option>
+                    <option value="Anggota">Anggota</option>
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Foto:</label>
+                  <input type="file" onChange={handleFileChangeEdit} />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 rounded w-full"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Foto:</label>
-              <input type="file" onChange={handleFileChangeEdit} />
-            </div>
-            <div className="flex justify-end">
-              <button type="button" onClick={handleCancelEditUser} className="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancel</button>
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Update User</button>
-            </div>
-          </form>
+          </div>
         )}
-        {/* End: Form Edit Data */}
+        {/* End: Popup Edit Data */}
+
+        {/* Start: Popup Komen */}
+        {activeComments && (
+          <Modal
+            isOpen={!!activeComments}
+            onRequestClose={() => setActiveComments(null)}
+            contentLabel="Comments"
+            className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+            overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+          >
+            <div className="bg-white rounded-lg p-6 w-96 relative">
+              <button
+                onClick={() => setActiveComments(null)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <h4 className="text-lg font-semibold mb-4 text-center">Komentar</h4>
+              {comments[activeComments] ? (
+                <p>{comments[activeComments]}</p>
+              ) : (
+                <p>Tidak ada komentar.</p>
+              )}
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={() => deleteComment(activeComments)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+                >
+                  Selesai
+                </button>
+              </div>
+            </div>
+          </Modal>
+        )}
+        {/* End: Popup Komen */}
 
         {/* Start: Card Read Data */}
         {!isAddingUser && !isEditingUser && (
@@ -493,48 +562,6 @@ const DivisiTP_Op = () => {
                   </div>
                 </div>
               ))}
-
-              {activeComments && (
-                <Modal
-                  isOpen={!!activeComments}
-                  onRequestClose={() => setActiveComments(null)}
-                  contentLabel="Comments"
-                  className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
-                  overlayClassName="fixed inset-0 bg-black bg-opacity-50"
-                >
-                  <div className="bg-white rounded-lg p-6 w-96 relative">
-                    <button
-                      onClick={() => setActiveComments(null)}
-                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                    <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
-                    {comments[activeComments] ? (
-                      <p>{comments[activeComments]}</p>
-                    ) : (
-                      <p>No comments available.</p>
-                    )}
-                    <div className="flex justify-center mt-6">
-                      <button
-                        onClick={() => deleteComment(activeComments)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mr-4"
-                      >
-                        Selesai
-                      </button>
-                    </div>
-                  </div>
-                </Modal>
-              )}
             </div>
           </div>
         )}

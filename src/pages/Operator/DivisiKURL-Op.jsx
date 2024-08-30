@@ -403,7 +403,7 @@ const DivisiKURL_Op = () => {
                   <input type="file" onChange={handleFileChange} />
                 </div>
                 <button type="submit" className="bg-blue-500 text-white py-2 rounded w-full">
-                  Add User
+                  Tambah
                 </button>
               </form>
             </div>
@@ -465,7 +465,7 @@ const DivisiKURL_Op = () => {
                     type="submit"
                     className="bg-blue-500 text-white py-2 rounded w-full"
                   >
-                    Update User
+                    Edit
                   </button>
                 </div>
               </form>
@@ -499,11 +499,11 @@ const DivisiKURL_Op = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <h4 className="text-lg font-semibold mb-4 text-center">Comments</h4>
+              <h4 className="text-lg font-semibold mb-4 text-center">Komentar</h4>
               {comments[activeComments] ? (
                 <p>{comments[activeComments]}</p>
               ) : (
-                <p>No comments available.</p>
+                <p>Tidak ada komentar.</p>
               )}
               <div className="flex justify-center mt-6">
                 <button
