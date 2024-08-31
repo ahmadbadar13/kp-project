@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 
 // Mengatur elemen root untuk modal
 Modal.setAppElement('#root');
@@ -20,6 +21,7 @@ const DivisiKURL_Adm = () => {
   const closeMenu = () => setMenuOpen(false);
   const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
@@ -57,6 +59,27 @@ const DivisiKURL_Adm = () => {
         console.error('Error adding comment:', error);
         // Tampilkan pesan kesalahan kepada pengguna
     }
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Anda yakin ingin keluar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Keluar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Berhasil Keluar",
+          text: "Anda keluar dari halaman ini",
+          icon: "success",
+        }).then(() => {
+          navigate('/');
+        });
+      }
+    });
   };
 
   return (
@@ -158,9 +181,12 @@ const DivisiKURL_Adm = () => {
               {adminDropdownOpen && (
                 <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                    <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center">
-                      Logout
-                    </Link>
+                  <button 
+                    onClick={handleLogout} 
+                    className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
+                  >
+                    Logout
+                  </button>
                   </li>
                 </ul>
               )}

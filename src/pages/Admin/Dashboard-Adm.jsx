@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/Logo KPU.png';
 import BackgroundImage from '../../assets/bg-KPU.png';
 import { FaEye, FaCog } from 'react-icons/fa';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,22 +13,24 @@ const Dashboard_Adm = () => {
   const [struktur, setStruktur] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch data from API
-    axios.get('http://localhost:5002/api/struktur-organisasi')
-      .then(response => {
+    axios
+      .get('http://localhost:5002/api/struktur-organisasi')
+      .then((response) => {
         setStruktur(response.data);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message || 'An error occurred');
         setLoading(false);
       });
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error: {error}</p>;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -43,6 +46,27 @@ const Dashboard_Adm = () => {
 
   const toggleAdminDropdown = () => {
     setAdminDropdownOpen(!adminDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Anda yakin ingin keluar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Keluar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Berhasil Keluar",
+          text: "Anda keluar dari halaman ini",
+          icon: "success",
+        }).then(() => {
+          navigate('/');
+        });
+      }
+    });
   };
 
   return (
@@ -144,9 +168,12 @@ const Dashboard_Adm = () => {
               {adminDropdownOpen && (
                 <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                    <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center">
-                      Logout
-                    </Link>
+                  <button 
+                    onClick={handleLogout} 
+                    className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
+                  >
+                    Logout
+                  </button>
                   </li>
                 </ul>
               )}
