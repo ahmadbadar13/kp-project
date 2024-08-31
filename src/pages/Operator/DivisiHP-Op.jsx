@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
+import { FaPlus } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
@@ -550,9 +551,9 @@ const DivisiHP_Op = () => {
           <div>
             <button
               onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4"
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4 flex items-center"
             >
-              Tambah Data
+              <FaPlus className="mr-2" /> Tambah Data
             </button>
             <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
