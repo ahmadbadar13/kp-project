@@ -7,6 +7,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 
 Modal.setAppElement('#root');
 
@@ -577,15 +578,15 @@ const DivisiHP_Op = () => {
                   <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
                     >
-                      Edit
+                      <AiFillEdit size={20} />
                     </button>
                     <button
                       onClick={() => handleDeleteUser(user.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center"
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
                     >
-                      Hapus
+                      <AiFillDelete size={20} />
                     </button>
                   </div>
                 </div>
