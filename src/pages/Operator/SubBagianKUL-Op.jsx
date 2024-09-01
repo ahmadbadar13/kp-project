@@ -53,18 +53,48 @@ const SubBagianKUL_Op = () => {
     if (newUser.photo) {
       formData.append('photo', newUser.photo);
     }
-
+  
     try {
+      // Menampilkan notifikasi loading sebelum proses penambahan
+      Swal.fire({
+        title: 'Menambahkan...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+  
       const response = await axios.post('http://localhost:5002/api/sub-bagian-kul-op', formData);
+  
       if (response.data.success) {
+        // Tampilkan notifikasi berhasil
+        Swal.fire(
+          'Berhasil!',
+          'Anggota baru telah ditambahkan.',
+          'success'
+        );
+  
         setNewUser({ name: '', nip: '', position: '', photo: null });
         setIsAddingUser(false);
         fetchUsers(); // Reload users after adding
       } else {
-        console.error('Error adding user:', response.data.message);
+        // Tampilkan notifikasi kesalahan
+        Swal.fire(
+          'Error!',
+          response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+          'error'
+        );
       }
     } catch (error) {
       console.error('Error adding user:', error);
+  
+      // Tampilkan notifikasi kesalahan jika terjadi error
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat menambahkan anggota.',
+        'error'
+      );
     }
   };
 
@@ -77,27 +107,96 @@ const SubBagianKUL_Op = () => {
     if (editingUser.photo) {
       formData.append('photo', editingUser.photo);
     }
-
+  
     try {
+      // Menampilkan notifikasi loading sebelum proses edit
+      Swal.fire({
+        title: 'Mengedit...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+  
       const response = await axios.put(`http://localhost:5002/api/sub-bagian-kul-op/${editingUser.id}`, formData);
+  
       if (response.data.success) {
+        // Tampilkan notifikasi berhasil
+        Swal.fire(
+          'Berhasil!',
+          'Anggota telah diperbarui.',
+          'success'
+        );
+  
         setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
         setIsEditingUser(false);
         fetchUsers();
       } else {
-        console.error('Error editing user:', response.data.message);
+        // Tampilkan notifikasi kesalahan
+        Swal.fire(
+          'Error!',
+          response.data.message || 'Terjadi kesalahan saat mengedit anggota.',
+          'error'
+        );
       }
     } catch (error) {
       console.error('Error editing user:', error);
+  
+      // Tampilkan notifikasi kesalahan jika terjadi error
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat mengedit anggota.',
+        'error'
+      );
     }
   };
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5002/api/sub-bagian-kul-op/${userId}`);
-      fetchUsers();
+      const result = await Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: 'Anggota yang dihapus tidak dapat dikembalikan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5cb85c',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Batal',
+      });
+  
+      if (result.isConfirmed) {
+        // Jika anggota mengonfirmasi penghapusan
+        await axios.delete(`http://localhost:5002/api/sub-bagian-kul-op/${userId}`);
+  
+        // Tampilkan animasi berhasil
+        Swal.fire(
+          'Terhapus!',
+          'Anggota telah dihapus.',
+          'success'
+        );
+  
+        // Refresh data setelah berhasil dihapus
+        fetchUsers();
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Jika anggota membatalkan penghapusan
+        Swal.fire({
+          title: 'Dibatalkan',
+          text: 'Penghapusan anggota dibatalkan.',
+          icon: 'info',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        });
+      }
     } catch (error) {
       console.error('Error deleting user:', error);
+  
+      // Tampilkan animasi kesalahan
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat menghapus anggota.',
+        'error'
+      );
     }
   };
 
