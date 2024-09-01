@@ -49,15 +49,39 @@ const DivisiSPPP_SDM_Adm = () => {
 
   const handleCommentSubmit = async () => {
     try {
-        await axios.post('http://localhost:5001/api/tambah-komentar-divisi-sppp_sdm', {
-            userId: selectedUserId,
-            comment: comment,
-        });
-        // Update UI atau beri feedback kepada pengguna
-        closeModal();
+      // Menampilkan notifikasi loading sebelum proses pengiriman
+      Swal.fire({
+        title: 'Mengirim komentar...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+  
+      await axios.post('http://localhost:5001/api/tambah-komentar-divisi-sppp_sdm', {
+        userId: selectedUserId,
+        comment: comment,
+      });
+  
+      // Menampilkan notifikasi berhasil setelah komentar berhasil dikirim
+      Swal.fire(
+        'Berhasil!',
+        'Komentar telah ditambahkan.',
+        'success'
+      );
+  
+      // Update UI atau beri feedback kepada pengguna
+      closeModal();
     } catch (error) {
-        console.error('Error adding comment:', error);
-        // Tampilkan pesan kesalahan kepada pengguna
+      console.error('Error adding comment:', error);
+  
+      // Menampilkan notifikasi kesalahan jika terjadi error
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat menambahkan komentar.',
+        'error'
+      );
     }
   };
 
