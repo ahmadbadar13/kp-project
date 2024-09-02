@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -15,8 +16,13 @@ const Register = () => {
         e.preventDefault();
 
         // Validasi input sebelum melakukan registrasi
-        if (!email || !password || !role) {
+        if (!email || !password || !confirmPassword || !role) {
             setError('Semua field harus diisi');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setError('Password harus sama');
             return;
         }
 
@@ -93,6 +99,19 @@ const Register = () => {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                            Konfirmasi Password
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                             required
                         />
