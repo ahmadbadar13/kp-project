@@ -324,31 +324,47 @@ const Dashboard_Adm = () => {
         <h1 className="text-2xl font-bold text-center mb-6">Struktur Organisasi</h1>
         <div className="flex flex-col items-center space-y-4">
           {/* Ketua */}
-          {struktur[0] && (
-            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 text-center">
+          {struktur.length > 0 && struktur[0] ? (
+            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 flex flex-col items-center justify-center">
               <img
-                src={"http://localhost:5001" + struktur[0].foto}
-                alt={struktur[0].nama}
-                className="mx-auto w-32 h-32 rounded-full mb-2 object-cover"
+                src={`http://localhost:5002${struktur[0].foto}`}
+                alt={struktur[0].nama || 'Ketua'}
+                className="w-32 h-32 rounded-full mb-2 object-cover"
               />
-              <h2 className="text-xl font-semibold">{struktur[0].nama}</h2>
-              <p>{struktur[0].peran}</p>
+              <h2 className="text-xl font-semibold text-center">{struktur[0].nama || 'Nama Ketua'}</h2>
+              <p className="text-center">{struktur[0].peran || 'Peran Ketua'}</p>
+            </div>
+          ) : (
+            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 flex items-center justify-center">
+              <p>Data Ketua tidak tersedia</p>
             </div>
           )}
 
           {/* Anggota */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full md:w-3/4">
-            {struktur.slice(1).map((item, index) => (
-              <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md text-center">
-                <img
-                  src={`http://localhost:5001${item.foto}`}
-                  alt={item.nama}
-                  className="mx-auto w-24 h-24 rounded-full mb-2 object-cover"
-                />
-                <h2 className="text-lg font-semibold">{item.nama}</h2>
-                <p>{item.peran}</p>
+            {struktur.slice(1).length > 0 ? (
+              struktur.slice(1).map((item, index) => (
+                item && item.foto ? (
+                  <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center">
+                    <img
+                      src={`http://localhost:5002${item.foto}`}
+                      alt={item.nama || 'Anggota'}
+                      className="w-24 h-24 rounded-full mb-2 object-cover"
+                    />
+                    <h2 className="text-lg font-semibold">{item.nama || 'Nama Anggota'}</h2>
+                    <p>{item.peran || 'Peran Anggota'}</p>
+                  </div>
+                ) : (
+                  <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center justify-center text-center">
+                    <p>Data Anggota tidak tersedia</p>
+                  </div>
+                )
+              ))
+            ) : (
+              <div className="w-full text-center">
+                <p>Data Anggota tidak tersedia</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
