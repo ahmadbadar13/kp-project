@@ -27,9 +27,10 @@ app.post('/login', (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     
     if (results.length > 0) {
-      res.status(200).json({ success: true });
+      const user = results[0];
+      res.status(200).json({ success: true, role: user.role }); // Asumsikan field `role` ada
     } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+      res.status(401).json({ success: false, message: 'Kredensial tidak valid' });
     }
   });
 });

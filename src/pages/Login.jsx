@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/Logo KPU.png';
+import Logo from '../assets/Logo KPU.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const LoginOp = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,22 +17,32 @@ const LoginOp = () => {
       const response = await axios.post('http://localhost:5000/login', { email, password });
 
       if (response.data.success) {
+        const { role } = response.data; // Asumsikan peran dikembalikan dari backend
+        localStorage.setItem('role', role); // Simpan peran di localStorage
+
         await Swal.fire({
           position: "top-center",
           icon: "success",
-          title: "Selamat Datang Operator!",
+          title: `Selamat Datang ${role.charAt(0).toUpperCase() + role.slice(1)}!`,
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/Dashboard-Op');
+
+        navigate(role === 'admin' ? '/Dashboard-Adm' : '/Dashboard-Op');
       } else {
-        setError('Invalid credentials');
+        setError('Kredensial tidak valid');
+        await Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Email atau password tidak valid",
+        });
       }
     } catch (error) {
+      setError('Terjadi kesalahan');
       await Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Masukan Email atau Kata Sandi yang Sesuai!",
+        text: "Terjadi kesalahan!",
       });
     }
   };
@@ -58,7 +68,6 @@ const LoginOp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Email"
               required
             />
           </div>
@@ -70,7 +79,6 @@ const LoginOp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="Password"
               required
             />
           </div>
@@ -87,4 +95,4 @@ const LoginOp = () => {
   );
 };
 
-export default LoginOp;
+export default Login;
