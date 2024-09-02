@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 // Halaman Login
 import Login from './pages/Login';
 
+// Halaman Register
+import Register from './pages/Register';
+
 // Halaman Admin
 import Dashboard_Adm from './pages/Admin/Dashboard-Adm';
 import DivisiHP from './pages/Admin/DivisiHP-Adm';
@@ -47,6 +50,9 @@ function App() {
 
         {/* Login */}
         <Route path="/Login" element={<Login />} />
+
+        {/* Register */}
+        <Route path="/Register" element={<Register />} />
 
         {/* Admin */}
         <Route path="/Dashboard-Adm" element={<PrivateRoute element={<Dashboard_Adm />} role="admin" />} />
