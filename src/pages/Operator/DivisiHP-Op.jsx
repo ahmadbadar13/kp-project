@@ -18,8 +18,8 @@ const DivisiHP_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
+  const [newUser, setNewUser] = useState({ name: '', photo: null });
+  const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
 
@@ -37,8 +37,6 @@ const DivisiHP_Op = () => {
     setEditingUser({
       id: user.id,
       name: user.nama_div_hp,
-      nip: user.nip_div_hp,
-      position: user.posisi_div_hp,
       photo: user.foto_div_hp,
     });
   };
@@ -48,8 +46,6 @@ const DivisiHP_Op = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', newUser.name);
-    formData.append('nip', newUser.nip);
-    formData.append('position', newUser.position);
     if (newUser.photo) {
       formData.append('photo', newUser.photo);
     }
@@ -75,7 +71,7 @@ const DivisiHP_Op = () => {
           'success'
         );
   
-        setNewUser({ name: '', nip: '', position: '', photo: null });
+        setNewUser({ name: '', photo: null });
         setIsAddingUser(false);
         fetchUsers(); // Reload users after adding
       } else {
@@ -102,8 +98,6 @@ const DivisiHP_Op = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', editingUser.name);
-    formData.append('nip', editingUser.nip);
-    formData.append('position', editingUser.position);
     if (editingUser.photo) {
       formData.append('photo', editingUser.photo);
     }
@@ -129,7 +123,7 @@ const DivisiHP_Op = () => {
           'success'
         );
   
-        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
+        setEditingUser({ id: '', name: '', photo: null });
         setIsEditingUser(false);
         fetchUsers();
       } else {
@@ -504,29 +498,6 @@ const DivisiHP_Op = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">NIP:</label>
-                  <input
-                    type="text"
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.nip}
-                    onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Posisi:</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.position}
-                    onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                    required
-                  >
-                    <option value="" disabled>Pilih Posisi</option>
-                    <option value="Ketua">Ketua</option>
-                    <option value="Anggota">Anggota</option>
-                  </select>
-                </div>
-                <div className="mb-4">
                   <label className="block text-gray-700">Foto:</label>
                   <input type="file" onChange={handleFileChange} />
                 </div>
@@ -560,29 +531,6 @@ const DivisiHP_Op = () => {
                     onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
                     required
                   />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">NIP:</label>
-                  <input
-                    type="text"
-                    className="border rounded w-full py-2 px-3"
-                    value={editingUser.nip}
-                    onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Posisi:</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={editingUser.position}
-                    onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                    required
-                  >
-                    <option value="" disabled>Pilih Posisi</option>
-                    <option value="Ketua">Ketua</option>
-                    <option value="Anggota">Anggota</option>
-                  </select>
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700">Foto:</label>
@@ -672,8 +620,6 @@ const DivisiHP_Op = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
                   <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
