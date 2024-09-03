@@ -24,7 +24,7 @@ const Login = () => {
 
       if (response.data.success) {
         const { role } = response.data;
-        localStorage.setItem('role', role);
+        sessionStorage.setItem('role', role);
 
         await Swal.fire({
           position: "top-center",

@@ -6,7 +6,7 @@ import Login from './pages/Login';
 
 // Halaman Register
 import Register from './pages/Register';
-import Settings from './pages/settings';
+import Settings from './pages/Settings';
 
 // Halaman Admin
 import Dashboard_Adm from './pages/Admin/Dashboard-Adm';
@@ -36,11 +36,11 @@ import Sekretaris_Op from './pages/Operator/Sekretaris-Op';
 
 // Komponen untuk memastikan akses sesuai dengan peran
 const PrivateRoute = ({ element, role }) => {
-  const userRole = localStorage.getItem('role'); // Ambil peran dari localStorage
+  const userRole = sessionStorage.getItem('role');
   if (userRole === role) {
     return element;
   }
-  return <Navigate to="/Login" />; // Arahkan ke halaman login jika peran tidak sesuai
+  return <Navigate to="/Login" />;
 };
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
 
         {/* Register */}
         <Route path="/Register" element={<Register />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/Settings" element={<Settings />} />
 
         {/* Admin */}
         <Route path="/Dashboard-Adm" element={<PrivateRoute element={<Dashboard_Adm />} role="admin" />} />
