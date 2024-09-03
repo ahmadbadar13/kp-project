@@ -329,8 +329,6 @@ const DivisiHP_Adm = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_div_hp}</p>
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_div_hp}</p>
                   <button
                   onClick={() => openModal(user.id)}
                   className="bg-blue-500 text-white px-4 py-2 rounded"
