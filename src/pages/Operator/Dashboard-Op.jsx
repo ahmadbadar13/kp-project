@@ -290,10 +290,10 @@ const Dashboard_Op = () => {
       <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-3 w-full max-w-5xl mx-auto">
         
         {/* Card 1 */}
-        <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="w-24 h-24 mb-4">
-            <div className="bg-gray-200 w-full h-full rounded-full flex items-center justify-center">
-              <FaPlus className="w-12 h-12 text-black-500" />
+            <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
+              <FaPlus className="w-12 h-12 text-black-900" />
             </div>
           </div>
           <div className="text-center">
@@ -303,10 +303,10 @@ const Dashboard_Op = () => {
         </div>
         
         {/* Card 2 */}
-        <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="w-24 h-24 mb-4">
-            <div className="bg-gray-200 w-full h-full rounded-full flex items-center justify-center">
-              <FaEdit className="w-12 h-12 text-black-500" />
+            <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
+              <FaEdit className="w-12 h-12 text-black-900" />
             </div>
           </div>
           <div className="text-center">
@@ -316,10 +316,10 @@ const Dashboard_Op = () => {
         </div>
 
         {/* Card 3 */}
-        <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="w-24 h-24 mb-4">
-            <div className="bg-gray-200 w-full h-full rounded-full flex items-center justify-center">
-              <FaTrash className="w-12 h-12 text-black-500" />
+            <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
+              <FaTrash className="w-12 h-12 text-black-900" />
             </div>
           </div>
           <div className="text-center">
@@ -333,7 +333,7 @@ const Dashboard_Op = () => {
 
       {/* Start: Struktur Organisasi */}
       <div className="p-6 bg-white min-h-screen mb-11">
-        <h1 className="text-2xl font-bold text-center mb-6">Struktur Organisasi</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">Profile Anggota KPU Kota Cimahi</h1>
         <div className="flex flex-col items-center space-y-4">
           {/* Ketua */}
           {struktur.length > 0 && struktur[0] ? (
