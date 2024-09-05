@@ -5,6 +5,10 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
 const app = express();
+const buildPath = path.join(__dirname, '..', 'build');
+
+// Menggunakan folder 'build' sebagai static files
+app.use(express.static(buildPath));
 
 // Konfigurasi koneksi database
 // const db = mysql.createConnection({
@@ -90,7 +94,7 @@ app.post('/register', async (req, res) => {
     res.status(500).json({ success: false, message: 'Terjadi kesalahan saat registrasi' });
   }
 });
-
+app.use(express.static("../app/dist"));
 app.listen(5000, () => {
   console.log('Login server running on port 5000');
 });
