@@ -48,7 +48,10 @@ const upload = multer({
 });
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: '*', // Mengizinkan semua origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // ===================================== Start endpoint buat halaman Divisi HP =====================================
