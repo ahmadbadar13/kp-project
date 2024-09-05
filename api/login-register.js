@@ -35,9 +35,10 @@ app.use(bodyParser.json());
 app.use(cors({
   origin: '*', // Mengizinkan semua origin
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// app.options('*', cors());
+app.options('*', cors());
 
 // Endpoint untuk memeriksa kredensial
 app.post('/login', (req, res) => {
