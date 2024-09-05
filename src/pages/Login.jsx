@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://66d936a193eedba52081b622--helpful-cuchufli-e946ba.netlify.app/login', { email, password });
+      const response = await axios.post('https://helpful-cuchufli-e946ba.netlify.app/login', { email, password });
 
       if (response.data.success) {
         const { role } = response.data;
