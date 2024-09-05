@@ -32,20 +32,13 @@ db.connect((err) => {
 
 app.use(bodyParser.json());
 // app.use(cors());
-const allowedOrigins = ['https://66d938355cc752ae204a260f--helpful-cuchufli-e946ba.netlify.app', 'https://another-origin.com'];
-
 app.use(cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Origin not allowed by CORS'));
-    }
-  }
+  origin: '*', // Mengizinkan semua origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.options('*', cors()); // mengizinkan preflight request
-
+app.options('*', cors());
 
 // Endpoint untuk memeriksa kredensial
 app.post('/login', (req, res) => {
