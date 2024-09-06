@@ -25,7 +25,7 @@ const DivisiTP_Adm = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/divisi-tp-adm');
+      const response = await axios.get('http://localhost:5000/api/divisi-tp-adm');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -59,7 +59,7 @@ const DivisiTP_Adm = () => {
         }
       });
   
-      await axios.post('http://localhost:5001/api/tambah-komentar-divisi-tp', {
+      await axios.post('http://localhost:5000/api/tambah-komentar-divisi-tp', {
         userId: selectedUserId,
         comment: comment,
       });
@@ -323,7 +323,7 @@ const DivisiTP_Adm = () => {
                 <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5001" + user.foto_div_tp}
+                      src={"http://localhost:5000" + user.foto_div_tp}
                       alt={user.nama_div_tp}
                       className="w-full h-full object-cover"
                     />

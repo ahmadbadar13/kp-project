@@ -65,7 +65,7 @@ const SubBagianHSDM_Op = () => {
         }
       });
   
-      const response = await axios.post('http://localhost:5002/api/sub-bagian-hsdm-op', formData);
+      const response = await axios.post('http://localhost:5000/api/sub-bagian-hsdm-op', formData);
   
       if (response.data.success) {
         // Tampilkan notifikasi berhasil
@@ -119,7 +119,7 @@ const SubBagianHSDM_Op = () => {
         }
       });
   
-      const response = await axios.put(`http://localhost:5002/api/sub-bagian-hsdm-op/${editingUser.id}`, formData);
+      const response = await axios.put(`http://localhost:5000/api/sub-bagian-hsdm-op/${editingUser.id}`, formData);
   
       if (response.data.success) {
         // Tampilkan notifikasi berhasil
@@ -167,7 +167,7 @@ const SubBagianHSDM_Op = () => {
   
       if (result.isConfirmed) {
         // Jika anggota mengonfirmasi penghapusan
-        await axios.delete(`http://localhost:5002/api/sub-bagian-hsdm-op/${userId}`);
+        await axios.delete(`http://localhost:5000/api/sub-bagian-hsdm-op/${userId}`);
   
         // Tampilkan animasi berhasil
         Swal.fire(
@@ -210,7 +210,7 @@ const SubBagianHSDM_Op = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/api/sub-bagian-hsdm-op');
+      const response = await axios.get('http://localhost:5000/api/sub-bagian-hsdm-op');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -219,7 +219,7 @@ const SubBagianHSDM_Op = () => {
 
   const fetchComments = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5002/api/komentar-sb-hsdm/${userId}`);
+        const response = await axios.get(`http://localhost:5000/api/komentar-sb-hsdm/${userId}`);
         setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
     } catch (error) {
         console.error('Error fetching comments:', error);
@@ -228,7 +228,7 @@ const SubBagianHSDM_Op = () => {
 
   const deleteComment = async (userId) => {
       try {
-          await axios.delete(`http://localhost:5002/api/komentar-sb-hsdm/${userId}`);
+          await axios.delete(`http://localhost:5000/api/komentar-sb-hsdm/${userId}`);
           setComments((prevComments) => ({ ...prevComments, [userId]: null }));
           setActiveComments(null);
       } catch (error) {
@@ -666,7 +666,7 @@ const SubBagianHSDM_Op = () => {
                   </button>
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5002" + user.foto_sb_hsdm}
+                      src={"http://localhost:5000" + user.foto_sb_hsdm}
                       alt={user.nama_sb_hsdm}
                       className="w-full h-full object-cover"
                     />

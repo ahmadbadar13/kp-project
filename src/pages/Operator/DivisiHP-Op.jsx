@@ -61,7 +61,7 @@ const DivisiHP_Op = () => {
         }
       });
   
-      const response = await axios.post('http://localhost:5002/api/divisi-hp-op', formData);
+      const response = await axios.post('http://localhost:5000/api/divisi-hp-op', formData);
   
       if (response.data.success) {
         // Tampilkan notifikasi berhasil
@@ -113,7 +113,7 @@ const DivisiHP_Op = () => {
         }
       });
   
-      const response = await axios.put(`http://localhost:5002/api/divisi-hp-op/${editingUser.id}`, formData);
+      const response = await axios.put(`http://localhost:5000/api/divisi-hp-op/${editingUser.id}`, formData);
   
       if (response.data.success) {
         // Tampilkan notifikasi berhasil
@@ -161,7 +161,7 @@ const DivisiHP_Op = () => {
   
       if (result.isConfirmed) {
         // Jika anggota mengonfirmasi penghapusan
-        await axios.delete(`http://localhost:5002/api/divisi-hp-op/${userId}`);
+        await axios.delete(`http://localhost:5000/api/divisi-hp-op/${userId}`);
   
         // Tampilkan animasi berhasil
         Swal.fire(
@@ -204,7 +204,7 @@ const DivisiHP_Op = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5002/api/divisi-hp-op');
+      const response = await axios.get('http://localhost:5000/api/divisi-hp-op');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -213,7 +213,7 @@ const DivisiHP_Op = () => {
 
   const fetchComments = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5002/api/komentar-divisi-hp/${userId}`);
+        const response = await axios.get(`http://localhost:5000/api/komentar-divisi-hp/${userId}`);
         setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
     } catch (error) {
         console.error('Error fetching comments:', error);
@@ -222,7 +222,7 @@ const DivisiHP_Op = () => {
 
   const deleteComment = async (userId) => {
       try {
-          await axios.delete(`http://localhost:5002/api/komentar-divisi-hp/${userId}`);
+          await axios.delete(`http://localhost:5000/api/komentar-divisi-hp/${userId}`);
           setComments((prevComments) => ({ ...prevComments, [userId]: null }));
           setActiveComments(null);
       } catch (error) {
@@ -614,7 +614,7 @@ const DivisiHP_Op = () => {
                   </button>
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5002" + user.foto_div_hp}
+                      src={"http://localhost:5000" + user.foto_div_hp}
                       alt={user.nama_div_hp}
                       className="w-full h-full object-cover"
                     />

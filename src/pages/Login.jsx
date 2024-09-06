@@ -17,27 +17,25 @@ const Login = () => {
   };
 
   const axiosInstance = axios.create({
-    baseURL: 'https://helpful-cuchufli-e946ba.netlify.app', // Ganti dengan URL server backend Anda
+    baseURL: 'http://localhost:5000', // Ganti dengan URL server backend Anda
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     },
-    withCredentials: true, // Jika server mendukung credentials (misalnya untuk cookies)
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Mengirim request login
+      // Mengirim request login dengan format JSON
       const response = await axiosInstance.post('/login', { email, password });
   
-      if (response.data.success) {
-        const { role } = response.data;
+      if (response.data.message === 'Login berhasil') {
+        const { role } = response.data.data;
         sessionStorage.setItem('role', role);
   
         await Swal.fire({
-          position: "top-center",
+          // position: "top-center",
           icon: "success",
           title: `Selamat Datang ${role.charAt(0).toUpperCase() + role.slice(1)}!`,
           showConfirmButton: false,
@@ -62,43 +60,6 @@ const Login = () => {
       });
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await axios.post('https://helpful-cuchufli-e946ba.netlify.app/login', { email, password });
-
-  //     if (response.data.success) {
-  //       const { role } = response.data;
-  //       sessionStorage.setItem('role', role);
-
-  //       await Swal.fire({
-  //         position: "top-center",
-  //         icon: "success",
-  //         title: `Selamat Datang ${role.charAt(0).toUpperCase() + role.slice(1)}!`,
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       });
-
-  //       navigate(role === 'admin' ? '/Dashboard-Adm' : '/Dashboard-Op');
-  //     } else {
-  //       setError('Kredensial tidak valid');
-  //       await Swal.fire({
-  //         icon: "error",
-  //         title: "Oops...",
-  //         text: "Email atau password tidak valid",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     setError('Terjadi kesalahan');
-  //     await Swal.fire({
-  //       icon: "error",
-  //       title: "Oops...",
-  //       text: "Terjadi kesalahan!",
-  //     });
-  //   }
-  // };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

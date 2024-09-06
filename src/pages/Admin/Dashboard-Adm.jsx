@@ -18,7 +18,7 @@ const Dashboard_Adm = () => {
   useEffect(() => {
     // Fetch data from API
     axios
-      .get('http://localhost:5002/api/struktur-organisasi')
+      .get('http://localhost:5000/api/struktur-organisasi')
       .then((response) => {
         setStruktur(response.data);
         setLoading(false);
@@ -327,7 +327,7 @@ const Dashboard_Adm = () => {
           {struktur.length > 0 && struktur[0] ? (
             <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 flex flex-col items-center justify-center">
               <img
-                src={`http://localhost:5002${struktur[0].foto}`}
+                src={`http://localhost:5000${struktur[0].foto}`}
                 alt={struktur[0].nama || 'Ketua'}
                 className="w-32 h-32 rounded-full mb-2 object-cover"
               />
@@ -347,7 +347,7 @@ const Dashboard_Adm = () => {
                 item && item.foto ? (
                   <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center">
                     <img
-                      src={`http://localhost:5002${item.foto}`}
+                      src={`http://localhost:5000${item.foto}`}
                       alt={item.nama || 'Anggota'}
                       className="w-24 h-24 rounded-full mb-2 object-cover"
                     />
