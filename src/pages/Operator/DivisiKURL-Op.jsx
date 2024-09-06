@@ -616,7 +616,7 @@ const DivisiKURL_Op = () => {
                   </button>
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5000/assets/" + user.foto_div_kurl}
+                      src={"http://localhost:5000" + user.foto_div_kurl}
                       alt={user.nama_div_kurl}
                       className="w-full h-full object-cover"
                     />
