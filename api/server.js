@@ -13,20 +13,20 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
 // Konfigurasi koneksi database
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'kp_project'
-});
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '',
+//   database: 'kp_project'
+// });
 
 // Production database configuration
-// const db = mysql.createConnection({
-//   host: 'bz4kzerb13skvzsklu2n-mysql.services.clever-cloud.com',
-//   user: 'uteofvtkhgj76a2o',
-//   password: 'WW8UkNEM2x3438ppvsUv',
-//   database: 'bz4kzerb13skvzsklu2n'
-// });
+const db = mysql.createConnection({
+  host: 'bz4kzerb13skvzsklu2n-mysql.services.clever-cloud.com',
+  user: 'uteofvtkhgj76a2o',
+  password: 'WW8UkNEM2x3438ppvsUv',
+  database: 'bz4kzerb13skvzsklu2n'
+});
 
 db.connect((err) => {
   if (err) {
@@ -37,24 +37,23 @@ db.connect((err) => {
 });
 
 // Multer configuration for file uploads without file size limit
+// Multer configuration
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       const uploadPath = path.join(__dirname, '../uploads');
-      // Create the uploads directory if it doesn't exist
+      // Check if the path exists or if there's a permission issue
+      console.log('Upload path:', uploadPath);
       if (!fs.existsSync(uploadPath)) {
-        fs.mkdirSync(uploadPath);
+        fs.mkdirSync(uploadPath, { recursive: true });
       }
       cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-      // Generate a unique filename with a timestamp and original file extension
       cb(null, Date.now() + path.extname(file.originalname));
     }
   }),
-  // Remove the limits option to allow files of any size
   fileFilter: (req, file, cb) => {
-    // Only accept .jpg and .png file types
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
     } else {
@@ -69,6 +68,11 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 app.options('*', cors());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -526,9 +530,12 @@ app.post('/api/divisi-hp-op', upload.single('photo'), (req, res) => {
   const { name } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO divisi_hp (nama_div_hp, foto_div_hp) VALUES (?, ?)';
-  db.query(query, [name, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const query = 'INSERT INTO divisi_hp (nama_div_hp, foto_div_hp, komentar_div_hp) VALUES (?, ?, ?)';
+  db.query(query, [name, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into divisi_hp:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -631,9 +638,12 @@ app.post('/api/divisi-kurl-op', upload.single('photo'), (req, res) => {
   const { name } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO divisi_kurl (nama_div_kurl, foto_div_kurl) VALUES (?, ?)';
-  db.query(query, [name, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const query = 'INSERT INTO divisi_kurl (nama_div_kurl, foto_div_kurl, komentar_div_kurl) VALUES (?, ?, ?)';
+  db.query(query, [name, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into divisi_kurl:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -736,9 +746,12 @@ app.post('/api/divisi-pdi-op', upload.single('photo'), (req, res) => {
   const { name } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO divisi_pdi (nama_div_pdi, foto_div_pdi) VALUES (?, ?)';
-  db.query(query, [name, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const query = 'INSERT INTO divisi_pdi (nama_div_pdi, foto_div_pdi, komentar_div_pdi) VALUES (?, ?, ?)';
+  db.query(query, [name, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into divisi_pdi:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -841,9 +854,12 @@ app.post('/api/divisi-sppp_sdm-op', upload.single('photo'), (req, res) => {
   const { name } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO divisi_sppp_sdm (nama_div_sppp_sdm, foto_div_sppp_sdm) VALUES (?, ?)';
-  db.query(query, [name, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const query = 'INSERT INTO divisi_sppp_sdm (nama_div_sppp_sdm, foto_div_sppp_sdm, komentar_div_sppp_sdm) VALUES (?, ?, ?)';
+  db.query(query, [name, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into divisi_sppp_sdm:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -946,9 +962,12 @@ app.post('/api/divisi-tp-op', upload.single('photo'), (req, res) => {
   const { name } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO divisi_tp (nama_div_tp, foto_div_tp) VALUES (?, ?)';
-  db.query(query, [name, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  const query = 'INSERT INTO divisi_tp (nama_div_tp, foto_div_tp, komentar_div_tp) VALUES (?, ?, ?)';
+  db.query(query, [name, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into divisi_tp:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -1051,9 +1070,17 @@ app.post('/api/sekretaris-op', upload.single('photo'), (req, res) => {
   const { name, nip } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
-  const query = 'INSERT INTO sekretaris (nama_sekretaris, nip_sekretaris, foto_sekretaris) VALUES (?, ?, ?)';
-  db.query(query, [name, nip, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+  if (!name || !nip) {
+    return res.status(400).json({ error: 'Nama dan NIP diperlukan' });
+  }
+
+  const query = 'INSERT INTO sekretaris (nama_sekretaris, nip_sekretaris, foto_sekretaris, komentar_sekretaris) VALUES (?, ?, ?, ?)';
+
+  db.query(query, [name, nip, photo, ''], (err, results) => {
+    if (err) {
+      console.error('Error inserting data into sekretaris:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -1157,9 +1184,17 @@ app.post('/api/sub-bagian-hsdm-op', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
+  if (!name || !nip || !position) {
+    return res.status(400).json({ error: 'Nama, NIP, dan posisi diperlukan' });
+  }
+
   const query = 'INSERT INTO sub_bagian_hsdm (nama_sb_hsdm, nip_sb_hsdm, posisi_sb_hsdm, foto_sb_hsdm) VALUES (?, ?, ?, ?)';
+
   db.query(query, [name, nip, position, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('Error inserting data into sub_bagian_hsdm:', err.message);
+      return res.status(500).json({ error: 'Gagal menambahkan data. Silakan coba lagi.' });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -1264,9 +1299,17 @@ app.post('/api/sub-bagian-kul-op', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
+  if (!name || !nip || !position) {
+    return res.status(400).json({ error: 'Nama, NIP, dan posisi diperlukan' });
+  }
+
   const query = 'INSERT INTO sub_bagian_kul (nama_sb_kul, nip_sb_kul, posisi_sb_kul, foto_sb_kul) VALUES (?, ?, ?, ?)';
+
   db.query(query, [name, nip, position, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('Error inserting data into sub_bagian_hsdm:', err.message);
+      return res.status(500).json({ error: 'Gagal menambahkan data. Silakan coba lagi.' });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -1371,9 +1414,17 @@ app.post('/api/sub-bagian-pdi-op', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
+  if (!name || !nip || !position) {
+    return res.status(400).json({ error: 'Nama, NIP, dan posisi diperlukan' });
+  }
+
   const query = 'INSERT INTO sub_bagian_pdi (nama_sb_pdi, nip_sb_pdi, posisi_sb_pdi, foto_sb_pdi) VALUES (?, ?, ?, ?)';
+
   db.query(query, [name, nip, position, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('Error inserting data into sub_bagian_pdi:', err.message);
+      return res.status(500).json({ error: 'Gagal menambahkan data. Silakan coba lagi.' });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
@@ -1478,9 +1529,17 @@ app.post('/api/sub-bagian-tppph-op', upload.single('photo'), (req, res) => {
   const { name, nip, position } = req.body;
   const photo = req.file ? `/uploads/${req.file.filename}` : null;
 
+  if (!name || !nip || !position) {
+    return res.status(400).json({ error: 'Nama, NIP, dan posisi diperlukan' });
+  }
+
   const query = 'INSERT INTO sub_bagian_tppph (nama_sb_tppph, nip_sb_tppph, posisi_sb_tppph, foto_sb_tppph) VALUES (?, ?, ?, ?)';
+
   db.query(query, [name, nip, position, photo], (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('Error inserting data into sub_bagian_tppph:', err.message);
+      return res.status(500).json({ error: 'Gagal menambahkan data. Silakan coba lagi.' });
+    }
     res.status(201).json({ success: true, message: 'User added successfully' });
   });
 });
