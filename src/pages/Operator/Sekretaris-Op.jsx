@@ -669,6 +669,19 @@ const Sekretaris_Op = () => {
           </div>
         )}
         {/* End: Card Read Data */}
+
+        {/* Start: Footer */}
+        <footer class="bg-red dark:bg-gray-900 mt-10">
+          <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+              <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+              <div class="sm:flex sm:items-center sm:justify-center"> {/* Ubah sm:justify-between menjadi sm:justify-center */}
+                  <span class="text-md text-gray-500 text-center dark:text-gray-400"> 
+                    © KPU Kota Cimahi {new Date().getFullYear()}. All Rights Reserved.
+                  </span>
+              </div>
+          </div>
+        </footer>
+        {/* End: Footer */}
       </div>
     </div>
   );

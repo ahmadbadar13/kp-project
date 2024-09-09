@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { HiOutlineLogout } from "react-icons/hi";
 
 Modal.setAppElement('#root');
 
@@ -371,9 +372,10 @@ const SubBagianTPPPH_Op = () => {
                   <li>
                     <button 
                       onClick={handleLogout} 
-                      className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
+                      className="flex items-center px-4 py-2 hover:bg-gray-200 rounded text-center"
                     >
-                      Logout
+                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" /> 
+                      <span className="text-left">Logout</span> 
                     </button>
                   </li>
                 </ul>
@@ -698,6 +700,19 @@ const SubBagianTPPPH_Op = () => {
           </div>
         )}
         {/* End: Card Read Data */}
+
+        {/* Start: Footer */}
+        <footer class="bg-red dark:bg-gray-900 mt-10">
+          <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+              <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+              <div class="sm:flex sm:items-center sm:justify-center"> {/* Ubah sm:justify-between menjadi sm:justify-center */}
+                  <span class="text-md text-gray-500 text-center dark:text-gray-400"> 
+                    © KPU Kota Cimahi {new Date().getFullYear()}. All Rights Reserved.
+                  </span>
+              </div>
+          </div>
+        </footer>
+        {/* End: Footer */}
       </div>
     </div>
   );
