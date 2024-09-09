@@ -15,19 +15,35 @@ const Dashboard_Adm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isTransparent, setIsTransparent] = useState(true);
 
   useEffect(() => {
     // Fetch data from API
-    axios
-      .get('http://localhost:5000/api/struktur-organisasi')
-      .then((response) => {
+    axios.get('http://localhost:5000/api/struktur-organisasi')
+      .then(response => {
         setStruktur(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setError(error.message || 'An error occurred');
         setLoading(false);
       });
+
+      // Handle scroll event to toggle transparency
+      const handleScroll = () => {
+        if (window.scrollY > 50) {
+          setIsTransparent(false);
+        } else {
+          setIsTransparent(true);
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll);
+
+      // Clean up event listener on component unmount
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
   }, []);
 
   // Inline style for centering and enlarging the spinner
@@ -155,7 +171,7 @@ const Dashboard_Adm = () => {
   return (
     <div>
       {/* Start: Navbar */}
-      <nav className="bg-red-700 p-4 sticky top-0 z-50">
+      <nav className={`bg-red-700 p-4 sticky top-0 z-50 transition-opacity duration-300 ${isTransparent ? 'bg-opacity-100' : 'bg-opacity-80'}`}>
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
           <Link to="/Dashboard-Adm" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
@@ -165,6 +181,7 @@ const Dashboard_Adm = () => {
           </Link>
           <div className="hidden md:flex md:items-center flex-grow justify-center">
             <ul className="font-medium text-lg flex space-x-12">
+              {/* Dropdown untuk Divisi */}
               <li className="relative">
                 <button
                   onClick={() => toggleDropdown('divisi')}
@@ -174,6 +191,7 @@ const Dashboard_Adm = () => {
                 </button>
                 {activeDropdown === 'divisi' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
+                    {/* Daftar Divisi */}
                     <li>
                       <Link to="/DivisiKURL-Adm" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
                     </li>
@@ -192,11 +210,13 @@ const Dashboard_Adm = () => {
                   </ul>
                 )}
               </li>
+              {/* Link Sekretaris */}
               <li>
                 <Link to="/Sekretaris-Adm" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                   Sekretaris
                 </Link>
               </li>
+              {/* Dropdown untuk Sub Bagian */}
               <li className="relative">
                 <button
                   onClick={() => toggleDropdown('subBagian')}
@@ -206,6 +226,7 @@ const Dashboard_Adm = () => {
                 </button>
                 {activeDropdown === 'subBagian' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
+                    {/* Daftar Sub Bagian */}
                     <li>
                       <Link to="/SubBagianTPPPH-Adm" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
                     </li>
@@ -231,9 +252,7 @@ const Dashboard_Adm = () => {
               >
                 Hallo, Admin!
                 <svg
-                  className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${
-                    adminDropdownOpen ? 'transform rotate-180' : ''
-                  }`}
+                  className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${adminDropdownOpen ? 'transform rotate-180' : ''}`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
