@@ -23,6 +23,7 @@ const DivisiKURL_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
+  const [isTransparent, setIsTransparent] = useState(true);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
@@ -242,6 +243,19 @@ const DivisiKURL_Op = () => {
 
   useEffect(() => {
     fetchUsers();
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsTransparent(false);
+      } else {
+        setIsTransparent(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -268,7 +282,7 @@ const DivisiKURL_Op = () => {
   return (
     <div>
       {/* Start: Navbar */}
-      <nav className="bg-red-700 p-4 sticky top-0 z-50">
+      <nav className={`bg-red-700 p-4 sticky top-0 z-50 transition-opacity duration-300 ${isTransparent ? 'bg-opacity-100' : 'bg-opacity-80'}`}>
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
           <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />

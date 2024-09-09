@@ -23,12 +23,12 @@ const SubBagianTPPPH_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
-
+  const [isTransparent, setIsTransparent] = useState(true);
+  
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
   const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
-
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
   const navigate = useNavigate();
@@ -248,6 +248,19 @@ const SubBagianTPPPH_Op = () => {
 
   useEffect(() => {
     fetchUsers();
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsTransparent(false);
+      } else {
+        setIsTransparent(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -274,7 +287,7 @@ const SubBagianTPPPH_Op = () => {
   return (
     <div>
       {/* Start: Navbar */}
-      <nav className="bg-red-700 p-4 sticky top-0 z-50">
+      <nav className={`bg-red-700 p-4 sticky top-0 z-50 transition-opacity duration-300 ${isTransparent ? 'bg-opacity-100' : 'bg-opacity-80'}`}>
         <div className="max-w-screen-xl flex items-center justify-between mx-auto">
           <Link to="/Dashboard-Op" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={Logo} className="h-16" alt="Logo KPU" />
@@ -294,19 +307,29 @@ const SubBagianTPPPH_Op = () => {
                 {activeDropdown === 'divisi' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                     <li>
-                      <Link to="/DivisiKURL-Op" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</Link>
+                      <Link to="/DivisiKURL-Op" className="block py-1 px-4 hover:bg-gray-200 rounded text-sm">
+                        Divisi Keuangan, Umum, Rumah Tangga, dan Logistik
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Teknis Penyelenggaraan</Link>
+                      <Link to="/DivisiTP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Divisi Teknis Penyelenggaraan
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Perencanaan, Data, & Informasi</Link>
+                      <Link to="/DivisiPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Divisi Perencanaan, Data, & Informasi
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Hukum dan Pengawasan</Link>
+                      <Link to="/DivisiHP-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Divisi Hukum dan Pengawasan
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/DivisiSPPP_SDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM</Link>
+                      <Link to="/DivisiSPPP_SDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Divisi Sosialisasi, Pendidikan Pemilih, Parmas, & SDM
+                      </Link>
                     </li>
                   </ul>
                 )}
@@ -326,16 +349,24 @@ const SubBagianTPPPH_Op = () => {
                 {activeDropdown === 'subBagian' && (
                   <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-48">
                     <li>
-                      <Link to="/SubBagianTPPPH-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas</Link>
+                      <Link to="/SubBagianTPPPH-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi, & Hupmas
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Perencanaan, Data & Informasi</Link>
+                      <Link to="/SubBagianPDI-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Sub Bagian Perencanaan, Data & Informasi
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianHSDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Hukum & SDM</Link>
+                      <Link to="/SubBagianHSDM-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Sub Bagian Hukum & SDM
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/SubBagianKUL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">Sub Bagian Keuangan, Umum, & Logistik</Link>
+                      <Link to="/SubBagianKUL-Op" className="block py-2 px-4 hover:bg-gray-200 rounded text-sm">
+                        Sub Bagian Keuangan, Umum, & Logistik
+                      </Link>
                     </li>
                   </ul>
                 )}
@@ -370,12 +401,12 @@ const SubBagianTPPPH_Op = () => {
               {adminDropdownOpen && (
                 <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                    <button 
-                      onClick={handleLogout} 
+                    <button
+                      onClick={handleLogout}
                       className="flex items-center px-4 py-2 hover:bg-gray-200 rounded text-center"
                     >
-                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" /> 
-                      <span className="text-left">Logout</span> 
+                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" />
+                      <span className="text-left">Logout</span>
                     </button>
                   </li>
                 </ul>
