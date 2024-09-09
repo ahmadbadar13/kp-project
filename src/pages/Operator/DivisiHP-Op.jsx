@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { HiOutlineLogout } from "react-icons/hi";
 
 Modal.setAppElement('#root');
 
@@ -363,12 +364,13 @@ const DivisiHP_Op = () => {
               {adminDropdownOpen && (
                 <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                  <button 
-                    onClick={handleLogout} 
-                    className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
-                  >
-                    Logout
-                  </button>
+                    <button 
+                      onClick={handleLogout} 
+                      className="flex items-center px-4 py-2 hover:bg-gray-200 rounded text-center"
+                    >
+                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" /> 
+                      <span className="text-left">Logout</span> 
+                    </button>
                   </li>
                 </ul>
               )}

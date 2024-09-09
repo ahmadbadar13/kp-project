@@ -5,6 +5,7 @@ import BackgroundImage from '../../assets/bg-KPU.png';
 import { FaEye, FaCog } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { HiOutlineLogout } from "react-icons/hi";
 
 const Dashboard_Adm = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,8 +30,90 @@ const Dashboard_Adm = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // Inline style for centering and enlarging the spinner
+  const containerStyle = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    flexDirection: 'column',
+    textAlign: 'center',
+  };
+
+  // Inline style for a circular error icon with a crossed Wi-Fi symbol
+  const errorIconStyle = {
+    width: '120px',
+    height: '120px',
+    borderRadius: '50%',
+    backgroundColor: '#f44336', // Red color
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '20px',
+    animation: 'shake 0.5s, fadeIn 1s ease-out',
+  };
+
+  // SVG for the crossed Wi-Fi icon
+  const wifiIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="white"
+      width="60px"
+      height="60px"
+    >
+      {/* Wi-Fi Icon */}
+      <path d="M12,18c-0.55,0-1,0.45-1,1s0.45,1,1,1s1-0.45,1-1S12.55,18,12,18z M12,12c-2.97,0-5.65,1.16-7.71,3.05L4.59,17.3 C6.32,15.67,9.01,14.5,12,14.5s5.68,1.17,7.41,2.8l0.3-0.25C17.65,13.16,14.97,12,12,12z M12,8c-4.42,0-8,1.75-10.71,4.58 l1.42,1.41C5.11,11.79,8.38,10.5,12,10.5s6.89,1.29,9.29,3.49l1.42-1.41C20,9.75,16.42,8,12,8z M12,4C6.48,4,1.51,6.33,0,9.68 l1.49,1.33C4.15,8.4,7.98,6.5,12,6.5s7.85,1.9,10.51,4.51L24,9.68C22.49,6.33,17.52,4,12,4z" />
+      {/* Crossed Line */}
+      <line x1="4" y1="4" x2="20" y2="20" stroke="white" strokeWidth="2" />
+    </svg>
+  );
+
+  // Keyframes for the error icon shake and fade in
+  const shakeKeyframes = `
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+    
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  `;
+
+  const errorTextStyle = {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: '24px',
+    animation: 'fadeIn 1s ease-out',
+  };
+
+  if (loading) {
+    return (
+      <div style={containerStyle}>
+        <div style={{ width: '80px', height: '80px', borderRadius: '50%', border: '6px solid rgba(0,0,0,0.1)', borderLeftColor: '#09f', animation: 'spin 1s linear infinite' }}></div>
+        <p style={{ fontSize: '20px' }}>Loading...</p>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <style>{shakeKeyframes}</style>
+        <div style={containerStyle}>
+          {/* Error icon with Wi-Fi crossed SVG and a shake effect */}
+          <div style={errorIconStyle}>
+            {wifiIcon}
+          </div>
+          <p style={errorTextStyle}>Network Error</p>
+        </div>
+      </>
+    );
+  }
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -168,12 +251,13 @@ const Dashboard_Adm = () => {
               {adminDropdownOpen && (
                 <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                   <li>
-                  <button 
-                    onClick={handleLogout} 
-                    className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
-                  >
-                    Logout
-                  </button>
+                    <button 
+                      onClick={handleLogout} 
+                      className="flex items-center px-4 py-2 hover:bg-gray-200 rounded text-center"
+                    >
+                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" /> 
+                      <span className="text-left">Logout</span> 
+                    </button>
                   </li>
                 </ul>
               )}

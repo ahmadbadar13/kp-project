@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { HiOutlineLogout } from "react-icons/hi";
 
 Modal.setAppElement('#root');
 
@@ -365,9 +366,10 @@ const DivisiKURL_Op = () => {
                   <li>
                     <button 
                       onClick={handleLogout} 
-                      className="block px-4 py-2 hover:bg-gray-200 rounded text-center"
+                      className="flex items-center px-4 py-2 hover:bg-gray-200 rounded text-center"
                     >
-                      Logout
+                      <HiOutlineLogout size={20} className="mr-2 text-gray-800" /> 
+                      <span className="text-left">Logout</span> 
                     </button>
                   </li>
                 </ul>
