@@ -375,7 +375,7 @@ app.post('/api/tambah-komentar-sb-hsdm', (req, res) => {
       return res.status(400).json({ error: 'User ID and comment are required' });
   }
 
-  const query = 'UPDATE sub_bagian_hsdm SET komentar_sb_hsdm = ?, isRead_sb_hsdm = FALSE WHERE id = ?';
+  const query = 'UPDATE sub_bagian_hsdm SET komentar_sb_hsdm = ? WHERE id = ?';
   db.query(query, [comment, userId], (err, results) => {
       if (err) {
           console.error('Error executing query:', err);
@@ -387,33 +387,6 @@ app.post('/api/tambah-komentar-sb-hsdm', (req, res) => {
       res.status(200).json({ message: 'Comment added successfully' });
   });
 });
-
-//Endpoint mengambil komentar yang belum dibaca operator
-app.get('/api/komentar-baru-sb-hsdm', (req, res) => {
-  const query = 'SELECT id, komentar_sb_hsdm FROM divisi_hp WHERE isRead_sb_hsdm = FALSE';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching unread comments:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    res.status(200).json({ comments: results });
-  });
-});
-
-//Endpoint tandai komentar yang sudah dibaca
-app.post('/api/komentar-baca-sb-hsdm/:userId', (req, res) => {
-  const { userId } = req.params;
-
-  const query = 'UPDATE sub_bagian_hsdm SET isRead_sb_hsdm = TRUE WHERE id = ?';
-  db.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('Error updating read status:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    res.status(200).json({ message: 'Comment marked as read' });
-  });
-});
-
 // ===================================== End Endpoint buat halaman Sub Bagian HSDM =====================================
 
 
