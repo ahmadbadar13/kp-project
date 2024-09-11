@@ -23,6 +23,7 @@ const SubBagianHSDM_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
+  const [newCommentCount, setNewCommentCount] = useState(0);
   const [isTransparent, setIsTransparent] = useState(true);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -221,12 +222,25 @@ const SubBagianHSDM_Op = () => {
 
   const fetchComments = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/komentar-sb-hsdm/${userId}`);
-        setComments((prevComments) => ({ ...prevComments, [userId]: response.data.komentar }));
+      const response = await axios.get(`http://localhost:5000/api/komentar-sb-hsdm/${userId}`);
+      const newComments = response.data.komentar;
+  
+      setComments((prevComments) => ({ ...prevComments, [userId]: newComments }));
+  
+      // Update newCommentCount jika ada komentar baru
+      const currentComments = comments[userId] || [];
+      const newCommentCount = newComments.length - currentComments.length;
+  
+      if (newCommentCount > 0) {
+        setNewCommentCount((prevCount) => prevCount + newCommentCount);
+      } else {
+        // Jika tidak ada komentar baru, reset jumlah komentar baru
+        setNewCommentCount(0);
+      }
     } catch (error) {
-        console.error('Error fetching comments:', error);
+      console.error('Error fetching comments:', error);
     }
-  };
+  };  
 
   const deleteComment = async (userId) => {
       try {
@@ -246,6 +260,19 @@ const SubBagianHSDM_Op = () => {
           fetchComments(userId);
       }
   };
+
+  // Animasi untuk lonceng
+  useEffect(() => {
+    if (newCommentCount > 0) {
+      const bellIcon = document.getElementById('notification-bell');
+      if (bellIcon) {
+        bellIcon.classList.add('animate-bounce'); // Tambahkan class animasi saat ada komentar baru
+        setTimeout(() => {
+          bellIcon.classList.remove('animate-bounce'); // Hapus animasi setelah beberapa waktu
+        }, 2000); // Waktu animasi
+      }
+    }
+  }, [newCommentCount]);
 
   useEffect(() => {
     fetchUsers();
@@ -680,6 +707,18 @@ const SubBagianHSDM_Op = () => {
                   >
                     <FontAwesomeIcon icon={faBell} />
                   </button>
+                  {/* Tampilkan jumlah komentar baru atau total komentar sebelum tombol lonceng */}
+                  {newCommentCount[user.id] && newCommentCount[user.id] > 0 ? (
+                    <span className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                      {newCommentCount} {/* Tampilkan jumlah komentar baru */}
+                    </span>
+                  ) : (
+                    comments[user.id] && comments[user.id].length > 0 && (
+                      <span className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                        {comments[user.id].length} {/* Tampilkan jumlah total komentar */}
+                      </span>
+                    )
+                  )}
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5000" + user.foto_sb_hsdm}
@@ -688,7 +727,7 @@ const SubBagianHSDM_Op = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_hsdm}</h2>
-                  { !isNaN(user.nip_sb_hsdm) ? (
+                  {!isNaN(user.nip_sb_hsdm) ? (
                     <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_hsdm}</p>
                   ) : (
                     <p className="text-gray-600 mb-2 text-center">{user.nip_sb_hsdm}</p>
@@ -716,11 +755,11 @@ const SubBagianHSDM_Op = () => {
         {/* End: Card Read Data */}
 
         {/* Start: Footer */}
-        <footer class="bg-red dark:bg-gray-900 mt-10">
-          <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-              <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-              <div class="sm:flex sm:items-center sm:justify-center"> {/* Ubah sm:justify-between menjadi sm:justify-center */}
-                  <span class="text-md text-gray-500 text-center dark:text-gray-400"> 
+        <footer className="bg-red dark:bg-gray-900 mt-10">
+          <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+              <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+              <div className="sm:flex sm:items-center sm:justify-center"> {/* Ubah sm:justify-between menjadi sm:justify-center */}
+                  <span className="text-md text-gray-500 text-center dark:text-gray-400"> 
                     © KPU Kota Cimahi {new Date().getFullYear()}. All Rights Reserved.
                   </span>
               </div>

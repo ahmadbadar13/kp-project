@@ -503,10 +503,10 @@ const Dashboard_Op = () => {
                         <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Website</h2>
                         <ul className="text-gray-500 dark:text-gray-400 font-medium">
                             <li className="mb-4">
-                                <a href="https://www.kpu.go.id/" class="hover:underline">KPU RI</a>
+                                <a href="https://www.kpu.go.id/" className="hover:underline">KPU RI</a>
                             </li>
                             <li className="mb-4">
-                                <a href="https://jdih.kpu.go.id/jabar/cimahi/" class="hover:underline">JDIH KPU Kota Cimahi</a>
+                                <a href="https://jdih.kpu.go.id/jabar/cimahi/" className="hover:underline">JDIH KPU Kota Cimahi</a>
                             </li>
                         </ul>
                     </div>
@@ -528,7 +528,7 @@ const Dashboard_Op = () => {
               <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© KPU Kota Cimahi {new Date().getFullYear()}. All Rights Reserved.
               </span>
               <div className="flex mt-4 sm:justify-center sm:mt-0">
-                <a href="https://www.facebook.com/kpukota.cimahi/" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                <a href="https://www.facebook.com/kpukota.cimahi/" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                   <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M22.676 0H1.324C.592 0 0 .592 0 1.324v21.351C0 23.408.592 24 1.324 24H12.82v-9.294H9.692v-3.618h3.127V8.041c0-3.1 1.895-4.788 4.663-4.788 1.325 0 2.463.099 2.794.142v3.24l-1.917.001c-1.502 0-1.792.713-1.792 1.76v2.309h3.587l-.467 3.617h-3.12V24h6.113c.732 0 1.324-.592 1.324-1.324V1.324C24 .592 23.408 0 22.676 0z"/>
                   </svg>
