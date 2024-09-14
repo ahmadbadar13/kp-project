@@ -230,6 +230,30 @@ const DivisiHP_Op = () => {
       }
   };
 
+  const handleCommentCompletion = (commentId) => {
+    // Cek apakah komentar ada
+    if (!comments[commentId]) {
+      // Jika komentar kosong
+      Swal.fire({
+        title: 'Komentar Kosong',
+        text: 'Tidak ada komentar untuk diselesaikan.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+  
+    // Jika komentar ada
+    Swal.fire({
+      title: 'Komentar Telah Diselesaikan',
+      text: 'Anda telah menyelesaikan komentar ini.',
+      icon: 'success',
+      confirmButtonText: 'OK',
+    }).then(() => {
+      deleteComment(commentId);
+    });
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -350,12 +374,12 @@ const DivisiHP_Op = () => {
                 <p>Tidak ada komentar.</p>
               )}
               <div className="flex justify-center mt-6">
-                <button
-                  onClick={() => deleteComment(activeComments)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
-                >
-                  Selesai
-                </button>
+              <button
+                onClick={() => handleCommentCompletion(activeComments)}
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+              >
+                Selesai
+              </button>
               </div>
             </div>
           </Modal>
