@@ -13,20 +13,20 @@ const buildPath = path.join(__dirname, '..', 'build');
 app.use(express.static(buildPath));
 
 // Konfigurasi koneksi database
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'kp_project'
-});
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '',
+//   database: 'kp_project'
+// });
 
 // Production database configuration
-// const db = mysql.createConnection({
-//   host: 'bz4kzerb13skvzsklu2n-mysql.services.clever-cloud.com',
-//   user: 'uteofvtkhgj76a2o',
-//   password: 'WW8UkNEM2x3438ppvsUv',
-//   database: 'bz4kzerb13skvzsklu2n'
-// });
+const db = mysql.createConnection({
+  host: 'bz4kzerb13skvzsklu2n-mysql.services.clever-cloud.com',
+  user: 'uteofvtkhgj76a2o',
+  password: 'WW8UkNEM2x3438ppvsUv',
+  database: 'bz4kzerb13skvzsklu2n'
+});
 
 db.connect((err) => {
   if (err) {
@@ -36,7 +36,6 @@ db.connect((err) => {
   }
 });
 
-// Multer configuration for file uploads without file size limit
 // Multer configuration
 const upload = multer({
   storage: multer.diskStorage({
@@ -62,6 +61,7 @@ const upload = multer({
   }
 });
 
+// Middleware setup
 app.use(bodyParser.json());
 app.use(cors({
   origin: '*', // Allow all origins (consider narrowing this in production)
@@ -69,6 +69,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
