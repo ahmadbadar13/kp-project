@@ -8,7 +8,7 @@ const NavAdmin = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
-    const [isTransparent, setIsTransparent] = useState(true);
+    // const [isTransparent, setIsTransparent] = useState(true);
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
     const closeMenu = () => setMenuOpen(false);
@@ -17,18 +17,18 @@ const NavAdmin = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const handleScroll = () => {
-        if (window.scrollY > 50) {
-            setIsTransparent(false);
-        } else {
-            setIsTransparent(true);
-        }
-        };
+        // const handleScroll = () => {
+        // if (window.scrollY > 50) {
+        //     setIsTransparent(false);
+        // } else {
+        //     setIsTransparent(true);
+        // }
+        // };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-        window.removeEventListener('scroll', handleScroll);
-        };
+        // window.addEventListener('scroll', handleScroll);
+        // return () => {
+        // window.removeEventListener('scroll', handleScroll);
+        // };
     }, []);
 
     const handleLogout = () => {
