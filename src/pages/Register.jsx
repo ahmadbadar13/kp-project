@@ -31,7 +31,7 @@ const Register = () => {
 
         try {
             // Memanggil API register
-            const response = await axios.post('http://localhost:5000/usersCreate', { email, role, password });
+            const response = await axios.post('http://localhost:5000/register', { email, role, password });
 
             if (response.data.success) {
                 await Swal.fire({
