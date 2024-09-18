@@ -19,7 +19,6 @@ const SubBagianHSDM_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
-  const [newCommentCount, setNewCommentCount] = useState(0);
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
