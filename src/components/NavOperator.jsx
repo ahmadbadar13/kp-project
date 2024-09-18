@@ -7,13 +7,13 @@ import { HiOutlineLogout } from "react-icons/hi";
 const NavOperator = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
-    const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+    const [operatorDropdownOpen, setOperatorDropdownOpen] = useState(false);
     // const [isTransparent, setIsTransparent] = useState(true);
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
     const closeMenu = () => setMenuOpen(false);
     const toggleDropdown = (dropdown) => setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-    const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
+    const toggleOperatorDropdown = () => setOperatorDropdownOpen(!operatorDropdownOpen);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -126,13 +126,13 @@ const NavOperator = () => {
                 <div className="hidden md:flex md:items-center">
                     <div className="relative">
                     <button
-                        onClick={toggleAdminDropdown}
+                        onClick={toggleOperatorDropdown}
                         className="text-white font-medium text-lg flex items-center focus:outline-none"
                     >
-                        Hallo, Admin!
+                        Hallo, Operator!
                         <svg
                         className={`w-2.5 h-2.5 ms-2.5 transition-transform duration-300 ${
-                            adminDropdownOpen ? 'transform rotate-180' : ''
+                            operatorDropdownOpen ? 'transform rotate-180' : ''
                         }`}
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ const NavOperator = () => {
                         />
                         </svg>
                     </button>
-                    {adminDropdownOpen && (
+                    {operatorDropdownOpen && (
                         <ul className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white text-black rounded shadow-lg w-32 z-10">
                         <li>
                             <button 
@@ -242,12 +242,12 @@ const NavOperator = () => {
                     </li>
                     <li>
                         <button
-                        onClick={toggleAdminDropdown}
+                        onClick={toggleOperatorDropdown}
                         className="text-white text-lg"
                         >
-                        Hallo, Admin!
+                        Hallo, Operator!
                         </button>
-                        {adminDropdownOpen && (
+                        {operatorDropdownOpen && (
                         <ul className="bg-white text-black rounded shadow-lg mt-2 w-30">
                             <li>
                             <Link to="/" className="block px-4 py-2 hover:bg-gray-200 rounded text-center" onClick={closeMenu}>Logout</Link>
