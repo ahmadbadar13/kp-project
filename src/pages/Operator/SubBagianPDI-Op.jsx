@@ -314,8 +314,8 @@ const SubBagianPDI_Op = () => {
                     required
                   >
                     <option value="" disabled>Pilih Posisi</option>
-                    <option value="Kepala Bagian">Kepala Bagian</option>
-                    <option value="Staff">Staff</option>
+                    <option value="Ketua">Ketua</option>
+                    <option value="Anggota">Anggota</option>
                   </select>
                 </div>
                 <div className="mb-4">
@@ -372,8 +372,8 @@ const SubBagianPDI_Op = () => {
                     required
                   >
                     <option value="" disabled>Pilih Posisi</option>
-                    <option value="Kepala Bagian">Kepala Bagian</option>
-                    <option value="Staff">Staff</option>
+                    <option value="Ketua">Ketua</option>
+                    <option value="Anggota">Anggota</option>
                   </select>
                 </div>
                 <div className="mb-4">
