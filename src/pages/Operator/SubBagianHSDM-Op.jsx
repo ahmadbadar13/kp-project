@@ -466,7 +466,7 @@ const SubBagianHSDM_Op = () => {
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_hsdm}</h2>
                   { !isNaN(user.nip_sb_hsdm) ? (
-                    <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_khsdm}</p>
+                    <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_hsdm}</p>
                   ) : (
                     <p className="text-gray-600 mb-2 text-center">{user.nip_sb_hsdm}</p>
                   )}
