@@ -152,7 +152,7 @@ const DivisiPDI_Op = () => {
   
       if (result.isConfirmed) {
         // Jika anggota mengonfirmasi penghapusan
-        await axios.delete(`http://localhost:5000/api/divisi-pdi-op/${userId}`);
+        await axios.delete(`http://localhost:5000/api/divisi-pdi-op/anggota/${userId}`);
   
         // Tampilkan animasi berhasil
         Swal.fire(

@@ -158,7 +158,7 @@ const Sekretaris_Op = () => {
   
       if (result.isConfirmed) {
         // Jika anggota mengonfirmasi penghapusan
-        await axios.delete(`http://localhost:5000/api/sekretaris-op/${userId}`);
+        await axios.delete(`http://localhost:5000/api/sekretaris-op/anggota/${userId}`);
   
         // Tampilkan animasi berhasil
         Swal.fire(
