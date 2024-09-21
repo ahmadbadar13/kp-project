@@ -264,7 +264,7 @@ const DivisiKURL_Op = () => {
       <Navbar />
       {/* End: Navbar */}
 
-      <div className="p-6">
+      <div className="flex flex-col min-h-screen p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Keuangan , Umum, Rumah Tangga, dan Logistik</h1>
 
         {/* Start: Popup Tambah Data */}

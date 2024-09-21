@@ -270,7 +270,7 @@ const SubBagianTPPPH_Op = () => {
       <Navbar />
       {/* End: Navbar */}
 
-      <div className="p-6">
+      <div className="flex flex-col min-h-screen p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Teknik Penyelenggaraan Pemilu, Partisipasi, & Hupmas</h1>
 
         {/* Start: Popup Tambah Data */}

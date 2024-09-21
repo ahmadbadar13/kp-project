@@ -82,7 +82,7 @@ const DivisiPDI_Adm = () => {
       <Navbar />
       {/* End: Navbar */}
 
-      <div className="p-6">
+      <div className="flex flex-col min-h-screen p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Perencanaan, Data, & Informasi</h1>
         {/* Start: Card Read Data */}
           <div>
