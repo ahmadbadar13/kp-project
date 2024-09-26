@@ -296,15 +296,47 @@ const SubBagianKUL_Op = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">NIP / PPNPN</label>
-                  <input
-                    type="text"
+                  <label className="block text-gray-700">Pilih Identitas</label>
+                  <select
                     className="border rounded w-full py-2 px-3"
-                    value={newUser.nip}
-                    onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })}
+                    value={newUser.idType}
+                    onChange={(e) => {
+                      const selectedIdType = e.target.value;
+                      setNewUser((prevUser) => {
+                        // Sesuaikan nip dengan pilihan
+                        let nipValue = '';
+                        if (selectedIdType === 'NIP') {
+                          nipValue = ''; // Kosongkan nip untuk input
+                        } else {
+                          nipValue = selectedIdType; // Set nip sesuai dengan pilihan
+                        }
+                        return { ...prevUser, idType: selectedIdType, nip: nipValue }; // Update idType dan nip
+                      });
+                    }}
                     required
-                  />
+                  >
+                    <option value="" disabled>Pilih NIP/PPNPN/P3K/PNS</option>
+                    <option value="NIP">NIP</option>
+                    <option value="PPNPN">PPNPN</option>
+                    <option value="P3K">P3K</option>
+                    <option value="PNS">PNS</option>
+                  </select>
                 </div>
+
+                {/* Conditional input untuk NIP */}
+                {newUser.idType === 'NIP' && (
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Masukkan NIP:</label>
+                        <input
+                            type="text"
+                            className="border rounded w-full py-2 px-3"
+                            value={newUser.nip} // Nilai nip
+                            onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })} // Update nip
+                            required
+                            placeholder="Masukkan NIP"
+                        />
+                    </div>
+                )}
                 <div className="mb-4">
                   <label className="block text-gray-700">Posisi:</label>
                   <select
@@ -464,10 +496,11 @@ const SubBagianKUL_Op = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_kul}</h2>
-                  { !isNaN(user.nip_sb_kul) ? (
-                    <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_kul}</p>
+                  {!isNaN(user.nip_sb_kul) && user.nip_sb_kul ? (
+                      <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_kul}</p>
                   ) : (
-                    <p className="text-gray-600 mb-2 text-center">{user.nip_sb_kul}</p>
+                      <p className="text-gray-600 mb-2 text-center">
+                        {newUser.idType !== 'NIP' && user.nip_sb_kul && ` ${user.nip_sb_kul}`}</p>
                   )}
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_kul}</p>
                   <div className="flex justify-around w-full mt-2">
