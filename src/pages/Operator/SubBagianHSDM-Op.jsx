@@ -387,15 +387,46 @@ const SubBagianHSDM_Op = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700">NIP / PPNPN</label>
-                  <input
-                    type="text"
+                  <label className="block text-gray-700">Pilih Identitas</label>
+                  <select
                     className="border rounded w-full py-2 px-3"
-                    value={editingUser.nip}
-                    onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                    value={editingUser.idType}
+                    onChange={(e) => {
+                      const selectedIdType = e.target.value;
+                      setEditingUser((prevUser) => {
+                        // Kosongkan NIP jika NIP dipilih, jika yang lain tetap set nip ke pilihan
+                        return {
+                          ...prevUser,
+                          idType: selectedIdType,
+                          nip: selectedIdType === 'NIP' ? '' : selectedIdType, // Jika NIP dipilih, nip dikosongkan; jika yang lain, set sesuai idType
+                        };
+                      });
+                    }}
                     required
-                  />
+                  >
+                    <option value="" disabled>Pilih NIP/PPNPN/P3K/PNS</option>
+                    <option value="NIP">NIP</option>
+                    <option value="PPNPN">PPNPN</option>
+                    <option value="P3K">P3K</option>
+                    <option value="PNS">PNS</option>
+                  </select>
                 </div>
+
+                {/* Conditional input untuk NIP jika idType adalah NIP */}
+                {editingUser.idType === 'NIP' && (
+                  <div className="mb-4">
+                    <label className="block text-gray-700">Masukkan NIP:</label>
+                    <input
+                      type="text"
+                      className="border rounded w-full py-2 px-3"
+                      value={editingUser.nip}
+                      onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
+                      required
+                      placeholder="Masukkan NIP"
+                    />
+                  </div>
+                )}
+                
                 <div className="mb-4">
                   <label className="block text-gray-700">Posisi:</label>
                   <select
