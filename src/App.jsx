@@ -6,7 +6,6 @@ import Login from './pages/Login';
 
 // Halaman Register
 import Register from './pages/Register';
-import Settings from './pages/Settings';
 
 // Halaman Admin
 import Dashboard_Adm from './pages/Admin/Dashboard-Adm';
@@ -54,7 +53,6 @@ function App() {
 
         {/* Register */}
         <Route path="/Register" element={<Register />} />
-        <Route path="/Settings" element={<Settings />} />
 
         {/* Admin */}
         <Route path="/Dashboard-Adm" element={<PrivateRoute element={<Dashboard_Adm />} role="admin" />} />
