@@ -35,13 +35,14 @@ const DivisiHP_Op = () => {
 
   const handleSubmitNewUser = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newUser.name);
-    if (newUser.photo) {
-      formData.append('photo', newUser.photo);
-    }
   
     try {
+      const formData = new FormData();
+      formData.append('name', newUser.name);
+      if (newUser.photo) {
+        formData.append('photo', newUser.photo);
+      }
+  
       // Menampilkan notifikasi loading sebelum proses penambahan
       Swal.fire({
         title: 'Menambahkan...',
@@ -52,38 +53,32 @@ const DivisiHP_Op = () => {
         }
       });
   
-      const response = await axios.post('http://localhost:5000/api/divisi-hp-op', formData);
+      const addResponse = await axios.post('http://localhost:5000/api/divisi-hp-op', formData);
   
-      if (response.data.success) {
+      if (addResponse.data.success) {
         // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota baru telah ditambahkan.',
-          'success'
-        );
-  
+        Swal.fire('Berhasil!', 'Anggota baru telah ditambahkan.', 'success');
         setNewUser({ name: '', photo: null });
         setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
+        fetchUsers();
       } else {
         // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
-          'error'
-        );
+        Swal.fire('Error!', addResponse.data.message || 'Terjadi kesalahan saat menambahkan anggota.', 'error');
       }
     } catch (error) {
-      console.error('Error adding user:', error);
+      // Hanya log error di konsol jika bukan 400
+      if (error.response && error.response.status !== 400) {
+        console.error('Error adding user:', error); // Log hanya jika bukan error 400
+      }
   
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat menambahkan anggota.',
-        'error'
-      );
+      // Tampilkan notifikasi kesalahan
+      if (error.response && error.response.status === 400) {
+        Swal.fire('Error!', error.response.data.message || 'Data divisi sudah maksimal.', 'error');
+      } else {
+        Swal.fire('Error!', 'Terjadi kesalahan saat menambahkan anggota.', 'error');
+      }
     }
-  };
+  };  
 
   const handleSubmitEditUser = async (e) => {
     e.preventDefault();
