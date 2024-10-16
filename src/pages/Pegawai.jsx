@@ -3,13 +3,14 @@ import AttendanceCard from '../components/AttendanceCard';
 import PerformanceCard from '../components/PerformanceCard';
 import ProfileCard from '../components/ProfileCard';
 import NavPegawai from '../components/NavPegawai';
+import Footer from '../components/FooterAllPages';
 
 const DashboardPegawai = () => {
     return (
         <div className="min-h-screen bg-gray-100">
             <NavPegawai />
             <div className="container mx-auto p-6">
-                <h1 className="text-2xl font-semibold mb-6 text-center">Dashboard Pegawai</h1>
+                <h1 className="text-2xl font-semibold mb-6 text-center">Selamat Datang Pegawai</h1>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="col-span-1">
                         <ProfileCard className="shadow-lg rounded-lg bg-white p-4" />
@@ -24,6 +25,9 @@ const DashboardPegawai = () => {
                     </div>
                 </div>
             </div>
+            {/* Start: Footer */}
+            <Footer />
+            {/* End: Footer */}
         </div>
     );
 };
