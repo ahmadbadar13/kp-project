@@ -20,28 +20,32 @@ const KinerjaPegawai = () => {
     });
 
     useEffect(() => {
-        // Fetch data for each divisi
+        // Fungsi untuk mengambil data berdasarkan ID
         const fetchData = async () => {
             try {
-                const [kurlRes, tpRes, pdiRes, hpRes, spppRes, sekretarisRes, tppphRes, pdiSubRes, hsdmRes, kulRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/divisi-kurl-adm'),
-                    axios.get('http://localhost:5000/api/divisi-tp-adm'),
-                    axios.get('http://localhost:5000/api/divisi-pdi-adm'),
-                    axios.get('http://localhost:5000/api/divisi-hp-adm'),
-                    axios.get('http://localhost:5000/api/divisi-sppp_sdm-adm'),
-                    axios.get('http://localhost:5000/api/sekretaris-adm'),
-                    axios.get('http://localhost:5000/api/sub-bagian-tppph-adm'),
-                    axios.get('http://localhost:5000/api/sub-bagian-pdi-adm'),
-                    axios.get('http://localhost:5000/api/sub-bagian-hsdm-adm'),
-                    axios.get('http://localhost:5000/api/sub-bagian-kul-adm'),
-                ]);
+                // Ambil semua data divisi
+                const divisiKurlRes = await axios.get('http://localhost:5000/api/divisi-kurl-adm');
+                const divisiTPRes = await axios.get('http://localhost:5000/api/divisi-tp-adm');
+                const divisiPDIRes = await axios.get('http://localhost:5000/api/divisi-pdi-adm');
+                const divisiHPRes = await axios.get('http://localhost:5000/api/divisi-hp-adm');
+                const divisiSPPPSDMRes = await axios.get('http://localhost:5000/api/divisi-sppp_sdm-adm');
 
+                // Ambil semua data sekretaris
+                const sekretarisRes = await axios.get('http://localhost:5000/api/sekretaris-adm');
+
+                // Ambil semua data sub bagian
+                const tppphRes = await axios.get('http://localhost:5000/api/sub-bagian-tppph-adm');
+                const pdiSubRes = await axios.get('http://localhost:5000/api/sub-bagian-pdi-adm');
+                const hsdmRes = await axios.get('http://localhost:5000/api/sub-bagian-hsdm-adm');
+                const kulRes = await axios.get('http://localhost:5000/api/sub-bagian-kul-adm');
+
+                // Update state dengan data yang diterima
                 setKinerjaDivisi({
-                    kurl: kurlRes.data,
-                    tp: tpRes.data,
-                    pdi: pdiRes.data,
-                    hp: hpRes.data,
-                    sppp_sdm: spppRes.data,
+                    kurl: divisiKurlRes.data,
+                    tp: divisiTPRes.data,
+                    pdi: divisiPDIRes.data,
+                    hp: divisiHPRes.data,
+                    sppp_sdm: divisiSPPPSDMRes.data,
                 });
                 setSekretaris(sekretarisRes.data);
                 setSubBagian({
@@ -73,27 +77,32 @@ const KinerjaPegawai = () => {
                     {data.map((item, index) => (
                         <tr key={index} className="hover:bg-gray-50">
                             <td className="border border-gray-300 p-4 text-center">
-                                <img src={item.foto} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                                <img src={item.foto_div_hp || item.foto_div_kurl || item.foto_div_pdi || item.foto_div_sppp_sdm ||  item.foto_div_tp ||
+                                    item.foto_sekretaris || item.foto_sb_hsdm || item.foto_sb_kul || item.foto_sb_pdi || item.foto_sb_tppph
+                                 } alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
                             </td>
-                            <td className="border border-gray-300 p-4 text-center">{item.nama}</td>
-                            {item.nip && <td className="border border-gray-300 p-4 text-center">{item.nip}</td>}
-                            {item.posisi && <td className="border border-gray-300 p-4 text-center">{item.posisi}</td>}
+
+                            <td className="border border-gray-300 p-4 text-center">{item.nama_div_hp || item.nama_div_kurl || item.nama_div_pdi || item.nama_div_sppp_sdm ||  item.nama_div_tp ||
+                                    item.nama_sekretaris || item.nama_sb_hsdm || item.nama_sb_kul || item.nama_sb_pdi || item.nama_sb_tppph}</td>
+
+                            {(item.nip_sekretaris || item.nip_sb_hsdm || item.nip_sb_kul || item.nip_sb_pdi || item.nip_sb_tppph) && (
+                                <td className="border border-gray-300 p-4 text-center">
+                                    {item.nip_sekretaris || item.nip_sb_hsdm || item.nip_sb_kul || item.nip_sb_pdi || item.nip_sb_tppph}
+                                </td>
+                            )}
+
+                            {(item.posisi_sb_hsdm || item.posisi_sb_kul || item.posisi_sb_pdi || item.posisi_sb_tppph) && (
+                                <td className="border border-gray-300 p-4 text-center">
+                                    {item.posisi_sb_hsdm || item.posisi_sb_kul || item.posisi_sb_pdi || item.posisi_sb_tppph}
+                                </td>
+                            )}
+
                             {item.identitas && <td className="border border-gray-300 p-4 text-center">{item.identitas}</td>}
                             <td className="border border-gray-300 p-4 text-center">{item.kinerja}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
-    );
-
-    const renderSubBagian = (subBagians) => (
-        <div className="mb-10">
-            {subBagians.map((subBagian, index) => (
-                <div key={index}>
-                    {renderTable(subBagian.title, ["Foto", "Nama", "Posisi", "Identitas", "Kinerja"], subBagian.data)}
-                </div>
-            ))}
         </div>
     );
 
@@ -121,7 +130,7 @@ const KinerjaPegawai = () => {
                 {/* Tabel Sub Bagian */}
                 {Object.entries(subBagian).map(([key, data]) => (
                     <div key={key} className="mb-12">
-                        {renderTable(`Sub Bagian ${key}`, ["Foto", "Nama", "Posisi", "Identitas", "Kinerja"], data)}
+                        {renderTable(`Sub Bagian ${key}`, ["Foto", "Nama", "NIP/Identitas", "Posisi", "Kinerja"], data)}
                     </div>
                 ))}
             </main>
