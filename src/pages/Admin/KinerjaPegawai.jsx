@@ -77,9 +77,37 @@ const KinerjaPegawai = () => {
                     {data.map((item, index) => (
                         <tr key={index} className="hover:bg-gray-50">
                             <td className="border border-gray-300 p-4 text-center">
-                                <img src={item.foto_div_hp || item.foto_div_kurl || item.foto_div_pdi || item.foto_div_sppp_sdm ||  item.foto_div_tp ||
-                                    item.foto_sekretaris || item.foto_sb_hsdm || item.foto_sb_kul || item.foto_sb_pdi || item.foto_sb_tppph
-                                 } alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            {(item.foto_div_hp && (
+                                <img src={`http://localhost:5000${item.foto_div_hp}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_div_kurl && (
+                                <img src={`http://localhost:5000${item.foto_div_kurl}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_div_pdi && (
+                                <img src={`http://localhost:5000${item.foto_div_pdi}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_div_sppp_sdm && (
+                                <img src={`http://localhost:5000${item.foto_div_sppp_sdm}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_div_tp && (
+                                <img src={`http://localhost:5000${item.foto_div_tp}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_sekretaris && (
+                                <img src={`http://localhost:5000${item.foto_sekretaris}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_sb_hsdm && (
+                                <img src={`http://localhost:5000${item.foto_sb_hsdm}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_sb_kul && (
+                                <img src={`http://localhost:5000${item.foto_sb_kul}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_sb_pdi && (
+                                <img src={`http://localhost:5000${item.foto_sb_pdi}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            )) ||
+                            (item.foto_sb_tppph && (
+                                <img src={`http://localhost:5000${item.foto_sb_tppph}`} alt="Foto" className="h-16 w-16 object-cover rounded-full mx-auto" />
+                            ))}
+
                             </td>
 
                             <td className="border border-gray-300 p-4 text-center">{item.nama_div_hp || item.nama_div_kurl || item.nama_div_pdi || item.nama_div_sppp_sdm ||  item.nama_div_tp ||
