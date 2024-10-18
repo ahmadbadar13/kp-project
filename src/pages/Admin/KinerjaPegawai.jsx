@@ -75,7 +75,7 @@ const KinerjaPegawai = () => {
         if (selectedUserId !== null) {
             console.log('Menambahkan kinerja untuk User ID:', selectedUserId, 'Dengan kinerja:', kinerjaValue);
             try {
-                const response = await axios.put(`http://localhost:5000/api/tambah-kinerja/${selectedUserId}`, { kinerja_div_hp: kinerjaValue });
+                const response = await axios.put(`http://localhost:5000/api/tambah-kinerja-div-hp/${selectedUserId}`, { kinerja_div_hp: kinerjaValue });
                 console.log(response.data);
                 
                 // Simpan nilai kinerja sebelum mereset
@@ -109,7 +109,7 @@ const KinerjaPegawai = () => {
             console.log('Mengirim data:', { userId: selectedUserId, performanceComment: komentar, kinerja_div_hp: kinerjaValue });
             
             // Panggil API dengan userId sebagai parameter URL
-            const response = await axios.put(`http://localhost:5000/api/komentar-kinerja/kinerja/${selectedUserId}`, { 
+            const response = await axios.put(`http://localhost:5000/api/komentar-kinerja/kinerja-div-hp/${selectedUserId}`, { 
                 performanceComment: komentar,
                 kinerja_div_hp: kinerjaValue,
             });
