@@ -49,11 +49,15 @@ const Login = () => {
           case 'operator':
             navigate('/Dashboard-Op');
             break;
-          case 'pegawai':
-            navigate('/Pegawai');
-            break;
           default:
-            navigate('/');
+            // Jika role bukan admin atau operator, tampilkan pesan kesalahan
+            setError('Peran tidak valid');
+            await Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Peran tidak valid",
+            });
+            break;
         }
       } else {
         setError('Kredensial tidak valid');

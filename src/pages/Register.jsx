@@ -147,7 +147,6 @@ const Register = () => {
                             <option value="">Pilih Role</option>
                             <option value="admin">Admin</option>
                             <option value="operator">Operator</option>
-                            <option value="pegawai">Pegawai</option>
                         </select>
                     </div>
                     {error && <p className="text-red-500 text-center mb-4">{error}</p>}
