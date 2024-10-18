@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 const KinerjaPegawai = () => {
     const [kinerjaValue, setKinerjaValue] = useState(0);
     const [komentar, setKomentar] = useState('');
+    const [selectedUserId, setSelectedUserId] = useState(null);
     const [isKinerjaModalOpen, setIsKinerjaModalOpen] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -70,25 +71,59 @@ const KinerjaPegawai = () => {
         fetchData();
     }, []);
 
-    const handleAddKinerja = async (id) => {
-        const kinerja = {/* ...data kinerja... */};
+    const handleAddKinerja = async () => {
+        if (selectedUserId !== null) {
+            console.log('Menambahkan kinerja untuk User ID:', selectedUserId, 'Dengan kinerja:', kinerjaValue);
+            try {
+                const response = await axios.put(`http://localhost:5000/api/tambah-kinerja/${selectedUserId}`, { kinerja_div_hp: kinerjaValue });
+                console.log(response.data);
+                
+                // Simpan nilai kinerja sebelum mereset
+                const savedKinerjaValue = kinerjaValue;
+                console.log("Kinerja yang disimpan:", savedKinerjaValue);
+                
+                // Reset modal dan nilai kinerja
+                setIsKinerjaModalOpen(false);
+                setKinerjaValue(savedKinerjaValue); // Reset nilai setelah berhasil
+                
+            } catch (error) {
+                console.error('Error adding kinerja:', error.response?.data || error.message);
+            }
+        } else {
+            console.warn("selectedUserId is null");
+        }
+    };
+    
+    const handleAddKomentar = async (kinerjaValue) => { 
+        console.log("Selected User ID:", selectedUserId);
+        console.log("Komentar:", komentar);
+        console.log("Kinerja Value:", kinerjaValue);
+    
         try {
-            const response = await axios.put(`http://localhost:5000/api/tambah-kinerja/${id}`, kinerja);
+            // Periksa apakah nilai yang diperlukan valid
+            if (selectedUserId === null || komentar.trim() === '' || kinerjaValue <= 0) {
+                console.warn("User ID, komentar, dan kinerja harus valid dan tidak boleh kosong");
+                return;
+            }
+    
+            console.log('Mengirim data:', { userId: selectedUserId, performanceComment: komentar, kinerja_div_hp: kinerjaValue });
+            
+            // Panggil API dengan userId sebagai parameter URL
+            const response = await axios.put(`http://localhost:5000/api/komentar-kinerja/kinerja/${selectedUserId}`, { 
+                performanceComment: komentar,
+                kinerja_div_hp: kinerjaValue,
+            });
             console.log(response.data);
+            
+            // Reset state setelah mengirim
+            setSelectedUserId(null);
+            setKomentar(''); // Reset komentar setelah mengirim
+            setIsCommentModalOpen(false); // Tutup modal setelah berhasil
         } catch (error) {
-            console.error('Error adding kinerja:', error.response.data);
+            console.error("Error adding komentar: ", error.response?.data || error.message);
         }
     };
-
-    const handleAddKomentar = async () => {
-        try {
-            await axios.post('http://localhost:5000/api/komentar-kinerja', { komentar });
-            setIsCommentModalOpen(false);
-            // fetchData(); 
-        } catch (error) {
-            console.error("Error adding komentar: ", error);
-        }
-    };
+    
 
     const renderTable = (title, columns, data) => (
         <div className="mb-10">
@@ -161,13 +196,21 @@ const KinerjaPegawai = () => {
                             {/* Kolom Kinerja */}
                             <td className="border border-gray-300 p-4 text-center">
                                 <div className="flex justify-center items-center space-x-4">
-                                    <button onClick={() => setIsKinerjaModalOpen(true)} className="text-blue-500 text-2xl">  {/* Menambahkan text-2xl untuk memperbesar ikon */}
+                                    <button 
+                                        onClick={() => { setSelectedUserId(item.id); setIsKinerjaModalOpen(true); }} 
+                                        className="text-blue-500 text-2xl">
                                         <FaPlus />
                                     </button>
-                                    <button onClick={() => setIsCommentModalOpen(true)} className="text-green-500 text-2xl">  {/* Menambahkan text-2xl untuk memperbesar ikon */}
+                                    
+                                    <button 
+                                        onClick={() => { setSelectedUserId(item.id); setIsCommentModalOpen(true); }} 
+                                        className="text-green-500 text-2xl">
                                         <FaComment />
                                     </button>
-                                    <button onClick={() => setIsEditModalOpen(true)} className="text-yellow-500 text-2xl">  {/* Menambahkan text-2xl untuk memperbesar ikon */}
+                                    
+                                    <button 
+                                        onClick={() => { setSelectedUserId(item.id); setIsEditModalOpen(true); }} 
+                                        className="text-yellow-500 text-2xl">
                                         <FaEdit />
                                     </button>
                                 </div>
@@ -254,7 +297,10 @@ const KinerjaPegawai = () => {
                         onChange={(e) => setKomentar(e.target.value)} 
                     />
                     <button
-                        onClick={handleAddKomentar}
+                        onClick={() => {
+                            handleAddKomentar(kinerjaValue); // Kirim nilai yang benar
+                            setIsCommentModalOpen(false); // Tutup modal setelah menyimpan
+                        }} 
                         className="mt-4 p-2 bg-green-500 text-white rounded"
                     >
                         Simpan
