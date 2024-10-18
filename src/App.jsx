@@ -33,8 +33,7 @@ import SubBagianPDI_Op from './pages/Operator/SubBagianPDI-Op';
 import SubBagianTPPPH_Op from './pages/Operator/SubBagianTPPPH-Op';
 import Sekretaris_Op from './pages/Operator/Sekretaris-Op';
 
-import DashboardPegawai from './pages/Pegawai';
-import KinerjaPegawai from './pages/Admin/KinerjaPegawai';
+import DashboardPegawai from './pages/Home';
 
 // Komponen untuk memastikan akses sesuai dengan peran
 const PrivateRoute = ({ element, role }) => {
@@ -49,7 +48,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/Login" />} />
+        <Route path="/" element={<Navigate to="/Home" />} />
 
         {/* Login */}
         <Route path="/Login" element={<Login />} />
@@ -83,9 +82,8 @@ function App() {
         <Route path="/SubBagianTPPPH-Op" element={<PrivateRoute element={<SubBagianTPPPH_Op />} role="operator" />} />
         <Route path="/Sekretaris-Op" element={<PrivateRoute element={<Sekretaris_Op />} role="operator" />} />
 
-        {/* Pegawai */}
-        <Route path="/Pegawai" element={<PrivateRoute element={<DashboardPegawai />} role="pegawai" />} />
-        <Route path="/Kinerja-Pegawai" element={<PrivateRoute element={<KinerjaPegawai />} role="admin" />} />
+        {/* Home */}
+        <Route path="/Home" element={<DashboardPegawai />} />
       </Routes>
     </Router>
   );
