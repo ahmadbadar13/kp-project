@@ -33,6 +33,7 @@ import SubBagianPDI_Op from './pages/Operator/SubBagianPDI-Op';
 import SubBagianTPPPH_Op from './pages/Operator/SubBagianTPPPH-Op';
 import Sekretaris_Op from './pages/Operator/Sekretaris-Op';
 
+import KinerjaPegawai from './pages/Admin/KinerjaPegawai';
 import DashboardPegawai from './pages/Home';
 
 // Komponen untuk memastikan akses sesuai dengan peran
@@ -68,6 +69,7 @@ function App() {
         <Route path="/SubBagianPDI-Adm" element={<PrivateRoute element={<SubBagianPDI />} role="admin" />} />
         <Route path="/SubBagianTPPPH-Adm" element={<PrivateRoute element={<SubBagianTPPPH />} role="admin" />} />
         <Route path="/Sekretaris-Adm" element={<PrivateRoute element={<Sekretaris />} role="admin" />} />
+        <Route path="/KinerjaPegawai" element={<PrivateRoute element={<KinerjaPegawai />} role="admin" />} />
 
         {/* Operator */}
         <Route path="/Dashboard-Op" element={<PrivateRoute element={<Dashboard_Op />} role="operator" />} />
