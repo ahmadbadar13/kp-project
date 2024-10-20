@@ -9,6 +9,7 @@ const KinerjaPegawai = () => {
     const [kinerjaValue, setKinerjaValue] = useState(0);
     const [komentar, setKomentar] = useState('');
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [selectedDivision, setSelectedDivision] = useState('');
     const [isKinerjaModalOpen, setIsKinerjaModalOpen] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -74,18 +75,78 @@ const KinerjaPegawai = () => {
     const handleAddKinerja = async () => {
         if (selectedUserId !== null) {
             console.log('Menambahkan kinerja untuk User ID:', selectedUserId, 'Dengan kinerja:', kinerjaValue);
+            
+            // Validasi nilai kinerja...
+            if (kinerjaValue < 0 || kinerjaValue > 100) {
+                console.warn('Nilai kinerja tidak valid. Harus antara 0 dan 100.');
+                return;
+            }
+            
             try {
-                const response = await axios.put(`http://localhost:5000/api/tambah-kinerja-div-hp/${selectedUserId}`, { kinerja_div_hp: kinerjaValue });
-                console.log(response.data);
+                let endpoint = '';
+                let payload = {}; // Menyimpan payload untuk dikirim
                 
-                // Simpan nilai kinerja sebelum mereset
-                const savedKinerjaValue = kinerjaValue;
-                console.log("Kinerja yang disimpan:", savedKinerjaValue);
+                // Tentukan endpoint dan payload berdasarkan selectedDivision
+                switch (selectedDivision) {
+                    case 'hp':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-div-hp/${selectedUserId}`;
+                        payload = { kinerja_div_hp: kinerjaValue };
+                        break;
+                    case 'kurl':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-div-kurl/${selectedUserId}`;
+                        payload = { kinerja_div_kurl: kinerjaValue };
+                        break;
+                    case 'pdi':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-div-pdi/${selectedUserId}`;
+                        payload = { kinerja_div_pdi: kinerjaValue };
+                        break;
+                    case 'sppp_sdm':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-div-sppp_sdm/${selectedUserId}`;
+                        payload = { kinerja_div_sppp_sdm: kinerjaValue };
+                        break;
+                    case 'tp':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-div-tp/${selectedUserId}`;
+                        payload = { kinerja_div_tp: kinerjaValue };
+                        break;
+                    case 'sekretaris':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-sekretaris/${selectedUserId}`;
+                        payload = { kinerja_sekretaris: kinerjaValue };
+                        break;
+                    case 'sb-hsdm':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-sb-hsdm/${selectedUserId}`;
+                        payload = { kinerja_sb_hsdm: kinerjaValue };
+                        break;
+                    case 'sb-kul':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-sb-kul/${selectedUserId}`;
+                        payload = { kinerja_sb_kul: kinerjaValue };
+                        break;
+                    case 'sb-pdi':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-sb-pdi/${selectedUserId}`;
+                        payload = { kinerja_sb_pdi: kinerjaValue };
+                        break;
+                    case 'sb-tppph':
+                        endpoint = `http://localhost:5000/api/tambah-kinerja-sb-tppph/${selectedUserId}`;
+                        payload = { kinerja_sb_tppph: kinerjaValue };
+                        break;
+                    default:
+                        console.warn('Divisi tidak dikenali');
+                        return;
+                }
+    
+                // Log payload
+                console.log('Payload yang dikirim:', payload);
+
+                // Kirim permintaan ke API
+                const response = await axios.put(endpoint, payload);
+                console.log(response.data);
+
+                // Simpan nilai kinerja untuk digunakan saat menambah komentar
+                const savedKinerjaValue = kinerjaValue; // Simpan kinerjaValue yang berhasil ditambahkan
                 
                 // Reset modal dan nilai kinerja
                 setIsKinerjaModalOpen(false);
-                setKinerjaValue(savedKinerjaValue); // Reset nilai setelah berhasil
-                
+                setKinerjaValue(savedKinerjaValue); // Reset nilai kinerja ke 0 setelah berhasil
+
             } catch (error) {
                 console.error('Error adding kinerja:', error.response?.data || error.message);
             }
@@ -94,36 +155,84 @@ const KinerjaPegawai = () => {
         }
     };
     
-    const handleAddKomentar = async (kinerjaValue) => { 
+    const handleAddKomentar = async (kinerjaValue) => {
         console.log("Selected User ID:", selectedUserId);
         console.log("Komentar:", komentar);
-        console.log("Kinerja Value:", kinerjaValue);
-    
+        console.log("Kinerja Value:", kinerjaValue); // Menampilkan kinerjaValue yang diambil
+        
         try {
-            // Periksa apakah nilai yang diperlukan valid
-            if (selectedUserId === null || komentar.trim() === '' || kinerjaValue <= 0) {
-                console.warn("User ID, komentar, dan kinerja harus valid dan tidak boleh kosong");
+            if (selectedUserId === null || komentar.trim() === '') {
+                console.warn("User ID dan komentar harus valid dan tidak boleh kosong");
                 return;
             }
     
-            console.log('Mengirim data:', { userId: selectedUserId, performanceComment: komentar, kinerja_div_hp: kinerjaValue });
-            
-            // Panggil API dengan userId sebagai parameter URL
-            const response = await axios.put(`http://localhost:5000/api/komentar-kinerja/kinerja-div-hp/${selectedUserId}`, { 
-                performanceComment: komentar,
-                kinerja_div_hp: kinerjaValue,
-            });
+            // Tentukan endpoint dan payload
+            let apiUrl = '';
+            let payload = {}; 
+    
+            // Tentukan endpoint berdasarkan selectedDivision
+            switch (selectedDivision) {
+                case 'hp':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-div-hp/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_div_hp: kinerjaValue };
+                    break;
+                case 'kurl':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-div-kurl/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_div_kurl: kinerjaValue };
+                    break;
+                case 'pdi':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-div-pdi/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_div_pdi: kinerjaValue };
+                    break;
+                case 'sppp_sdm':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-div-sppp_sdm/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_div_sppp_sdm: kinerjaValue };
+                    break;
+                case 'tp':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-div-tp/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_div_tp: kinerjaValue };
+                    break;
+                case 'sekretaris':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-sekretaris/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_sekretaris: kinerjaValue };
+                    break;
+                case 'sb-hsdm':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-sb-hsdm/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_sb_hsdm: kinerjaValue };
+                    break;
+                case 'sb-kul':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-sb-kul/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_sb_kul: kinerjaValue };
+                    break;
+                case 'sb-pdi':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-sb-pdi/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_sb_pdi: kinerjaValue };
+                    break;
+                case 'sb-tppph':
+                    apiUrl = `http://localhost:5000/api/komentar-kinerja/kinerja-sb-tppph/${selectedUserId}`;
+                    payload = { performanceComment: komentar, kinerja_sb_tppph: kinerjaValue };
+                    break;
+                default:
+                    console.warn('Divisi tidak dikenali');
+                    return; // Menghentikan eksekusi jika divisi tidak dikenali
+            }
+    
+            // Log payload yang akan dikirim
+            console.log('Payload yang dikirim:', payload);
+    
+            // Panggil API
+            const response = await axios.put(apiUrl, payload);
             console.log(response.data);
-            
+    
             // Reset state setelah mengirim
             setSelectedUserId(null);
             setKomentar(''); // Reset komentar setelah mengirim
             setIsCommentModalOpen(false); // Tutup modal setelah berhasil
+    
         } catch (error) {
             console.error("Error adding komentar: ", error.response?.data || error.message);
         }
     };
-    
 
     const renderTable = (title, columns, data) => (
         <div className="mb-10">
@@ -256,6 +365,8 @@ const KinerjaPegawai = () => {
             {/* End: Footer */}
 
             {/* Popup Tambah Kinerja */}
+            <button onClick={() => setIsKinerjaModalOpen(true)}>Tambah Kinerja</button>
+
             <Modal
                 isOpen={isKinerjaModalOpen}
                 onRequestClose={() => setIsKinerjaModalOpen(false)}
@@ -264,13 +375,31 @@ const KinerjaPegawai = () => {
             >
                 <div className="w-1/3 max-w-xs mx-auto rounded-lg p-6 bg-white shadow-lg">
                     <h2 className="text-lg font-semibold mb-4">Tambah Kinerja</h2>
-                    <input 
-                        type="range" 
-                        min="0" 
-                        max="100" 
-                        value={kinerjaValue} 
-                        onChange={(e) => setKinerjaValue(e.target.value)} 
-                        className="w-full mt-4" 
+
+                    {/* Pilih Divisi */}
+                    <div className="mb-4">
+                        <label className="block mb-2">Pilih Divisi:</label>
+                        <select value={selectedDivision} onChange={(e) => setSelectedDivision(e.target.value)} className="w-full p-2 border rounded">
+                            <option value="hp">Divisi HP</option>
+                            <option value="kurl">Divisi KURL</option>
+                            <option value="pdi">Divisi PDI</option>
+                            <option value="sppp_sdm">Divisi SPPP & SDM</option>
+                            <option value="tp">Divisi TP</option>
+                            <option value="sekretaris">Sekretaris</option>
+                            <option value="sb-hsdm">Sub Bagian HSDM</option>
+                            <option value="sb-kul">Sub Bagian KUL</option>
+                            <option value="sb-pdi">Sub Bagian PDI</option>
+                            <option value="sb-tppph">Sub Bagian TPPPH</option>
+                        </select>
+                    </div>
+
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={kinerjaValue}
+                        onChange={(e) => setKinerjaValue(e.target.value)}
+                        className="w-full mt-4"
                     />
                     <button
                         onClick={handleAddKinerja}
@@ -287,24 +416,43 @@ const KinerjaPegawai = () => {
                 onRequestClose={() => setIsCommentModalOpen(false)}
                 contentLabel="Tambah Komen Kinerja Modal"
                 className="flex items-center justify-center fixed inset-0 z-50"
+                overlayClassName="fixed inset-0 bg-black bg-opacity-50" // Tambahkan overlay
             >
-                <div className="w-1/3 max-w-xs mx-auto rounded-lg p-6 bg-white shadow-lg">
-                    <h2 className="text-lg font-semibold mb-4">Tambah Komen Kinerja</h2>
+                <div className="w-full max-w-md mx-auto rounded-lg p-6 bg-white shadow-lg">
+                    <h2 className="text-lg font-semibold mb-4 text-center">Tambah Komen Kinerja</h2>
+                    
                     <textarea 
-                        className="w-full p-2 mt-4 border rounded" 
-                        rows="4" 
-                        value={komentar} 
+                        className="w-full p-2 mt-4 border rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        rows="4"
+                        placeholder="Tambahkan komentar kinerja..."
+                        value={komentar}
                         onChange={(e) => setKomentar(e.target.value)} 
                     />
-                    <button
-                        onClick={() => {
-                            handleAddKomentar(kinerjaValue); // Kirim nilai yang benar
-                            setIsCommentModalOpen(false); // Tutup modal setelah menyimpan
-                        }} 
-                        className="mt-4 p-2 bg-green-500 text-white rounded"
-                    >
-                        Simpan
-                    </button>
+                    
+                    {/* Validasi jika komentar kosong */}
+                    {komentar.trim() === '' && (
+                        <p className="text-red-500 text-sm mt-2">Komentar tidak boleh kosong.</p>
+                    )}
+
+                    <div className="flex justify-between mt-4">
+                        <button
+                            onClick={() => setIsCommentModalOpen(false)} // Tutup modal tanpa menyimpan
+                            className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (komentar.trim() !== '') {
+                                    handleAddKomentar(kinerjaValue, selectedDivision); // Kirim nilai yang sesuai
+                                }
+                            }} 
+                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                            disabled={komentar.trim() === ''} // Nonaktifkan tombol jika komentar kosong
+                        >
+                            Simpan
+                        </button>
+                    </div>
                 </div>
             </Modal>
 
