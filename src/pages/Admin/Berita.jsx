@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../components/NavAdmin';
 import Footer from '../../components/FooterAllPages';
@@ -6,21 +6,32 @@ import Footer from '../../components/FooterAllPages';
 const AddNews = () => {
     // State untuk menyimpan input form
     const [title, setTitle] = useState('');
-    const [image, setImage] = useState(null); // Mengelola file gambar
+    const [image, setImage] = useState(null);
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [newsList, setNewsList] = useState([]);
+
+    // Fungsi untuk mengambil data berita dari database
+    const fetchNews = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/news/list');
+            setNewsList(response.data);
+        } catch (error) {
+            console.error('Gagal mengambil data berita', error);
+        }
+    };
 
     // Fungsi untuk menangani submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Menampilkan loader saat proses berlangsung
-        setSuccessMessage(''); // Reset pesan sukses
+        setLoading(true);
+        setSuccessMessage('');
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('image', image); // Menambahkan gambar ke FormData
+        formData.append('image', image);
         formData.append('date', date);
         formData.append('content', content);
 
@@ -33,15 +44,31 @@ const AddNews = () => {
             });
             setSuccessMessage('Berita berhasil ditambahkan!');
             setTitle('');
-            setImage(null); // Reset input gambar
+            setImage(null);
             setDate('');
             setContent('');
+            fetchNews(); // Mengambil data berita setelah berhasil menambah
         } catch (error) {
             console.error('Gagal menambahkan berita', error);
             setSuccessMessage('Gagal menambahkan berita.');
         }
-        setLoading(false); // Menghilangkan loader setelah proses selesai
+        setLoading(false);
     };
+
+    // Fungsi untuk menghapus berita
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/news/delete/${id}`);
+            fetchNews(); // Mengambil data berita setelah berhasil menghapus
+        } catch (error) {
+            console.error('Gagal menghapus berita', error);
+        }
+    };
+
+    // Mengambil data berita saat komponen pertama kali dimuat
+    useEffect(() => {
+        fetchNews();
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
@@ -112,6 +139,33 @@ const AddNews = () => {
                             {successMessage}
                         </div>
                     )}
+                </div>
+            </div>
+
+            {/* Menampilkan Data Berita */}
+            <div className="flex-grow flex justify-center items-center mt-8">
+                <div className="w-full max-w-4xl">
+                    <h2 className="text-xl font-bold mb-4">Daftar Berita</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {newsList.map((news) => (
+                            <div key={news.id} className="bg-white p-4 rounded-lg shadow-md">
+                                <img src={`http://localhost:5002/${news.image}`} alt={news.title} className="w-full h-32 object-cover rounded-md" />
+                                <h3 className="text-lg font-semibold mt-2">{news.title}</h3>
+                                <p className="text-gray-700">{news.content}</p>
+                                <div className="flex justify-between mt-4">
+                                    <button className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600">
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(news.id)}
+                                        className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
+                                    >
+                                        Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
