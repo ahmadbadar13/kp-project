@@ -19,6 +19,7 @@ import SubBagianKUL from './pages/Admin/SubBagianKUL-Adm';
 import SubBagianPDI from './pages/Admin/SubBagianPDI-Adm';
 import SubBagianTPPPH from './pages/Admin/SubBagianTPPPH-Adm';
 import Sekretaris from './pages/Admin/Sekretaris-Adm';
+import Berita from './pages/Admin/Berita';
 
 // Halaman Operator
 import Dashboard_Op from './pages/Operator/Dashboard-Op';
@@ -70,6 +71,7 @@ function App() {
         <Route path="/SubBagianTPPPH-Adm" element={<PrivateRoute element={<SubBagianTPPPH />} role="admin" />} />
         <Route path="/Sekretaris-Adm" element={<PrivateRoute element={<Sekretaris />} role="admin" />} />
         <Route path="/KinerjaPegawai" element={<PrivateRoute element={<KinerjaPegawai />} role="admin" />} />
+        <Route path="/Berita" element={<PrivateRoute element={<Berita />} role="admin" />} />
 
         {/* Operator */}
         <Route path="/Dashboard-Op" element={<PrivateRoute element={<Dashboard_Op />} role="operator" />} />

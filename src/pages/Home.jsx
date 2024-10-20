@@ -1,57 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import NavHome from '../components/NavHome';
 import Footer from '../components/FooterAllPages';
-import { Bar } from 'react-chartjs-2'; // Contoh menggunakan chartjs
-import 'chart.js/auto'; // Pastikan untuk mengimpor auto dari chart.js
 
-const cardData = [
-    { title: 'Grafik 1', data: [12, 19, 3, 5, 2, 3] },
-    { title: 'Grafik 2', data: [2, 3, 20, 5, 1, 4] },
-    { title: 'Grafik 3', data: [3, 10, 13, 15, 22, 30] },
-    { title: 'Grafik 4', data: [4, 1, 5, 2, 3, 9] },
-    { title: 'Grafik 5', data: [5, 10, 15, 20, 25, 30] },
-    { title: 'Grafik 6', data: [1, 2, 3, 4, 5, 6] },
-    { title: 'Grafik 7', data: [2, 4, 6, 8, 10, 12] },
-    { title: 'Grafik 8', data: [1, 1, 2, 3, 5, 8] },
-    { title: 'Grafik 9', data: [3, 6, 9, 12, 15, 18] },
-    { title: 'Grafik 10', data: [2, 3, 4, 5, 6, 7] },
-    { title: 'Grafik 11', data: [1, 4, 9, 16, 25, 36] },
-    { title: 'Grafik 12', data: [1, 2, 1, 2, 1, 2] },
-];
+const DashboardHome = () => {
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-const Card = ({ title, data }) => {
-    const chartData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [
-            {
-                label: title,
-                data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-            },
-        ],
+    // Fungsi untuk memformat tanggal ke format "Rabu, 12 Oktober 2021"
+    const formatDate = (dateString) => {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('id-ID', options);
     };
 
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/news/list');
+                setArticles(response.data);
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchArticles();
+    }, []);
+
     return (
-        <div className="bg-white p-4 shadow rounded-lg">
-            <h2 className="text-lg font-bold mb-2">{title}</h2>
-            <Bar data={chartData} />
+        <div className="min-h-screen bg-gray-100">
+            <NavHome />
+            <div className="container mx-auto px-4 py-8">
+                <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Berita Terbaru</h1>
+
+                {loading ? (
+                    <p className="text-center text-gray-600">Loading berita...</p>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {articles.length > 0 ? (
+                            articles.map((article, index) => (
+                                <ArticleCard key={index} article={article} formatDate={formatDate} />
+                            ))
+                        ) : (
+                            <p className="text-center text-gray-600">Tidak ada berita yang tersedia saat ini.</p>
+                        )}
+                    </div>
+                )}
+            </div>
+            <Footer />
         </div>
     );
 };
 
-const DashboardHome = () => {
+const ArticleCard = ({ article, formatDate }) => {
+    const [showFullContent, setShowFullContent] = useState(false);
+
     return (
-        <div className="min-h-screen bg-gray-100">
-            <NavHome />
-            <div className="container mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <h1 className="text-2xl font-semibold mb-6 text-center col-span-4">Selamat Datang!</h1>
-                {cardData.map((card, index) => (
-                    <Card key={index} title={card.title} data={card.data} />
-                ))}
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <img src={`http://localhost:5000${article.image}`} alt={article.title} className="w-full h-48 object-cover" />
+            <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">{article.title}</h2>
+                <p className="text-sm text-gray-600 mb-4">{formatDate(article.date)}</p>
+                
+                {/* Tampilkan ringkasan dan konten lengkap jika diperlukan */}
+                <p className="text-gray-700 mb-4">
+                    {showFullContent ? article.content : `${article.content.substring(0, 100)}...`}
+                </p>
+                
+                <button
+                    onClick={() => setShowFullContent(!showFullContent)}
+                    className="text-indigo-500 hover:underline"
+                >
+                    {showFullContent ? 'Tampilkan sedikit' : 'Baca selengkapnya...'}
+                </button>
             </div>
-            {/* Start: Footer */}
-            <Footer />
-            {/* End: Footer */}
         </div>
     );
 };

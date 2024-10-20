@@ -126,6 +126,11 @@ const NavAdmin = () => {
                         Kinerja Pegawai
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/Berita" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                        Berita
+                        </Link>
+                    </li>
                     </ul>
                 </div>
                 <div className="hidden md:flex md:items-center">
@@ -248,6 +253,11 @@ const NavAdmin = () => {
                     <li>
                         <Link to="/Kinerja-Pegawai" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
                         Kinerja Pegawai
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/Berita" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
+                        Berita
                         </Link>
                     </li>
                     <li>
