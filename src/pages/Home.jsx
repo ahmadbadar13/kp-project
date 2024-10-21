@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavHome from '../components/NavHome';
 import Footer from '../components/FooterAllPages';
+import Modal from 'react-modal';
 
 const DashboardHome = () => {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
+    
 
     // Fungsi untuk memformat tanggal ke format "Rabu, 12 Oktober 2021"
     const formatDate = (dateString) => {
@@ -54,7 +56,15 @@ const DashboardHome = () => {
 };
 
 const ArticleCard = ({ article, formatDate }) => {
-    const [showFullContent, setShowFullContent] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false); // State untuk mengatur apakah modal terbuka atau tidak
+
+    const openModal = () => {
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+    };
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -62,18 +72,40 @@ const ArticleCard = ({ article, formatDate }) => {
             <div className="p-6">
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">{article.title}</h2>
                 <p className="text-sm text-gray-600 mb-4">{formatDate(article.date)}</p>
-                
-                {/* Tampilkan ringkasan dan konten lengkap jika diperlukan */}
+
+                {/* Tampilkan ringkasan berita */}
                 <p className="text-gray-700 mb-4">
-                    {showFullContent ? article.content : `${article.content.substring(0, 100)}...`}
+                    {article.content.substring(0, 100)}...
                 </p>
-                
+
+                {/* Tombol untuk membuka modal */}
                 <button
-                    onClick={() => setShowFullContent(!showFullContent)}
+                    onClick={openModal}
                     className="text-indigo-500 hover:underline"
                 >
-                    {showFullContent ? 'Tampilkan sedikit' : 'Baca selengkapnya...'}
+                    Baca selengkapnya...
                 </button>
+
+                {/* Modal untuk menampilkan konten lengkap */}
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Konten Berita"
+                    className="bg-white p-6 rounded-lg shadow-lg mx-auto my-auto w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2" // Ukuran modal diatur
+                    overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+                    ariaHideApp={false} // Agar tidak muncul warning saat development
+                >
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">{article.title}</h2>
+                    <img src={`http://localhost:5000${article.image}`} alt={article.title} className="w-full h-48 object-cover mb-4" /> {/* Tambahkan mb-4 untuk jarak di bawah gambar */}
+                    <p className="text-sm text-gray-600 mb-2">{formatDate(article.date)}</p>
+                    <p className="text-gray-700 mb-4">{article.content}</p>
+                    <button
+                        onClick={closeModal}
+                        className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
+                    >
+                        Tutup
+                    </button>
+                </Modal>
             </div>
         </div>
     );
