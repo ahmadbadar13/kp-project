@@ -19,6 +19,14 @@ const DivisiSPPP_SDM_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
+  const [isAddingPeriod, setIsAddingPeriod] = useState(false);
+  const [periode, setPeriode] = useState({ id_divisi_sppp_sdm: '', periode_awal: '', periode_akhir: '' });
+
+  const handleAddPeriod = () => setIsAddingPeriod(true);
+  const handleCancelAddPeriod = () => {
+    setIsAddingPeriod(false);
+    setPeriode({ id_divisi_sppp_sdm: '', periode_awal: '', periode_akhir: '' });
+  };
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
@@ -254,6 +262,37 @@ const DivisiSPPP_SDM_Op = () => {
     });
   };
 
+  // Fungsi untuk submit periode
+  const handleSubmitPeriod = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Tampilkan notifikasi loading sebelum proses pengiriman
+      Swal.fire({
+        title: 'Mengirim...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      // Kirim data periode ke API
+      const response = await axios.post('http://localhost:5000/api/divisi-sppp_sdm/add-periode', periode);
+
+      if (response.data.success) {
+        Swal.fire('Berhasil!', 'Periode berhasil ditambahkan.', 'success');
+        setIsAddingPeriod(false);
+        setPeriode({ id_divisi_sppp_sdm: '', periode_awal: '', periode_akhir: '' });
+      } else {
+        Swal.fire('Error!', response.data.message || 'Terjadi kesalahan saat menambahkan periode.', 'error');
+      }
+    } catch (error) {
+      console.error('Error submitting period:', error);
+      Swal.fire('Error!', 'Terjadi kesalahan saat menambahkan periode.', 'error');
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -385,6 +424,93 @@ const DivisiSPPP_SDM_Op = () => {
           </Modal>
         )}
         {/* End: Popup Komen */}
+
+        <div>
+          {/* Tombol untuk membuka modal */}
+          <button onClick={handleAddPeriod} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+            Tambah Periode Divisi
+          </button>
+
+          {/* Modal untuk menambahkan periode */}
+          <Modal
+            isOpen={isAddingPeriod}
+            onRequestClose={handleCancelAddPeriod}
+            contentLabel="Tambah Periode Divisi"
+            style={{
+              overlay: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              },
+              content: {
+                backgroundColor: 'white',
+                padding: '20px',
+                maxWidth: '500px',
+                width: '100%',
+                margin: 'auto',
+                borderRadius: '10px',
+                position: 'relative',
+                inset: 0, // Removes the default margin applied by react-modal
+              },
+            }}
+          >
+            <h2 className="text-2xl mb-4">Tambah Periode Divisi</h2>
+            <form onSubmit={handleSubmitPeriod}>
+              <div className="mb-4">
+                <label htmlFor="id_divisi_sppp_sdm" className="block text-gray-700">Divisi SPPP & SDM</label>
+                <select
+                  id="id_divisi_sppp_sdm"
+                  value={periode.id_divisi_sppp_sdm}
+                  onChange={(e) => setPeriode({ ...periode, id_divisi_sppp_sdm: e.target.value })}
+                  className="border border-gray-300 p-2 w-full"
+                >
+                  <option value="">Pilih Nama</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.nama_div_sppp_sdm}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="periode_awal" className="block text-gray-700">Periode Awal</label>
+                <input
+                  type="date"
+                  id="periode_awal"
+                  value={periode.periode_awal}
+                  onChange={(e) => setPeriode({ ...periode, periode_awal: e.target.value })}
+                  className="border border-gray-300 p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="periode_akhir" className="block text-gray-700">Periode Akhir</label>
+                <input
+                  type="date"
+                  id="periode_akhir"
+                  value={periode.periode_akhir}
+                  onChange={(e) => setPeriode({ ...periode, periode_akhir: e.target.value })}
+                  className="border border-gray-300 p-2 w-full"
+                  required
+                />
+              </div>
+              <div className="flex justify-end">
+                <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md mr-2">
+                  Simpan
+                </button>
+                <button type="button" onClick={handleCancelAddPeriod} className="bg-red-500 text-white px-4 py-2 rounded-md">
+                  Batal
+                </button>
+              </div>
+            </form>
+          </Modal>
+        </div>
 
         {/* Start: Card Read Data */}
         {!isAddingUser && !isEditingUser && (

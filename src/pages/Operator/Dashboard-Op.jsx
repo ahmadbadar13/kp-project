@@ -9,6 +9,30 @@ const Dashboard_Op = () => {
   const [struktur, setStruktur] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [periodeData, setPeriodeData] = useState([]);
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const handleOpenModal = async () => {
+    setModalLoading(true);
+    setError('');
+
+    try {
+        const response = await axios.get('http://localhost:5000/api/periode-divisi');
+        console.log(response.data); // Cek data yang diterima
+        setPeriodeData(response.data);
+    } catch (err) {
+        setError('Gagal mengambil data.');
+    } finally {
+        setModalLoading(false);
+    }
+
+    setIsModalOpen(true);
+};
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     // Fetch data from API
@@ -190,19 +214,12 @@ const Dashboard_Op = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full md:w-3/4">
             {struktur.slice(1).length > 0 ? (
               struktur.slice(1).map((item, index) => {
-                const divisiList = [
-                  "Divisi Teknis Penyelenggaraan",
-                  "Divisi Perencanaan, Data dan Informasi",
-                  "Divisi Hukum dan Pengawasan",
-                  "Divisi Sosialisasi, Pendidikan Pemilih, Parmas & SDM"
-                ];
-
                 return item && item.foto ? (
                   <div
                     key={index}
                     className="bg-gradient-to-b from-green-600 to-green-400 text-white p-4 rounded-full shadow-lg flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105"
                   >
-                    <p className="mb-2 text-center">{divisiList[index] || 'Divisi Anggota'}</p> {/* Teks divisi di atas foto */}
+                    <p className="mb-2 text-center">{`Divisi Anggota ${index + 1}`}</p>
                     <img
                       src={`http://localhost:5000${item.foto}`}
                       alt={item.nama || 'Anggota'}
@@ -227,6 +244,51 @@ const Dashboard_Op = () => {
             )}
           </div>
         </div>
+
+        {/* Button Riwayat Divisi */}
+        <div className="flex justify-center mt-6">
+          <button
+            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
+            onClick={handleOpenModal}
+          >
+            Riwayat Divisi
+          </button>
+        </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/3">
+              <h2 className="text-xl font-bold mb-4">Riwayat Divisi</h2>
+              {modalLoading ? (
+                <p>Loading...</p>
+              ) : error ? (
+                <p className="text-red-500">{error}</p>
+              ) : (
+                <ul className="space-y-2">
+                  {periodeData.length > 0 ? (
+                    periodeData.map((periode, index) => (
+                      <li key={index} className="border-b pb-2">
+                        <p>{periode.nama_div_hp || 'Nama Divisi tidak tersedia'}</p>
+                        <p>{`Periode: ${periode.periode_awal || 'Tidak tersedia'} - ${periode.periode_akhir || 'Tidak tersedia'}`}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <p>Tidak ada data periode yang tersedia.</p>
+                  )}
+                </ul>
+              )}
+              <div className="flex justify-end mt-4">
+                <button
+                  className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-red-600 transition duration-300"
+                  onClick={handleCloseModal}
+                >
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {/* End: Struktur Organisasi */}
 
