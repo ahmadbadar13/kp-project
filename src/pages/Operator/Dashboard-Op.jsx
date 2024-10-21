@@ -170,17 +170,18 @@ const Dashboard_Op = () => {
         <div className="flex flex-col items-center space-y-4">
           {/* Ketua */}
           {struktur.length > 0 && struktur[0] ? (
-            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 flex flex-col items-center justify-center">
+            <div className="bg-gradient-to-b from-blue-600 to-blue-400 text-white p-4 rounded-full shadow-lg w-full md:w-1/4 flex flex-col items-center justify-center transform transition-transform hover:scale-105">
+              <p className="mb-2 text-center">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</p>
               <img
                 src={`http://localhost:5000${struktur[0].foto}`}
                 alt={struktur[0].nama || 'Ketua'}
                 className="w-32 h-32 rounded-full mb-2 object-cover"
               />
-              <h2 className="text-xl font-semibold text-center">{struktur[0].nama || 'Nama Ketua'}</h2>
-              <p className="text-center">{struktur[0].peran || 'Peran Ketua'}</p>
+              <h2 className="text-xl font-semibold text-center overflow-hidden">{struktur[0].nama || 'Nama Ketua'}</h2>
+              <p className="text-center overflow-hidden">{struktur[0].peran || 'Peran Ketua'}</p>
             </div>
           ) : (
-            <div className="bg-blue-500 text-white p-4 rounded-lg shadow-md w-full md:w-1/4 flex items-center justify-center">
+            <div className="bg-gradient-to-b from-blue-600 to-blue-400 text-white p-4 rounded-full shadow-lg w-full md:w-1/4 flex items-center justify-center transform transition-transform hover:scale-105">
               <p>Data Ketua tidak tersedia</p>
             </div>
           )}
@@ -188,23 +189,37 @@ const Dashboard_Op = () => {
           {/* Anggota */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full md:w-3/4">
             {struktur.slice(1).length > 0 ? (
-              struktur.slice(1).map((item, index) => (
-                item && item.foto ? (
-                  <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center">
+              struktur.slice(1).map((item, index) => {
+                const divisiList = [
+                  "Divisi Teknis Penyelenggaraan",
+                  "Divisi Perencanaan, Data dan Informasi",
+                  "Divisi Hukum dan Pengawasan",
+                  "Divisi Sosialisasi, Pendidikan Pemilih, Parmas & SDM"
+                ];
+
+                return item && item.foto ? (
+                  <div
+                    key={index}
+                    className="bg-gradient-to-b from-green-600 to-green-400 text-white p-4 rounded-full shadow-lg flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105"
+                  >
+                    <p className="mb-2 text-center">{divisiList[index] || 'Divisi Anggota'}</p> {/* Teks divisi di atas foto */}
                     <img
                       src={`http://localhost:5000${item.foto}`}
                       alt={item.nama || 'Anggota'}
                       className="w-24 h-24 rounded-full mb-2 object-cover"
                     />
-                    <h2 className="text-lg font-semibold">{item.nama || 'Nama Anggota'}</h2>
-                    <p>{item.peran || 'Peran Anggota'}</p>
+                    <h2 className="text-lg font-semibold text-center overflow-hidden">{item.nama || 'Nama Anggota'}</h2>
+                    <p className="overflow-hidden">{item.peran || 'Peran Anggota'}</p>
                   </div>
                 ) : (
-                  <div key={index} className="bg-green-500 text-white p-4 rounded-lg shadow-md flex items-center justify-center text-center">
+                  <div
+                    key={index}
+                    className="bg-gradient-to-b from-green-600 to-green-400 text-white p-4 rounded-full shadow-lg flex items-center justify-center text-center transform transition-transform hover:scale-105"
+                  >
                     <p>Data Anggota tidak tersedia</p>
                   </div>
-                )
-              ))
+                );
+              })
             ) : (
               <div className="w-full text-center">
                 <p>Data Anggota tidak tersedia</p>
