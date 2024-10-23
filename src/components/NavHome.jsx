@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/Logo KPU.png';
+import { FaSignInAlt } from 'react-icons/fa';
 
 const NavHome = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -18,9 +19,10 @@ const NavHome = () => {
                 </Link>
                 <div>
                     <Link to="/login">
-                        <button className="bg-white text-red-800 font-semibold py-2 px-4 rounded shadow hover:bg-red-600 hover:text-white transition duration-300">
-                            Login
-                        </button>
+                    <button className="flex items-center text-white font-semibold py-2 px-4 rounded transition duration-300 hover:text-black">
+                        <FaSignInAlt className="mr-2" />
+                        Login
+                    </button>
                     </Link>
                 </div>
                 <div className="md:hidden">

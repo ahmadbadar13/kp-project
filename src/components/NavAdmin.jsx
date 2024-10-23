@@ -122,11 +122,6 @@ const NavAdmin = () => {
                         )}
                     </li>
                     <li>
-                        <Link to="/AllDataPegawai" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
-                        Data Pegawai
-                        </Link>
-                    </li>
-                    <li>
                         <Link to="/Berita" className="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                         Berita
                         </Link>
@@ -249,11 +244,6 @@ const NavAdmin = () => {
                             </li>
                         </ul>
                         )}
-                    </li>
-                    <li>
-                        <Link to="/AllDataPegawai" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
-                        Data Pegawai
-                        </Link>
                     </li>
                     <li>
                         <Link to="/Berita" className="block py-2 px-3 text-white text-lg" onClick={closeMenu}>
