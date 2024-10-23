@@ -9,36 +9,19 @@ const Dashboard_Op = () => {
   const [struktur, setStruktur] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [periodeData, setPeriodeData] = useState([]);
-  const [modalLoading, setModalLoading] = useState(false);
-
-  const handleOpenModal = async () => {
-    setModalLoading(true);
-    setError('');
-
-    try {
-        const response = await axios.get('http://localhost:5000/api/periode-divisi');
-        console.log(response.data); // Cek data yang diterima
-        setPeriodeData(response.data);
-    } catch (err) {
-        setError('Gagal mengambil data.');
-    } finally {
-        setModalLoading(false);
-    }
-
-    setIsModalOpen(true);
-};
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const [subBagian, setSubBagian] = useState([]);
 
   useEffect(() => {
     // Fetch data from API
     axios.get('http://localhost:5000/api/struktur-organisasi')
       .then(response => {
-        setStruktur(response.data);
+        const data = response.data;
+        // Pisahkan data struktur organisasi dengan sub bagian
+        const strukturData = data.filter(item => item.peran === 'Ketua' || item.peran === 'Anggota' || item.peran === 'Sekretaris');
+        const subBagianData = data.filter(item => item.sub_bagian); // Ambil data yang memiliki sub_bagian
+
+        setStruktur(strukturData);
+        setSubBagian(subBagianData); // Set data untuk sub bagian
         setLoading(false);
       })
       .catch(error => {
@@ -190,105 +173,192 @@ const Dashboard_Op = () => {
 
       {/* Start: Struktur Organisasi */}
       <div className="p-6 bg-white min-h-screen mb-11">
-        <h1 className="text-3xl font-bold text-center mb-6">Profile Anggota KPU Kota Cimahi</h1>
-        <div className="flex flex-col items-center space-y-4">
+        <h1 className="text-3xl font-bold text-center mb-6">Struktur Organisasi Komisi Pemilihan Umum Kota Cimahi</h1>
+
+        <div className="flex flex-col items-center space-y-12">
           {/* Ketua */}
           {struktur.length > 0 && struktur[0] ? (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-400 text-white p-4 rounded-full shadow-lg w-full md:w-1/4 flex flex-col items-center justify-center transform transition-transform hover:scale-105">
-              <p className="mb-2 text-center">Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</p>
+            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
               <img
                 src={`http://localhost:5000${struktur[0].foto}`}
                 alt={struktur[0].nama || 'Ketua'}
-                className="w-32 h-32 rounded-full mb-2 object-cover"
+                className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
               />
-              <h2 className="text-xl font-semibold text-center overflow-hidden">{struktur[0].nama || 'Nama Ketua'}</h2>
-              <p className="text-center overflow-hidden">{struktur[0].peran || 'Peran Ketua'}</p>
+              <h2 className="text-lg md:text-xl font-semibold text-center">{struktur[0].nama || 'Nama Ketua'}</h2>
+              <p className="text-center">{struktur[0].peran || 'Peran Ketua'}</p>
             </div>
           ) : (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-400 text-white p-4 rounded-full shadow-lg w-full md:w-1/4 flex items-center justify-center transform transition-transform hover:scale-105">
+            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
               <p>Data Ketua tidak tersedia</p>
             </div>
           )}
 
           {/* Anggota */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full md:w-3/4">
-            {struktur.slice(1).length > 0 ? (
-              struktur.slice(1).map((item, index) => {
-                return item && item.foto ? (
-                  <div
-                    key={index}
-                    className="bg-gradient-to-b from-green-600 to-green-400 text-white p-4 rounded-full shadow-lg flex flex-col items-center justify-center text-center transform transition-transform hover:scale-105"
-                  >
-                    <p className="mb-2 text-center">{`Divisi Anggota ${index + 1}`}</p>
-                    <img
-                      src={`http://localhost:5000${item.foto}`}
-                      alt={item.nama || 'Anggota'}
-                      className="w-24 h-24 rounded-full mb-2 object-cover"
-                    />
-                    <h2 className="text-lg font-semibold text-center overflow-hidden">{item.nama || 'Nama Anggota'}</h2>
-                    <p className="overflow-hidden">{item.peran || 'Peran Anggota'}</p>
-                  </div>
-                ) : (
-                  <div
-                    key={index}
-                    className="bg-gradient-to-b from-green-600 to-green-400 text-white p-4 rounded-full shadow-lg flex items-center justify-center text-center transform transition-transform hover:scale-105"
-                  >
-                    <p>Data Anggota tidak tersedia</p>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="w-full text-center">
-                <p>Data Anggota tidak tersedia</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Button Riwayat Divisi */}
-        <div className="flex justify-center mt-6">
-          <button
-            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
-            onClick={handleOpenModal}
-          >
-            Riwayat Divisi
-          </button>
-        </div>
-
-        {/* Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/3">
-              <h2 className="text-xl font-bold mb-4">Riwayat Divisi</h2>
-              {modalLoading ? (
-                <p>Loading...</p>
-              ) : error ? (
-                <p className="text-red-500">{error}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 w-full max-w-6xl">
+            {struktur.slice(1, -1).map((item, index) => (
+              item && item.foto ? (
+                <div key={index} className="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
+                  <img
+                    src={`http://localhost:5000${item.foto}`}
+                    alt={item.nama || 'Anggota'}
+                    className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
+                  />
+                  <h2 className="text-sm md:text-lg font-semibold text-center">{item.nama || 'Nama Anggota'}</h2>
+                  <p className="text-center">{item.peran || 'Peran Anggota'}</p>
+                </div>
               ) : (
-                <ul className="space-y-2">
-                  {periodeData.length > 0 ? (
-                    periodeData.map((periode, index) => (
-                      <li key={index} className="border-b pb-2">
-                        <p>{periode.nama_div_hp || 'Nama Divisi tidak tersedia'}</p>
-                        <p>{`Periode: ${periode.periode_awal || 'Tidak tersedia'} - ${periode.periode_akhir || 'Tidak tersedia'}`}</p>
-                      </li>
+                <div key={index} className="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+                  <p>Data tidak tersedia</p>
+                </div>
+              )
+            ))}
+          </div>
+
+          {/* Sekretaris */}
+          {struktur[struktur.length - 1] && struktur[struktur.length - 1].foto ? (
+            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
+              <img
+                src={`http://localhost:5000${struktur[struktur.length - 1].foto}`}
+                alt={struktur[struktur.length - 1].nama || 'Sekretaris'}
+                className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
+              />
+              <h2 className="text-lg md:text-xl font-semibold text-center">{struktur[struktur.length - 1].nama || 'Nama Sekretaris'}</h2>
+              <p className="text-center">{struktur[struktur.length - 1].peran || 'Peran Sekretaris'}</p>
+            </div>
+          ) : (
+            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+              <p>Data Sekretaris tidak tersedia</p>
+            </div>
+          )}
+        </div>
+
+        {/* Tabel Sub Bagian */}
+        <div className="mt-12 w-full max-w-6xl mx-auto">
+
+          {/* Kontainer untuk Tabel */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {/* Sub Bagian HSDM */}
+            <div>
+              <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Hukum & SDM</h3>
+              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-4 py-2">Nama</th>
+                    <th className="px-4 py-2">NIP</th>
+                    <th className="px-4 py-2">Posisi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').map((sub, index) => (
+                      <tr key={index} className="text-center">
+                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
+                      </tr>
                     ))
                   ) : (
-                    <p>Tidak ada data periode yang tersedia.</p>
+                    <tr>
+                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
+                    </tr>
                   )}
-                </ul>
-              )}
-              <div className="flex justify-end mt-4">
-                <button
-                  className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-red-600 transition duration-300"
-                  onClick={handleCloseModal}
-                >
-                  Tutup
-                </button>
-              </div>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Sub Bagian PDI */}
+            <div>
+            <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Perencanaan, Data & Informasi</h3>
+              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-4 py-2">Nama</th>
+                    <th className="px-4 py-2">NIP</th>
+                    <th className="px-4 py-2">Posisi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').map((sub, index) => (
+                      <tr key={index} className="text-center">
+                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
-        )}
+
+          {/* Kontainer untuk Tabel */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {/* Sub Bagian KUL */}
+            <div>
+            <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Keuangan, Umum & Logistik</h3>
+              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-4 py-2">Nama</th>
+                    <th className="px-4 py-2">NIP</th>
+                    <th className="px-4 py-2">Posisi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').map((sub, index) => (
+                      <tr key={index} className="text-center">
+                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Sub Bagian TPPPH */}
+            <div>
+              <h3 className="text-lg text-center font-semibold mt-4 mb-2">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas</h3>
+              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                <thead className="bg-gray-200">
+                  <tr>
+                    <th className="px-4 py-2">Nama</th>
+                    <th className="px-4 py-2">NIP</th>
+                    <th className="px-4 py-2">Posisi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').map((sub, index) => (
+                      <tr key={index} className="text-center">
+                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
+                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center mt-8">
+      </div>
       </div>
       {/* End: Struktur Organisasi */}
 

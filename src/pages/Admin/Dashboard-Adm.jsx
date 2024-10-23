@@ -338,7 +338,7 @@ const Dashboard_Adm = () => {
 
       {/* Start: Struktur Organisasi */}
       <div className="p-6 bg-white min-h-screen mb-11">
-        <h1 className="text-3xl font-bold text-center mb-6">Profile Anggota KPU Kota Cimahi</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">Struktur Organisasi Komisi Pemilihan Umum Kota Cimahi</h1>
 
         <div className="flex flex-col items-center space-y-12">
           {/* Ketua */}
@@ -531,7 +531,7 @@ const Dashboard_Adm = () => {
         </button>
       </div>
       </div>
-      {/* Start: Struktur Organisasi */}
+      {/* End: Struktur Organisasi */}
 
       {/* Start: Footer */}
       <Footer />
