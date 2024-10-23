@@ -115,6 +115,184 @@ const Dashboard_Adm = () => {
     );
   }
 
+  const printContent = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+          <style>
+            body {
+              background-color: #fff;
+            }
+          </style>
+        </head>
+        <body class="p-6 bg-white min-h-screen mb-11">
+          <h1 class="text-3xl font-bold text-center mb-6">Profile Anggota KPU Kota Cimahi</h1>
+
+          <div class="flex flex-col items-center space-y-12">
+            <!-- Ketua -->
+            ${struktur.length > 0 && struktur[0] ? `
+              <div class="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
+                <img src="http://localhost:5000${struktur[0].foto}" alt="${struktur[0].nama || 'Ketua'}" class="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray" />
+                <h2 class="text-lg md:text-xl font-semibold text-center">${struktur[0].nama || 'Nama Ketua'}</h2>
+                <p class="text-center">${struktur[0].peran || 'Peran Ketua'}</p>
+              </div>
+            ` : `
+              <div class="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+                <p>Data Ketua tidak tersedia</p>
+              </div>
+            `}
+
+            <!-- Anggota -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 w-full max-w-6xl">
+              ${struktur.slice(1, -1).map((item, index) => `
+                ${item && item.foto ? `
+                  <div key="${index}" class="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
+                    <img src="http://localhost:5000${item.foto}" alt="${item.nama || 'Anggota'}" class="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray" />
+                    <h2 class="text-sm md:text-lg font-semibold text-center">${item.nama || 'Nama Anggota'}</h2>
+                    <p class="text-center">${item.peran || 'Peran Anggota'}</p>
+                  </div>
+                ` : `
+                  <div key="${index}" class="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+                    <p>Data tidak tersedia</p>
+                  </div>
+                `}
+              `).join('')}
+            </div>
+
+            <!-- Sekretaris -->
+            ${struktur[struktur.length - 1] && struktur[struktur.length - 1].foto ? `
+              <div class="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
+                <img src="http://localhost:5000${struktur[struktur.length - 1].foto}" alt="${struktur[struktur.length - 1].nama || 'Sekretaris'}" class="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray" />
+                <h2 class="text-lg md:text-xl font-semibold text-center">${struktur[struktur.length - 1].nama || 'Nama Sekretaris'}</h2>
+                <p class="text-center">${struktur[struktur.length - 1].peran || 'Peran Sekretaris'}</p>
+              </div>
+            ` : `
+              <div class="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
+                <p>Data Sekretaris tidak tersedia</p>
+              </div>
+            `}
+          </div>
+
+          <!-- Tabel Sub Bagian -->
+          <div class="mt-12 w-full max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <!-- Sub Bagian HSDM -->
+              <div>
+                <h3 class="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Hukum & SDM</h3>
+                <table class="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                  <thead class="bg-gray-200">
+                    <tr>
+                      <th class="px-4 py-2">Nama</th>
+                      <th class="px-4 py-2">NIP</th>
+                      <th class="px-4 py-2">Posisi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').length > 0 ? 
+                      subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').map((sub) => `
+                        <tr>
+                          <td class="px-4 py-2">${sub.nama || 'Nama Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.nip || 'NIP Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.posisi || 'Posisi Sub Bagian'}</td>
+                        </tr>
+                      `).join('') : 
+                      '<tr><td colspan="3" class="text-center">Data Sub Bagian tidak tersedia</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Sub Bagian PDI -->
+              <div>
+                <h3 class="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Perencanaan, Data & Informasi</h3>
+                <table class="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                  <thead class="bg-gray-200">
+                    <tr>
+                      <th class="px-4 py-2">Nama</th>
+                      <th class="px-4 py-2">NIP</th>
+                      <th class="px-4 py-2">Posisi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').length > 0 ? 
+                      subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').map((sub) => `
+                        <tr>
+                          <td class="px-4 py-2">${sub.nama || 'Nama Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.nip || 'NIP Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.posisi || 'Posisi Sub Bagian'}</td>
+                        </tr>
+                      `).join('') : 
+                      '<tr><td colspan="3" class="text-center">Data Sub Bagian tidak tersedia</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Sub Bagian KUL -->
+              <div>
+                <h3 class="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Keuangan, Umum & Logistik</h3>
+                <table class="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                  <thead class="bg-gray-200">
+                    <tr>
+                      <th class="px-4 py-2">Nama</th>
+                      <th class="px-4 py-2">NIP</th>
+                      <th class="px-4 py-2">Posisi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').length > 0 ? 
+                      subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').map((sub) => `
+                        <tr>
+                          <td class="px-4 py-2">${sub.nama || 'Nama Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.nip || 'NIP Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.posisi || 'Posisi Sub Bagian'}</td>
+                        </tr>
+                      `).join('') : 
+                      '<tr><td colspan="3" class="text-center">Data Sub Bagian tidak tersedia</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Sub Bagian TPPP -->
+              <div>
+                <h3 class="text-lg text-center font-semibold mt-4 mb-2">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas</h3>
+                <table class="table-auto w-full bg-white shadow-md rounded-lg mb-8">
+                  <thead class="bg-gray-200">
+                    <tr>
+                      <th class="px-4 py-2">Nama</th>
+                      <th class="px-4 py-2">NIP</th>
+                      <th class="px-4 py-2">Posisi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').length > 0 ? 
+                      subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').map((sub) => `
+                        <tr>
+                          <td class="px-4 py-2">${sub.nama || 'Nama Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.nip || 'NIP Sub Bagian'}</td>
+                          <td class="px-4 py-2">${sub.posisi || 'Posisi Sub Bagian'}</td>
+                        </tr>
+                      `).join('') : 
+                      '<tr><td colspan="3" class="text-center">Data Sub Bagian tidak tersedia</td></tr>'
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </html>
+    `);
+  
+    // Menutup HTML
+    printWindow.document.close();
+    printWindow.print();
+  };  
+  
+
   return (
     <div>
       {/* Start: Navbar */}
@@ -344,9 +522,16 @@ const Dashboard_Adm = () => {
             </div>
           </div>
         </div>
+        <div className="flex justify-center mt-8">
+        <button
+          onClick={printContent}
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+        >
+          Cetak Struktur Organisasi
+        </button>
+      </div>
       </div>
       {/* Start: Struktur Organisasi */}
-
 
       {/* Start: Footer */}
       <Footer />
