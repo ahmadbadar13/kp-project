@@ -249,8 +249,8 @@ const Dashboard_Op = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian HSDM').map((sub, index) => (
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Hukum dan Pengawasan').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Hukum dan Pengawasan').map((sub, index) => (
                       <tr key={index} className="text-center">
                         <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
                         <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
@@ -278,8 +278,8 @@ const Dashboard_Op = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian PDI').map((sub, index) => (
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Perencanaan, Data & Informasi').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Perencanaan, Data & Informasi').map((sub, index) => (
                       <tr key={index} className="text-center">
                         <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
                         <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
@@ -310,8 +310,8 @@ const Dashboard_Op = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian KUL').map((sub, index) => (
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Keuangan, Umum & Logistik').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Keuangan, Umum & Logistik').map((sub, index) => (
                       <tr key={index} className="text-center">
                         <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
                         <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
@@ -339,8 +339,8 @@ const Dashboard_Op = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian TPPPH').map((sub, index) => (
+                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas').length > 0 ? (
+                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas').map((sub, index) => (
                       <tr key={index} className="text-center">
                         <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
                         <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
