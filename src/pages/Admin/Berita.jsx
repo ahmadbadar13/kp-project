@@ -254,7 +254,7 @@ const AddNews = () => {
             {/* Menampilkan Data Berita */}
             <div className="flex-grow flex justify-center items-center mt-8">
                 <div className="w-full max-w-4xl">
-                    <h2 className="text-xl font-bold mb-4">Daftar Berita</h2>
+                    <h2 className="text-xl text-center font-bold mt-10 mb-4">Daftar Berita</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {newsList.map((news) => {
                         const contentLimit = 100; // Batas karakter untuk menampilkan ringkasan
