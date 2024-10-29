@@ -3,6 +3,8 @@ import axios from 'axios';
 import Navbar from '../../components/NavAdmin';
 import Footer from '../../components/FooterAllPages';
 import Swal from 'sweetalert2';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AddNews = () => {
     // State untuk menyimpan input form
@@ -223,12 +225,10 @@ const AddNews = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Isi Berita</label>
-                            <textarea
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                rows="5"
+                            <CKEditor
+                                editor={ClassicEditor}
+                                data={content}
+                                onChange={(event, editor) => setContent(editor.getData())}
                             />
                         </div>
 
@@ -256,47 +256,52 @@ const AddNews = () => {
                 <div className="w-full max-w-4xl">
                     <h2 className="text-xl text-center font-bold mt-10 mb-4">Daftar Berita</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {newsList.map((news) => {
-                        const contentLimit = 100; // Batas karakter untuk menampilkan ringkasan
-                        const isContentLong = news.content.length > contentLimit; // Cek apakah konten panjang
-                        
-                        return (
-                            <div key={news.id} className="bg-white p-4 rounded-lg shadow-md">
-                                <img src={`http://localhost:5000${news.image}`} alt={news.title} className="w-full h-32 object-cover rounded-md" />
-                                <h3 className="text-lg font-semibold mt-2">{news.title}</h3>
+                        {newsList.map((news) => {
+                            const contentLimit = 100; // Batas karakter untuk menampilkan ringkasan
+                            const isContentLong = news.content.length > contentLimit; // Cek apakah konten panjang
 
-                                {/* Tampilkan konten */}
-                                <p className="text-gray-700">
-                                    {showFullContent ? news.content : `${news.content.substring(0, contentLimit)}...`}
-                                </p>
+                            return (
+                                <div key={news.id} className="bg-white p-4 rounded-lg shadow-md">
+                                    <img src={`http://localhost:5000${news.image}`} alt={news.title} className="w-full h-32 object-cover rounded-md" />
+                                    <h3 className="text-lg font-semibold mt-2">{news.title}</h3>
 
-                                {/* Tampilkan tombol hanya jika teks panjang */}
-                                {isContentLong && (
-                                    <button
-                                        onClick={() => setShowFullContent(!showFullContent)}
-                                        className="text-indigo-500 hover:underline"
-                                    >
-                                        {showFullContent ? 'Tampilkan sedikit' : 'Baca selengkapnya'}
-                                    </button>
-                                )}
+                                    {/* Tampilkan konten menggunakan dangerouslySetInnerHTML */}
+                                    <div
+                                        className="text-gray-700"
+                                        dangerouslySetInnerHTML={{
+                                            __html: showFullContent 
+                                                ? news.content 
+                                                : `${news.content.substring(0, contentLimit)}...`
+                                        }}
+                                    />
 
-                                <div className="flex justify-between mt-4">
-                                    <button
-                                        onClick={() => handleEditClick(news)}
-                                        className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(news.id)}
-                                        className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
-                                    >
-                                        Hapus
-                                    </button>
+                                    {/* Tampilkan tombol hanya jika teks panjang */}
+                                    {isContentLong && (
+                                        <button
+                                            onClick={() => setShowFullContent(!showFullContent)}
+                                            className="text-indigo-500 hover:underline"
+                                        >
+                                            {showFullContent ? 'Tampilkan sedikit' : 'Baca selengkapnya'}
+                                        </button>
+                                    )}
+
+                                    <div className="flex justify-between mt-4">
+                                        <button
+                                            onClick={() => handleEditClick(news)}
+                                            className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(news.id)}
+                                            className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
+                                        >
+                                            Hapus
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -339,12 +344,10 @@ const AddNews = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Isi Berita</label>
-                                <textarea
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    required
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    rows="5"
+                                <CKEditor
+                                    editor={ClassicEditor}
+                                    data={content}
+                                    onChange={(event, editor) => setContent(editor.getData())}
                                 />
                             </div>
 

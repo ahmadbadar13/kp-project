@@ -73,10 +73,11 @@ const ArticleCard = ({ article, formatDate }) => {
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">{article.title}</h2>
                 <p className="text-sm text-gray-600 mb-4">{formatDate(article.date)}</p>
 
-                {/* Tampilkan ringkasan berita */}
-                <p className="text-gray-700 mb-4">
-                    {article.content.substring(0, 100)}...
-                </p>
+                {/* Tampilkan ringkasan berita tanpa tag HTML */}
+                <div
+                    className="text-gray-700 mb-4"
+                    dangerouslySetInnerHTML={{ __html: article.content.substring(0, 100) + '...' }}
+                />
 
                 {/* Tombol untuk membuka modal */}
                 <button
@@ -100,9 +101,15 @@ const ArticleCard = ({ article, formatDate }) => {
                         src={`http://localhost:5000${article.image}`} 
                         alt={article.title} 
                         className="w-full h-48 object-cover mb-4" 
-                    /> {/* Tambahkan mb-4 untuk jarak di bawah gambar */}
+                    />
                     <p className="text-sm text-gray-600 mb-2">{formatDate(article.date)}</p>
-                    <p className="text-gray-700 mb-4 mt-2">{article.content}</p>
+                    
+                    {/* Menampilkan konten lengkap tanpa tag HTML */}
+                    <div
+                        className="text-gray-700 mb-4 mt-2"
+                        dangerouslySetInnerHTML={{ __html: article.content }}
+                    />
+
                     <button
                         onClick={closeModal}
                         className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
