@@ -97,7 +97,12 @@ const SubBagianKUL_Adm = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_kul}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_kul}</p>
+                  {!isNaN(user.nip_sb_kul) && user.nip_sb_kul ? (
+                      <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_kul}</p>
+                  ) : (
+                      <p className="text-gray-600 mb-2 text-center">
+                        {user.id !== 'NIP' && user.nip_sb_kul && ` ${user.nip_sb_kul}`}</p>
+                  )}
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_kul}</p>
                   <button
                   onClick={() => openModal(user.id)}

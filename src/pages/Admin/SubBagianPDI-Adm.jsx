@@ -97,7 +97,12 @@ const SubBagianPDI_Adm = () => {
                     />
                   </div>
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_pdi}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_pdi}</p>
+                  {!isNaN(user.nip_sb_pdi) && user.nip_sb_pdi ? (
+                      <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_pdi}</p>
+                  ) : (
+                      <p className="text-gray-600 mb-2 text-center">
+                        {user.id !== 'NIP' && user.nip_sb_pdi && ` ${user.nip_sb_pdi}`}</p>
+                  )}
                   <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_pdi}</p>
                   <button
                   onClick={() => openModal(user.id)}
