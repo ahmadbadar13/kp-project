@@ -35,6 +35,7 @@ import SubBagianTPPPH_Op from './pages/Operator/SubBagianTPPPH-Op';
 import Sekretaris_Op from './pages/Operator/Sekretaris-Op';
 
 import Home from './pages/Home';
+import ReadMoreBerita from './pages/ReadMoreBerita';
 
 // Komponen untuk memastikan akses sesuai dengan peran
 const PrivateRoute = ({ element, role }) => {
@@ -86,6 +87,7 @@ function App() {
 
         {/* Home */}
         <Route path="/Home" element={<Home />} />
+        <Route path="/news/:id" element={<ReadMoreBerita />} />
       </Routes>
     </Router>
   );

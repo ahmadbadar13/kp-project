@@ -5,6 +5,7 @@ import Footer from '../../components/FooterAllPages';
 import Swal from 'sweetalert2';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 
 const AddNews = () => {
     // State untuk menyimpan input form
@@ -261,15 +262,15 @@ const AddNews = () => {
                             const isContentLong = news.content.length > contentLimit; // Cek apakah konten panjang
 
                             return (
-                                <div key={news.id} className="bg-white p-4 rounded-lg shadow-md">
-                                    <img src={`http://localhost:5000${news.image}`} alt={news.title} className="w-full h-32 object-cover rounded-md" />
+                                <div key={news.id} className="bg-white p-4 rounded-lg shadow-md flex flex-col h-full">
+                                    <img src={`http://localhost:5000${news.image}`} alt={news.title} className="w-full h-32 object-cover rounded-md mb-4" />
                                     <h3 className="text-lg font-semibold mt-2">{news.title}</h3>
 
                                     {/* Tampilkan konten menggunakan dangerouslySetInnerHTML */}
                                     <div
-                                        className="text-gray-700"
+                                        className="text-gray-700 flex-grow mb-4"
                                         dangerouslySetInnerHTML={{
-                                            __html: showFullContent 
+                                            __html: showFullContent[news.id] 
                                                 ? news.content 
                                                 : `${news.content.substring(0, contentLimit)}...`
                                         }}
@@ -278,25 +279,26 @@ const AddNews = () => {
                                     {/* Tampilkan tombol hanya jika teks panjang */}
                                     {isContentLong && (
                                         <button
-                                            onClick={() => setShowFullContent(!showFullContent)}
-                                            className="text-indigo-500 hover:underline"
+                                            onClick={() => setShowFullContent(prev => ({ ...prev, [news.id]: !prev[news.id] }))}
+                                            className="text-indigo-500 hover:underline mb-2"
                                         >
-                                            {showFullContent ? 'Tampilkan sedikit' : 'Baca selengkapnya'}
+                                            {showFullContent[news.id] ? 'Tampilkan sedikit' : 'Baca selengkapnya'}
                                         </button>
                                     )}
 
-                                    <div className="flex justify-between mt-4">
+                                    {/* Tombol Edit dan Hapus */}
+                                    <div className="flex justify-between mt-auto">
                                         <button
                                             onClick={() => handleEditClick(news)}
-                                            className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600"
+                                            className="bg-yellow-500 text-white py-1 px-2 rounded-md hover:bg-yellow-600"
                                         >
-                                            Edit
+                                            <AiFillEdit size={25} />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(news.id)}
                                             className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
                                         >
-                                            Hapus
+                                            <AiFillDelete size={25} />
                                         </button>
                                     </div>
                                 </div>
@@ -309,10 +311,10 @@ const AddNews = () => {
             {/* Modal Edit Berita */}
             {isEditing && (
                 <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md max-h-[80vh] overflow-hidden flex flex-col">
                         <h1 className="text-2xl font-bold mb-6 text-center">Edit Berita</h1>
 
-                        <form onSubmit={handleEditSubmit} className="space-y-4">
+                        <form onSubmit={handleEditSubmit} className="space-y-4 flex-1 overflow-y-auto">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Judul Berita</label>
                                 <input

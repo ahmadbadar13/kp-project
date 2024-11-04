@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import NavHome from '../components/NavHome';
 import Footer from '../components/FooterAllPages';
-import Modal from 'react-modal';
 
 const DashboardHome = () => {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
-    
 
-    // Fungsi untuk memformat tanggal ke format "Rabu, 12 Oktober 2021"
     const formatDate = (dateString) => {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('id-ID', options);
@@ -56,67 +54,32 @@ const DashboardHome = () => {
 };
 
 const ArticleCard = ({ article, formatDate }) => {
-    const [modalIsOpen, setModalIsOpen] = useState(false); // State untuk mengatur apakah modal terbuka atau tidak
+    const maxTitleLength = 60;
 
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
+    // Memformat judul agar tidak melebihi panjang maksimum
+    const formattedTitle = article.title.length > maxTitleLength 
+        ? article.title.substring(0, maxTitleLength) + '...' 
+        : article.title;
 
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
             <img src={`http://localhost:5000${article.image}`} alt={article.title} className="w-full h-48 object-cover" />
-            <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">{article.title}</h2>
+            <div className="p-6 flex-1 flex flex-col">
+                {/* Menampilkan judul yang sudah diformat */}
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">{formattedTitle}</h2>
+                
+                {/* Gaya untuk menempatkan tanggal di tengah */}
                 <p className="text-sm text-gray-600 mb-4">{formatDate(article.date)}</p>
 
-                {/* Tampilkan ringkasan berita tanpa tag HTML */}
-                <div
-                    className="text-gray-700 mb-4"
-                    dangerouslySetInnerHTML={{ __html: article.content.substring(0, 100) + '...' }}
-                />
+                <div className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: article.content.substring(0, 150) + '...' }} />
 
-                {/* Tombol untuk membuka modal */}
-                <button
-                    onClick={openModal}
-                    className="text-indigo-500 hover:underline"
+                {/* Gunakan Link untuk navigasi ke halaman lengkap */}
+                <Link
+                    to={`/news/${article.id}`}
+                    className="mt-auto text-indigo-500 hover:underline self-end"
                 >
                     Baca selengkapnya...
-                </button>
-
-                {/* Modal untuk menampilkan konten lengkap */}
-                <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                    contentLabel="Konten Berita"
-                    className="bg-white m-10 p-6 rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 max-h-[60vh] overflow-y-auto"
-                    overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-                    ariaHideApp={false}
-                >
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">{article.title}</h2>
-                    <img 
-                        src={`http://localhost:5000${article.image}`} 
-                        alt={article.title} 
-                        className="w-full h-48 object-cover mb-4" 
-                    />
-                    <p className="text-sm text-gray-600 mb-2">{formatDate(article.date)}</p>
-                    
-                    {/* Menampilkan konten lengkap tanpa tag HTML */}
-                    <div
-                        className="text-gray-700 mb-4 mt-2"
-                        dangerouslySetInnerHTML={{ __html: article.content }}
-                    />
-
-                    <button
-                        onClick={closeModal}
-                        className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
-                    >
-                        Tutup
-                    </button>
-                </Modal>
+                </Link>
             </div>
         </div>
     );
