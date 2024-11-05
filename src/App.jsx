@@ -4,9 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 // Halaman Login
 import Login from './pages/Login';
 
-// Halaman Register
-import Register from './pages/Register';
-
 // Halaman Admin
 import Dashboard_Adm from './pages/Admin/Dashboard-Adm';
 import DivisiHP from './pages/Admin/DivisiHP-Adm';
@@ -20,6 +17,7 @@ import SubBagianPDI from './pages/Admin/SubBagianPDI-Adm';
 import SubBagianTPPPH from './pages/Admin/SubBagianTPPPH-Adm';
 import Sekretaris from './pages/Admin/Sekretaris-Adm';
 import Berita from './pages/Admin/Berita';
+import Akun from './pages/Admin/Akun';
 
 // Halaman Operator
 import Dashboard_Op from './pages/Operator/Dashboard-Op';
@@ -55,9 +53,6 @@ function App() {
         {/* Login */}
         <Route path="/Login" element={<Login />} />
 
-        {/* Register */}
-        <Route path="/Register" element={<Register />} />
-
         {/* Admin */}
         <Route path="/Dashboard-Adm" element={<PrivateRoute element={<Dashboard_Adm />} role="admin" />} />
         <Route path="/DivisiHP-Adm" element={<PrivateRoute element={<DivisiHP />} role="admin" />} />
@@ -71,6 +66,7 @@ function App() {
         <Route path="/SubBagianTPPPH-Adm" element={<PrivateRoute element={<SubBagianTPPPH />} role="admin" />} />
         <Route path="/Sekretaris-Adm" element={<PrivateRoute element={<Sekretaris />} role="admin" />} />
         <Route path="/Berita" element={<PrivateRoute element={<Berita />} role="admin" />} />
+        <Route path="/Akun" element={<PrivateRoute element={<Akun />} role="admin" />} />
 
         {/* Operator */}
         <Route path="/Dashboard-Op" element={<PrivateRoute element={<Dashboard_Op />} role="operator" />} />
