@@ -42,52 +42,60 @@ const Sekretaris_Op = () => {
     formData.append('nip', newUser.nip);
     formData.append('position', newUser.position);
     if (newUser.photo) {
-      formData.append('photo', newUser.photo);
+        formData.append('photo', newUser.photo);
     }
-  
+
     try {
-      // Menampilkan notifikasi loading sebelum proses penambahan
-      Swal.fire({
-        title: 'Menambahkan...',
-        text: 'Harap tunggu sebentar.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        // Menampilkan notifikasi loading sebelum proses penambahan
+        Swal.fire({
+            title: 'Menambahkan...',
+            text: 'Harap tunggu sebentar.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const response = await axios.post('http://localhost:5000/api/sekretaris-op', formData);
+
+        if (response.data.success) {
+            // Tampilkan notifikasi berhasil
+            Swal.fire(
+                'Berhasil!',
+                'Anggota baru telah ditambahkan.',
+                'success'
+            );
+
+            setNewUser({ name: '', nip: '', position: '', photo: null });
+            setIsAddingUser(false);
+            fetchUsers(); // Reload users after adding
+        } else {
+            // Tampilkan notifikasi kesalahan jika sukses bernilai false
+            Swal.fire(
+                'Error!',
+                response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                'error'
+            );
         }
-      });
-  
-      const response = await axios.post('http://localhost:5000/api/sekretaris-op', formData);
-  
-      if (response.data.success) {
-        // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota baru telah ditambahkan.',
-          'success'
-        );
-  
-        setNewUser({ name: '', nip: '', position: '', photo: null });
-        setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
-      } else {
-        // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
-          'error'
-        );
-      }
     } catch (error) {
-      console.error('Error adding user:', error);
-  
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat menambahkan anggota.',
-        'error'
-      );
+        if (error.response) {
+            // Menangani error dari server
+            Swal.fire(
+                'Error!',
+                error.response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                'error'
+            );
+        } else {
+            console.error('Error adding user:', error);
+            // Tampilkan notifikasi kesalahan jika terjadi error
+            Swal.fire(
+                'Error!',
+                'Terjadi kesalahan saat menambahkan anggota.',
+                'error'
+            );
+        }
     }
-  };
+};
 
   const handleSubmitEditUser = async (e) => {
     e.preventDefault();

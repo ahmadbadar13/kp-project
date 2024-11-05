@@ -37,52 +37,62 @@ const DivisiKURL_Op = () => {
     const formData = new FormData();
     formData.append('name', newUser.name);
     if (newUser.photo) {
-      formData.append('photo', newUser.photo);
+        formData.append('photo', newUser.photo);
     }
-  
+
     try {
-      // Menampilkan notifikasi loading sebelum proses penambahan
-      Swal.fire({
-        title: 'Menambahkan...',
-        text: 'Harap tunggu sebentar.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        // Menampilkan notifikasi loading sebelum proses penambahan
+        Swal.fire({
+            title: 'Menambahkan...',
+            text: 'Harap tunggu sebentar.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const response = await axios.post('http://localhost:5000/api/divisi-tp-op', formData);
+
+        // Menangani respons dari server
+        if (response.data.success) {
+            // Tampilkan notifikasi berhasil
+            Swal.fire(
+                'Berhasil!',
+                'Anggota baru telah ditambahkan.',
+                'success'
+            );
+
+            // Reset form
+            setNewUser({ name: '', photo: null });
+            setIsAddingUser(false);
+            fetchUsers(); // Reload users after adding
+        } else {
+            // Tampilkan notifikasi kesalahan jika sukses bernilai false
+            Swal.fire(
+                'Error!',
+                response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                'error'
+            );
         }
-      });
-  
-      const response = await axios.post('http://localhost:5000/api/divisi-kurl-op', formData);
-  
-      if (response.data.success) {
-        // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota baru telah ditambahkan.',
-          'success'
-        );
-  
-        setNewUser({ name: '', photo: null });
-        setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
-      } else {
-        // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
-          'error'
-        );
-      }
     } catch (error) {
-      console.error('Error adding user:', error);
-  
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat menambahkan anggota.',
-        'error'
-      );
+        // Menangani error dari server
+        if (error.response) {
+            Swal.fire(
+                'Error!',
+                error.response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                'error'
+            );
+        } else {
+            // Log error di console jika tidak ada response
+            console.error('Error adding user:', error);
+            Swal.fire(
+                'Error!',
+                'Terjadi kesalahan saat menghubungi server.',
+                'error'
+            );
+        }
     }
-  };
+};
 
   const handleSubmitEditUser = async (e) => {
     e.preventDefault();
