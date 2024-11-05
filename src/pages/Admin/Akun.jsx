@@ -76,7 +76,8 @@ const AccountManagement = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         setError('');
-    
+        
+        // Validasi input
         if (!email || !role) {
             setError('Email dan Role harus diisi');
             return;
@@ -91,22 +92,32 @@ const AccountManagement = () => {
             const response = await axios.put(`http://localhost:5000/users/update/${editingAccount?.id}`, {
                 email,
                 role,
-                password: password || editingAccount,
+                password: password || editingAccount.password, // Pastikan menggunakan password lama jika tidak ada input baru
             });
     
             if (response.data?.success) {
+                // Menampilkan pesan berhasil
+                await Swal.fire('Berhasil!', 'Akun telah diperbarui!', 'success');
+    
+                // Perbarui state accounts tanpa perlu refresh halaman
                 setAccounts(prevAccounts => 
-                    prevAccounts.map(acc => acc.id === editingAccount?.id ? response.data.updatedAccount : acc)
+                    prevAccounts.map(acc => 
+                        acc.id === editingAccount?.id 
+                        ? { ...acc, email, role, password: password ? password : acc.password }
+                        : acc
+                    )
                 );
+    
                 setEditingAccount(null);
                 clearForm();
-                await Swal.fire('Berhasil!', 'Akun telah diperbarui!', 'success');
             } else {
-                setError(`Gagal memperbarui akun: ${response.data?.message || 'Terjadi kesalahan'}`);
-            }
+                // Menampilkan pesan gagal
+                await Swal.fire('Gagal!', `Akun tidak dapat diperbarui: ${response.data?.message || 'Terjadi kesalahan'}`, 'error');
+            }            
         } catch (error) {
             console.error('Error updating account:', error);
             setError('Terjadi kesalahan saat memperbarui akun');
+            await Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui akun', 'error');
         }
     };    
 
