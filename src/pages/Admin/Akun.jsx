@@ -17,20 +17,14 @@ const AccountManagement = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // Fetch accounts from API on mount
-    useEffect(() => {
-        const fetchAccounts = async () => {
-            try {
+    const fetchAccounts = async () => {
+        try {
                 const response = await axios.get('http://localhost:5000/users');
-                setAccounts(response.data || []);
-                console.log('Fetched Accounts:', response.data);
+                setAccounts(response.data);
             } catch (error) {
                 console.error('Error fetching accounts:', error);
-                setError('Terjadi kesalahan saat mengambil data akun');
             }
         };
-        fetchAccounts();
-    }, []);
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -78,28 +72,28 @@ const AccountManagement = () => {
             setConfirmPassword('');
         }
     };
-
+    
     const handleUpdate = async (e) => {
         e.preventDefault();
         setError('');
-
+    
         if (!email || !role) {
             setError('Email dan Role harus diisi');
             return;
         }
-
+    
         if (password && password !== confirmPassword) {
             setError('Password dan konfirmasi password harus sama');
             return;
         }
-
+    
         try {
             const response = await axios.put(`http://localhost:5000/users/update/${editingAccount?.id}`, {
                 email,
                 role,
-                password: password || editingAccount?.password, 
+                password: password || editingAccount,
             });
-
+    
             if (response.data?.success) {
                 setAccounts(prevAccounts => 
                     prevAccounts.map(acc => acc.id === editingAccount?.id ? response.data.updatedAccount : acc)
@@ -114,53 +108,53 @@ const AccountManagement = () => {
             console.error('Error updating account:', error);
             setError('Terjadi kesalahan saat memperbarui akun');
         }
-    };
+    };    
 
     const handleDelete = async (id) => {
-        const confirmDelete = await Swal.fire({
-            title: 'Anda yakin?',
-            text: "Akun ini akan dihapus!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        });
-
-        if (confirmDelete.isConfirmed) {
-            try {
-                const response = await axios.delete(`http://localhost:5000/users/delete/${id}`);
-                
-                if (response.data?.success) {
-                    // Hapus akun dari frontend
-                    setAccounts(prevAccounts => prevAccounts.filter(acc => acc.id !== id));
-                    await Swal.fire({
-                        title: 'Dihapus!',
-                        text: 'Akun telah berhasil dihapus.',
-                        icon: 'success',
-                        timer: 2000,
-                        showConfirmButton: false,
-                    });
-                } else {
-                    // Jika respons sukses tetapi tidak mengandung 'success' true, beri tahu kegagalan
-                    await Swal.fire({
-                        title: 'Gagal!',
-                        text: response.data?.message || 'Terjadi kesalahan saat menghapus akun.',
-                        icon: 'error',
-                        confirmButtonText: 'Tutup'
-                    });
-                }
-            } catch (error) {
-                console.error('Error deleting account:', error);
-                await Swal.fire({
-                    title: 'Error',
-                    text: 'Terjadi kesalahan saat menghapus akun',
-                    icon: 'error',
-                    confirmButtonText: 'Tutup'
+        try {
+            const result = await Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: 'Akun yang dihapus tidak dapat dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5cb85c',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal',
+            });
+        
+            if (result.isConfirmed) {
+                // Jika akun mengonfirmasi penghapusan
+                await axios.delete(`http://localhost:5000/users/delete/${id}`);
+        
+                // Tampilkan animasi berhasil
+                Swal.fire(
+                'Terhapus!',
+                'Akun telah dihapus.',
+                'success'
+                );
+        
+                // Refresh data setelah berhasil dihapus
+                fetchAccounts();
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Jika akun membatalkan penghapusan
+                Swal.fire({
+                title: 'Dibatalkan',
+                text: 'Penghapusan akun dibatalkan.',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
                 });
-                setError('Terjadi kesalahan saat menghapus akun');
             }
+            } catch (error) {
+            console.error('Error deleting user:', error);
+        
+            // Tampilkan animasi kesalahan
+            Swal.fire(
+                'Error!',
+                'Terjadi kesalahan saat menghapus akun.',
+                'error'
+            );
         }
     };
 
@@ -180,6 +174,10 @@ const AccountManagement = () => {
     const toggleShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
+
+    useEffect(() => {
+        fetchAccounts();
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100">
