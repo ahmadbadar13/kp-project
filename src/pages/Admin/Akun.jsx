@@ -53,6 +53,7 @@ const AccountManagement = () => {
                     timer: 1500
                 });
                 setAccounts(prevAccounts => [...prevAccounts, response.data.newAccount ?? {}]);
+                fetchAccounts();
                 clearForm();
             } else {
                 setError('Registrasi gagal: ' + (response.data?.message || 'Terjadi kesalahan'));
@@ -109,6 +110,7 @@ const AccountManagement = () => {
                 );
     
                 setEditingAccount(null);
+                fetchAccounts();
                 clearForm();
             } else {
                 // Menampilkan pesan gagal
