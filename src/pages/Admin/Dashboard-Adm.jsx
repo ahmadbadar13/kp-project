@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaEye, FaCog } from 'react-icons/fa';
+import { FaEye, FaCog, FaNewspaper  } from 'react-icons/fa';
 import axios from 'axios';
 import Navbar from '../../components/NavAdmin';
-import Jumbotron from '../../components/JumbotronAdmin';
+import Jumbotron from '../../components/Jumbotron';
 import Footer from '../../components/FooterDashboard';
 
 const Dashboard_Adm = () => {
@@ -290,10 +290,10 @@ const Dashboard_Adm = () => {
 
       {/* Start: Konten */}
       <h1 className="text-3xl font-bold mb-8 text-center m-5">Tugas Admin</h1>
-      <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-2 w-full max-w-5xl mx-auto">
+      <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-3 w-full max-w-5xl mx-auto">
         
         {/* Card 1 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
               <FaEye className="w-12 h-12 text-black-900" />
@@ -306,7 +306,7 @@ const Dashboard_Adm = () => {
         </div>
         
         {/* Card 2 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
               <FaCog className="w-12 h-12 text-black-900" />
@@ -315,6 +315,19 @@ const Dashboard_Adm = () => {
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Mengelola</h2>
             <p className="text-gray-600 text-justify">Admin bertugas untuk memastikan keakuratan data pegawai di KPU Kota Cimahi. Admin akan memeriksa jika terdapat kesalahan input data yang dilakukan oleh Operator, melakukan verifikasi terhadap data yang dimasukkan, serta memastikan bahwa data tersebut selalu diperbarui sesuai dengan perubahan yang terjadi. Selain itu, Admin juga bertanggung jawab untuk melaporkan dan mengoreksi kesalahan data serta memberikan komentar kepada Operator untuk mencegah terjadinya kesalahan serupa.</p>
+          </div>
+        </div>
+
+        {/* Card 3 */}
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+          <div className="w-24 h-24 mb-4">
+            <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
+              <FaNewspaper className="w-12 h-12 text-black-900" />
+            </div>
+          </div>
+          <div className="text-center">
+            <h2 className="text-xl font-bold mb-2">Berita</h2>
+            <p className="text-gray-600 text-justify">Admin memiliki tugas untuk menambahkan berita terbaru yang berkaitan dengan kegiatan dan informasi di KPU Kota Cimahi. Melalui penambahan berita, admin dapat memberikan informasi kepada pegawai dan masyarakat. Dengan adanya berita yang selalu diperbarui, diharapkan semua pihak dapat mengikuti perkembangan terbaru dan meningkatkan transparansi serta komunikasi di lingkungan KPU.</p>
           </div>
         </div>
         

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import Navbar from '../../components/NavOperator';
-import Jumbotron from '../../components/JumbotronOperator';
+import Jumbotron from '../../components/Jumbotron';
 import Footer from '../../components/FooterDashboard';
 
 const Dashboard_Op = () => {
