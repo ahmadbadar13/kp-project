@@ -300,7 +300,7 @@ const DivisiSPPP_SDM_Op = () => {
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700">Foto:</label>
-                  <input type="file" onChange={handleFileChange} />
+                  <input type="file" accept="image/*" onChange={handleFileChange} />
                 </div>
                 <button type="submit" className="bg-blue-500 text-white py-2 rounded w-full">
                   Tambah
@@ -335,7 +335,7 @@ const DivisiSPPP_SDM_Op = () => {
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700">Foto:</label>
-                  <input type="file" onChange={handleFileChangeEdit} />
+                  <input type="file" accept="image/*" onChange={handleFileChangeEdit} />
                 </div>
                 <div>
                   <button
