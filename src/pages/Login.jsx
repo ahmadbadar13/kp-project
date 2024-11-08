@@ -68,11 +68,11 @@ const Login = () => {
         });
       }
     } catch (error) {
-      setError('Terjadi kesalahan');
+      setError('Terjadi kesalahan saat login');
       await Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Terjadi kesalahan!",
+        text: "Pastikan email atau password anda benar!",
       });
     }
   };  

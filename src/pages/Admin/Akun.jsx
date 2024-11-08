@@ -61,6 +61,7 @@ const AccountManagement = () => {
         } catch (error) {
             console.error('Error during registration:', error);
             setError('Terjadi kesalahan saat registrasi');
+            await Swal.fire('Gagal!', 'Pastikan email yang anda masukan berbeda dengan email yang sudah ada!', 'error');
         }
     };
 
@@ -119,7 +120,7 @@ const AccountManagement = () => {
         } catch (error) {
             console.error('Error updating account:', error);
             setError('Terjadi kesalahan saat memperbarui akun');
-            await Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui akun', 'error');
+            await Swal.fire('Gagal!', 'Pastikan email yang baru berbeda dengan email yang sudah ada!', 'error');
         }
     };    
 

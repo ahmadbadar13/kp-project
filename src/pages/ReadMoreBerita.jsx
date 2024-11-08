@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import NavHome from '../components/NavHome';
-import Footer from '../components/FooterAllPages';
+import Footer from '../components/FooterHome';
 
 const ReadMorePage = () => {
     const { id } = useParams();

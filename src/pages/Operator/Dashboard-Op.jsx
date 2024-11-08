@@ -3,7 +3,7 @@ import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import Navbar from '../../components/NavOperator';
 import Jumbotron from '../../components/Jumbotron';
-import Footer from '../../components/FooterDashboard';
+import Footer from '../../components/FooterAllPages';
 
 const Dashboard_Op = () => {
   const [struktur, setStruktur] = useState([]);
