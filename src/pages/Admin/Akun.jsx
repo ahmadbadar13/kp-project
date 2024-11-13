@@ -3,6 +3,7 @@ import Logo from '../../assets/Logo KPU.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import Navbar from '../../components/NavAdmin';
 import Footer from '../../components/FooterAllPages';
 
@@ -320,13 +321,27 @@ const AccountManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {accounts.map(account => (
+                            {accounts.map((account) => (
                                 <tr key={account.id || account.email + Math.random()}>
                                     <td className="py-2 px-4 border-b">{account.email}</td>
                                     <td className="py-2 px-4 border-b">{account.role}</td>
                                     <td className="py-2 px-4 border-b">
-                                        <button onClick={() => handleEdit(account)} className="text-blue-500 hover:underline mr-2">Edit</button>
-                                        <button onClick={() => handleDelete(account.id)} className="text-red-500 hover:underline">Hapus</button>
+                                        {/* Tampilkan tombol Edit untuk semua akun */}
+                                        <button
+                                            onClick={() => handleEdit(account)}
+                                            className="bg-blue-500 text-white font-semibold px-3 py-1 text-sm rounded-full hover:bg-blue-800 transition-colors duration-200 ease-in-out mr-2 shadow-md"
+                                        >
+                                            <FiEdit className="text-white" />
+                                        </button>
+                                        {/* Tampilkan tombol Hapus hanya untuk role "operator" */}
+                                        {account.role === 'operator' && (
+                                            <button
+                                                onClick={() => handleDelete(account.id)}
+                                                className="bg-red-500 text-white font-semibold px-3 py-1 text-sm rounded-full hover:bg-red-800 transition-colors duration-200 ease-in-out shadow-md"
+                                            >
+                                                <FiTrash className="text-white" />
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
