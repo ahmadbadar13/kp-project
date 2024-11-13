@@ -51,7 +51,7 @@ const DivisiSPPP_SDM_Op = () => {
             }
         });
 
-        const response = await axios.post('http://localhost:5000/api/divisi-tp-op', formData);
+        const response = await axios.post('http://localhost:5000/api/divisi-sppp_sdm-op', formData);
 
         // Menangani respons dari server
         if (response.data.success) {

@@ -51,7 +51,7 @@ const DivisiPDI_Op = () => {
             }
         });
 
-        const response = await axios.post('http://localhost:5000/api/divisi-tp-op', formData);
+        const response = await axios.post('http://localhost:5000/api/divisi-pdi-op', formData);
 
         // Menangani respons dari server
         if (response.data.success) {
