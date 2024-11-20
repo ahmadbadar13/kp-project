@@ -1,34 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
-import axios from 'axios';
 import Navbar from '../../components/NavOperator';
 import Jumbotron from '../../components/Jumbotron';
 import Footer from '../../components/FooterAllPages';
 
 const Dashboard_Op = () => {
-  const [struktur, setStruktur] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [subBagian, setSubBagian] = useState([]);
 
   useEffect(() => {
-    // Fetch data from API
-    axios.get('http://localhost:5000/api/struktur-organisasi')
-      .then(response => {
-        const data = response.data;
-        // Pisahkan data struktur organisasi dengan sub bagian
-        const strukturData = data.filter(item => item.peran === 'Ketua' || item.peran === 'Anggota' || item.peran === 'Sekretaris');
-        const subBagianData = data.filter(item => item.sub_bagian); // Ambil data yang memiliki sub_bagian
-
-        setStruktur(strukturData);
-        setSubBagian(subBagianData); // Set data untuk sub bagian
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error.message || 'An error occurred');
-        setLoading(false);
-      });
+    // Set initial state values
+    setLoading(false);
+    setError(null);
   }, []);
+  
 
   // Inline style for centering and enlarging the spinner
   const containerStyle = {
@@ -170,197 +155,6 @@ const Dashboard_Op = () => {
         
       </div>
       {/* End: Konten */}
-
-      {/* Start: Struktur Organisasi */}
-      <div className="p-6 bg-white min-h-screen mb-11">
-        <h1 className="text-3xl font-bold text-center mb-6">Struktur Organisasi Komisi Pemilihan Umum Kota Cimahi</h1>
-
-        <div className="flex flex-col items-center space-y-12">
-          {/* Ketua */}
-          {struktur.length > 0 && struktur[0] ? (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
-              <img
-                src={`http://localhost:5000${struktur[0].foto}`}
-                alt={struktur[0].nama || 'Ketua'}
-                className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
-              />
-              <h2 className="text-lg md:text-xl font-semibold text-center">{struktur[0].nama || 'Nama Ketua'}</h2>
-              <p className="text-center">{struktur[0].peran || 'Peran Ketua'}</p>
-            </div>
-          ) : (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-              <p>Data Ketua tidak tersedia</p>
-            </div>
-          )}
-
-          {/* Anggota */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 w-full max-w-6xl">
-            {struktur.slice(1, -1).map((item, index) => (
-              item && item.foto ? (
-                <div key={index} className="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
-                  <img
-                    src={`http://localhost:5000${item.foto}`}
-                    alt={item.nama || 'Anggota'}
-                    className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
-                  />
-                  <h2 className="text-sm md:text-lg font-semibold text-center">{item.nama || 'Nama Anggota'}</h2>
-                  <p className="text-center">{item.peran || 'Peran Anggota'}</p>
-                </div>
-              ) : (
-                <div key={index} className="bg-gradient-to-b from-green-600 to-green-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-                  <p>Data tidak tersedia</p>
-                </div>
-              )
-            ))}
-          </div>
-
-          {/* Sekretaris */}
-          {struktur[struktur.length - 1] && struktur[struktur.length - 1].foto ? (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex flex-col items-center justify-center transition-transform transform hover:scale-105">
-              <img
-                src={`http://localhost:5000${struktur[struktur.length - 1].foto}`}
-                alt={struktur[struktur.length - 1].nama || 'Sekretaris'}
-                className="w-20 h-20 md:w-28 md:h-28 rounded-full mb-4 object-cover border-4 border-gray"
-              />
-              <h2 className="text-lg md:text-xl font-semibold text-center">{struktur[struktur.length - 1].nama || 'Nama Sekretaris'}</h2>
-              <p className="text-center">{struktur[struktur.length - 1].peran || 'Peran Sekretaris'}</p>
-            </div>
-          ) : (
-            <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-black p-6 rounded-full shadow-md w-48 h-48 md:w-64 md:h-64 flex items-center justify-center">
-              <p>Data Sekretaris tidak tersedia</p>
-            </div>
-          )}
-        </div>
-
-        {/* Tabel Sub Bagian */}
-        <div className="mt-12 w-full max-w-6xl mx-auto">
-
-          {/* Kontainer untuk Tabel */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {/* Sub Bagian HSDM */}
-            <div>
-              <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Hukum & SDM</h3>
-              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="px-4 py-2">Nama</th>
-                    <th className="px-4 py-2">NIP</th>
-                    <th className="px-4 py-2">Posisi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Hukum dan Pengawasan').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Hukum dan Pengawasan').map((sub, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Sub Bagian PDI */}
-            <div>
-            <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Perencanaan, Data & Informasi</h3>
-              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="px-4 py-2">Nama</th>
-                    <th className="px-4 py-2">NIP</th>
-                    <th className="px-4 py-2">Posisi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Perencanaan, Data & Informasi').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Perencanaan, Data & Informasi').map((sub, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Kontainer untuk Tabel */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {/* Sub Bagian KUL */}
-            <div>
-            <h3 className="text-xl text-center font-semibold mt-4 mb-2">Sub Bagian Keuangan, Umum & Logistik</h3>
-              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="px-4 py-2">Nama</th>
-                    <th className="px-4 py-2">NIP</th>
-                    <th className="px-4 py-2">Posisi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Keuangan, Umum & Logistik').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Keuangan, Umum & Logistik').map((sub, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Sub Bagian TPPPH */}
-            <div>
-              <h3 className="text-lg text-center font-semibold mt-4 mb-2">Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas</h3>
-              <table className="table-auto w-full bg-white shadow-md rounded-lg mb-8">
-                <thead className="bg-gray-200">
-                  <tr>
-                    <th className="px-4 py-2">Nama</th>
-                    <th className="px-4 py-2">NIP</th>
-                    <th className="px-4 py-2">Posisi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas').length > 0 ? (
-                    subBagian.filter(sub => sub.sub_bagian === 'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas').map((sub, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="border px-4 py-2">{sub.nama || 'Nama Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.nip || 'NIP Sub Bagian'}</td>
-                        <td className="border px-4 py-2">{sub.posisi || 'Posisi Sub Bagian'}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="3" className="border px-4 py-2 text-center">Data Sub Bagian tidak tersedia</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center mt-8">
-      </div>
-      </div>
-      {/* End: Struktur Organisasi */}
 
       {/* Start: Footer */}
       <Footer />
