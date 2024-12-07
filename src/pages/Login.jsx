@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loginAttempts, setLoginAttempts] = useState(0); // State untuk mencatat percobaan login gagal
   const navigate = useNavigate();
 
   const toggleShowPassword = () => {
@@ -25,22 +26,25 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Mengirim request login dengan format JSON
       const response = await axiosInstance.post('/login', { email, password });
-  
+
       if (response.data.message === 'Login berhasil') {
         const { role } = response.data.data;
         sessionStorage.setItem('role', role);
-  
+
         await Swal.fire({
           icon: "success",
           title: `Selamat Datang ${role.charAt(0).toUpperCase() + role.slice(1)}!`,
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-  
+
+        // Reset percobaan login
+        setLoginAttempts(0);
+
         // Arahkan pengguna ke dashboard sesuai peran
         switch (role) {
           case 'admin':
@@ -50,7 +54,6 @@ const Login = () => {
             navigate('/Dashboard-Op');
             break;
           default:
-            // Jika role bukan admin atau operator, tampilkan pesan kesalahan
             setError('Peran tidak valid');
             await Swal.fire({
               icon: "error",
@@ -60,6 +63,8 @@ const Login = () => {
             break;
         }
       } else {
+        // Jika login gagal
+        setLoginAttempts((prevAttempts) => prevAttempts + 1);
         setError('Kredensial tidak valid');
         await Swal.fire({
           icon: "error",
@@ -68,6 +73,8 @@ const Login = () => {
         });
       }
     } catch (error) {
+      // Jika ada error
+      setLoginAttempts((prevAttempts) => prevAttempts + 1);
       setError('Terjadi kesalahan saat login');
       await Swal.fire({
         icon: "error",
@@ -75,14 +82,13 @@ const Login = () => {
         text: "Pastikan email atau password anda benar!",
       });
     }
-  };  
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg relative">
         {/* Logo Section */}
         <div className="flex justify-center mb-20 mt-8">
-          {/* Background Circle */}
           <div className="relative flex items-center justify-center">
             <div className="absolute w-28 h-28 bg-gradient-to-r from-red-500 to-white rounded-full flex items-center justify-center -top-10">
               <img src={Logo} alt="Logo KPU" className="w-20 h-20" />
@@ -126,19 +132,19 @@ const Login = () => {
               {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
             </div>
           </div>
-          {error && (
-            <>
-              <p className="text-red-500 text-center mb-2">{error}</p>
-              <div className="text-center">
-                <Link
-                    to="/reset-password"
-                    className="text-blue-500 hover:underline text-sm"
-                  >
-                  Lupa Password?
-                </Link>
-              </div>
-            </>
+          {error && <p className="text-red-500 text-center mb-2">{error}</p>}
+
+          {loginAttempts >= 3 && (
+            <div className="text-center">
+              <Link
+                to="/reset-password"
+                className="text-blue-500 hover:underline text-sm"
+              >
+                Lupa Password?
+              </Link>
+            </div>
           )}
+
           <button
             type="submit"
             className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-5"
