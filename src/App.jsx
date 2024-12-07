@@ -34,6 +34,7 @@ import Sekretaris_Op from './pages/Operator/Sekretaris-Op';
 
 import Home from './pages/Home';
 import ReadMoreBerita from './pages/ReadMoreBerita';
+import ResetPassword from './pages/ResetPassword';
 
 // Komponen untuk memastikan akses sesuai dengan peran
 const PrivateRoute = ({ element, role }) => {
@@ -66,7 +67,7 @@ function App() {
         <Route path="/SubBagianTPPPH-Adm" element={<PrivateRoute element={<SubBagianTPPPH />} role="admin" />} />
         <Route path="/Sekretaris-Adm" element={<PrivateRoute element={<Sekretaris />} role="admin" />} />
         <Route path="/Berita" element={<PrivateRoute element={<Berita />} role="admin" />} />
-        <Route path="/Akun" element={<PrivateRoute element={<Akun />} role="admin" />} />
+        <Route path="/Akun" element={<Akun />} />
 
         {/* Operator */}
         <Route path="/Dashboard-Op" element={<PrivateRoute element={<Dashboard_Op />} role="operator" />} />
@@ -84,6 +85,7 @@ function App() {
         {/* Home */}
         <Route path="/Home" element={<Home />} />
         <Route path="/news/:id" element={<ReadMoreBerita />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );

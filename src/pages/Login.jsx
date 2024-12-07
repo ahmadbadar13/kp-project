@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/Logo KPU.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -126,10 +126,22 @@ const Login = () => {
               {showPassword ? <FaEyeSlash className="text-gray-500" /> : <FaEye className="text-gray-500" />}
             </div>
           </div>
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          {error && (
+            <>
+              <p className="text-red-500 text-center mb-2">{error}</p>
+              <div className="text-center">
+                <Link
+                    to="/reset-password"
+                    className="text-blue-500 hover:underline text-sm"
+                  >
+                  Lupa Password?
+                </Link>
+              </div>
+            </>
+          )}
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-5"
           >
             Login
           </button>
