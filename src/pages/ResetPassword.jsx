@@ -30,7 +30,6 @@ const EditAkun = () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Error response from server:', errorData);
-                // Menggunakan SweetAlert2 untuk menampilkan pesan gagal
                 return Swal.fire({
                     icon: 'error',
                     title: 'Gagal Memverifikasi Email',
@@ -39,9 +38,11 @@ const EditAkun = () => {
             }
     
             const data = await response.json();
-            setIsEmailVerified(true); // Tandai bahwa email telah diverifikasi
+            setIsEmailVerified(true);
             
-            // Menampilkan SweetAlert2 dengan pesan sukses
+            // Simpan userId ke localStorage
+            localStorage.setItem('userId', data.userId);
+    
             Swal.fire({
                 icon: 'success',
                 title: 'Email Terverifikasi!',
@@ -49,7 +50,6 @@ const EditAkun = () => {
             });
         } catch (error) {
             console.error('Terjadi kesalahan:', error);
-            // Menampilkan SweetAlert2 dengan pesan error server
             Swal.fire({
                 icon: 'error',
                 title: 'Terjadi Kesalahan',
@@ -99,7 +99,7 @@ const EditAkun = () => {
                     title: 'Berhasil!',
                     text: 'Password berhasil diperbarui!',
                 });
-                navigate('/dashboard');
+                navigate('/Login');
             } else {
                 Swal.fire({
                     icon: 'error',
