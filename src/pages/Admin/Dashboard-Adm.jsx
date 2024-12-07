@@ -125,10 +125,12 @@ const Dashboard_Adm = () => {
           <style>
             body {
               background-color: #fff;
+              font-family: Arial, sans-serif;
             }
             table {
               width: 100%;
               border-collapse: collapse;
+              margin-bottom: 20px;
             }
             th, td {
               border: 1px solid #ccc;
@@ -136,10 +138,29 @@ const Dashboard_Adm = () => {
               text-align: center;
             }
             th {
-              background-color: #f8f8f8;
+              background-color: #f1f1f1;
+              font-weight: bold;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            .header img {
+              max-width: 100px;
+              margin-bottom: 10px;
+            }
+            .footer {
+              text-align: center;
+              margin-top: 30px;
+              font-size: 12px;
+              color: #555;
             }
             h1, h2, h3 {
               text-align: center;
+              margin-bottom: 10px;
+            }
+            .section {
+              margin-bottom: 20px;
             }
             .table-container {
               margin-bottom: 20px;
@@ -150,14 +171,22 @@ const Dashboard_Adm = () => {
             }
           </style>
         </head>
-        <body class="p-6 bg-white min-h-screen mb-11">
-          <h1 class="text-3xl font-bold text-center mb-6">Struktur Organisasi KPU Kota Cimahi</h1>
+        <body class="p-6 bg-white">
+          <!-- Header -->
+          <div class="header">
+            <img src="https://github.com/ahmadbadar13/kp-project/blob/main/src/assets/Logo%20KPU.png?raw=true" alt="Logo KPU Kota Cimahi" />
+            <h1 class="text-3xl font-bold">KOMISI PEMILIHAN UMUM</h1>
+            <h2 class="text-xl font-semibold">Kota Cimahi</h2>
+          </div>
+          <br><hr><hr><hr><hr><br>
+
+          <h1 class="text-2xl font-bold mb-6">Struktur Organisasi KPU Kota Cimahi</h1>
   
-          <div class="mt-12 w-full max-w-6xl mx-auto">
-            <!-- Tabel Ketua -->
-            <div class="table-container">
-              <h2 class="text-xl font-semibold mb-4">Ketua</h2>
-              <table class="table-auto mb-6">
+          <div class="w-full max-w-6xl mx-auto">
+            <!-- Ketua -->
+            <div class="section">
+              <h2 class="text-xl font-semibold">Ketua</h2>
+              <table>
                 <thead>
                   <tr>
                     <th>Foto</th>
@@ -168,8 +197,8 @@ const Dashboard_Adm = () => {
                 <tbody>
                   ${struktur.length > 0 && struktur[0] ? `
                     <tr>
-                      <td><img src="http://localhost:5000${struktur[0].foto}" alt="${struktur[0].nama || 'Ketua'}" class="w-20 h-20 rounded-full object-cover"/></td>
-                      <td>${struktur[0].nama || 'Nama Ketua'}</td>
+                      <td><img src="http://localhost:5000${struktur[0].foto}" alt="${struktur[0].nama}" class="w-20 h-20 rounded-full object-cover"/></td>
+                      <td>${struktur[0].nama}</td>
                       <td>Divisi Keuangan, Umum, Rumah Tangga, dan Logistik</td>
                     </tr>
                   ` : `
@@ -178,11 +207,11 @@ const Dashboard_Adm = () => {
                 </tbody>
               </table>
             </div>
-  
-            <!-- Tabel Anggota -->
-            <div class="table-container">
-              <h2 class="text-xl font-semibold mb-4">Anggota</h2>
-              <table class="table-auto mb-6">
+
+            <!-- Anggota -->
+            <div class="section">
+              <h2 class="text-xl font-semibold">Anggota</h2>
+              <table>
                 <thead>
                   <tr>
                     <th>Foto</th>
@@ -194,25 +223,22 @@ const Dashboard_Adm = () => {
                   ${struktur.slice(1, 5).map((item, index) => {
                     const divisiList = ['Divisi Teknis Penyelenggaraan', 'Divisi Perencanaan, Data dan Informasi', 'Divisi Hukum dan Pengawasan', 'Divisi Sosialisasi, Pendidikan Pemilih, Parmas & SDM'];
                     return `
-                      ${item && item.foto ? `
-                        <tr>
-                          <td><img src="http://localhost:5000${item.foto}" alt="${item.nama || 'Anggota'}" class="w-20 h-20 rounded-full object-cover"/></td>
-                          <td>${item.nama || 'Nama Anggota'}</td>
-                          <td>${divisiList[index]}</td>
-                        </tr>
-                      ` : `
-                        <tr><td colspan="3" class="text-center">Data Anggota tidak tersedia</td></tr>
-                      `}
+                      <tr>
+                        <td><img src="http://localhost:5000${item.foto}" alt="${item.nama}" class="w-20 h-20 rounded-full object-cover"/></td>
+                        <td>${item.nama || 'Data tidak tersedia'}</td>
+                        <td>${divisiList[index]}</td>
+                      </tr>
                     `;
                   }).join('')}
                 </tbody>
               </table>
             </div>
-  
-            <!-- Tabel Sekretaris -->
-            <div class="table-container">
-              <h2 class="text-xl font-semibold mb-4">Sekretaris</h2>
-              <table class="table-auto mb-6">
+
+            <br>
+            <!-- Sekretaris -->
+            <div class="section">
+              <h2 class="text-xl font-semibold">Sekretaris</h2>
+              <table>
                 <thead>
                   <tr>
                     <th>Foto</th>
@@ -221,11 +247,11 @@ const Dashboard_Adm = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  ${struktur[struktur.length - 1] && struktur[struktur.length - 1].foto ? `
+                  ${struktur[struktur.length - 1] ? `
                     <tr>
-                      <td><img src="http://localhost:5000${struktur[struktur.length - 1].foto}" alt="${struktur[struktur.length - 1].nama || 'Sekretaris'}" class="w-20 h-20 rounded-full object-cover"/></td>
-                      <td>${struktur[struktur.length - 1].nama || 'Nama Sekretaris'}</td>
-                      <td>${struktur[struktur.length - 1].peran || 'Peran Sekretaris'}</td>
+                      <td><img src="http://localhost:5000${struktur[struktur.length - 1].foto}" alt="${struktur[struktur.length - 1].nama}" class="w-20 h-20 rounded-full object-cover"/></td>
+                      <td>${struktur[struktur.length - 1].nama || 'Data tidak tersedia'}</td>
+                      <td>${struktur[struktur.length - 1].peran || 'Data tidak tersedia'}</td>
                     </tr>
                   ` : `
                     <tr><td colspan="3" class="text-center">Data Sekretaris tidak tersedia</td></tr>
@@ -233,42 +259,42 @@ const Dashboard_Adm = () => {
                 </tbody>
               </table>
             </div>
-            <br>
-  
-            <!-- Tabel Sub Bagian -->
-            <div class="table-container">
-              <br>
-              ${[
-                'Sub Bagian Hukum dan Pengawasan', 
-                'Sub Bagian Perencanaan, Data & Informasi', 
-                'Sub Bagian Keuangan, Umum & Logistik', 
-                'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas'
-              ].map(subBagianName => `
-                <h3 class="text-lg font-semibold mt-4 mb-2">${subBagianName}</h3>
-                <table class="table-auto mb-6">
-                  <thead>
-                    <tr>
-                      <th>Nama</th>
-                      <th>NIP</th>
-                      <th>Posisi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${subBagian.filter(sub => sub.sub_bagian === subBagianName).length > 0 ?
-                      subBagian.filter(sub => sub.sub_bagian === subBagianName).map(sub => `
-                        <tr>
-                          <td>${sub.nama || 'Nama Sub Bagian'}</td>
-                          <td>${sub.nip || 'NIP Sub Bagian'}</td>
-                          <td>${sub.posisi || 'Posisi Sub Bagian'}</td>
-                        </tr>
-                      `).join('') :
-                      `<tr><td colspan="3" class="text-center">Data ${subBagianName} tidak tersedia</td></tr>`
-                    }
-                  </tbody>
-                </table>
-                <br>
+
+            <!-- Sub Bagian -->
+            <div class="section">
+              <h2 class="text-xl font-semibold">Sub Bagian</h2>
+              ${['Sub Bagian Hukum dan Pengawasan', 'Sub Bagian Perencanaan, Data & Informasi', 'Sub Bagian Keuangan, Umum & Logistik', 'Sub Bagian Teknis Penyelenggaraan Pemilu, Partisipasi & Hupmas'].map(subBagianName => `
+                <div class="table-container">
+                  <h3 class="text-lg font-semibold">${subBagianName}</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nama</th>
+                        <th>NIP</th>
+                        <th>Posisi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${subBagian.filter(sub => sub.sub_bagian === subBagianName).length > 0 ?
+                        subBagian.filter(sub => sub.sub_bagian === subBagianName).map(sub => `
+                          <tr>
+                            <td>${sub.nama || 'Data tidak tersedia'}</td>
+                            <td>${sub.nip || 'Data tidak tersedia'}</td>
+                            <td>${sub.posisi || 'Data tidak tersedia'}</td>
+                          </tr>
+                        `).join('') :
+                        `<tr><td colspan="3" class="text-center">Data tidak tersedia</td></tr>`
+                      }
+                    </tbody>
+                  </table>
+                </div>
               `).join('')}
             </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            <p>KPU Kota Cimahi © ${new Date().getFullYear()}</p>
           </div>
         </body>
       </html>
