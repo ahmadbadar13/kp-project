@@ -241,8 +241,8 @@ const SubBagianKUL_Op = () => {
     if (!comments[commentId]) {
       // Jika komentar kosong
       Swal.fire({
-        title: 'Komentar Kosong',
-        text: 'Tidak ada komentar untuk diselesaikan.',
+        title: 'Catatan Kosong',
+        text: 'Tidak ada catatan untuk diselesaikan.',
         icon: 'warning',
         confirmButtonText: 'OK',
       });
@@ -251,8 +251,8 @@ const SubBagianKUL_Op = () => {
   
     // Jika komentar ada
     Swal.fire({
-      title: 'Komentar Telah Diselesaikan',
-      text: 'Anda telah menyelesaikan komentar ini.',
+      title: 'Catatan Telah Diselesaikan',
+      text: 'Anda telah menyelesaikan catatan ini.',
       icon: 'success',
       confirmButtonText: 'OK',
     }).then(() => {
@@ -481,11 +481,11 @@ const SubBagianKUL_Op = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <h4 className="text-lg font-semibold mb-4 text-center">Komentar</h4>
+              <h4 className="text-lg font-semibold mb-4 text-center">Catatan</h4>
               {comments[activeComments] ? (
                 <p>{comments[activeComments]}</p>
               ) : (
-                <p>Tidak ada komentar.</p>
+                <p>Tidak ada catatan.</p>
               )}
               <div className="flex justify-center mt-6">
                 <button

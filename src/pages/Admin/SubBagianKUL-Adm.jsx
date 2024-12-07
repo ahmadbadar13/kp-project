@@ -42,7 +42,7 @@ const SubBagianKUL_Adm = () => {
     try {
       // Menampilkan notifikasi loading sebelum proses pengiriman
       Swal.fire({
-        title: 'Mengirim komentar...',
+        title: 'Mengirim catatan...',
         text: 'Harap tunggu sebentar.',
         allowOutsideClick: false,
         didOpen: () => {
@@ -55,10 +55,10 @@ const SubBagianKUL_Adm = () => {
         comment: comment,
       });
   
-      // Menampilkan notifikasi berhasil setelah komentar berhasil dikirim
+      // Menampilkan notifikasi berhasil setelah catatan berhasil dikirim
       Swal.fire(
         'Berhasil!',
-        'Komentar telah ditambahkan.',
+        'Catatan telah ditambahkan.',
         'success'
       );
   
@@ -70,7 +70,7 @@ const SubBagianKUL_Adm = () => {
       // Menampilkan notifikasi kesalahan jika terjadi error
       Swal.fire(
         'Error!',
-        'Terjadi kesalahan saat menambahkan komentar.',
+        'Terjadi kesalahan saat menambahkan catatan.',
         'error'
       );
     }
@@ -108,7 +108,7 @@ const SubBagianKUL_Adm = () => {
                   onClick={() => openModal(user.id)}
                   className="bg-blue-500 text-white px-4 py-2 rounded"
                   >
-                    Tambah Komentar
+                    Tambah Catatan
                   </button>
               </div>
               ))}
@@ -121,17 +121,17 @@ const SubBagianKUL_Adm = () => {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
-        contentLabel="Komentar Modal"
+        contentLabel="Catatan Modal"
         className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
         overlayClassName="fixed inset-0"
       >
         <div className="bg-white p-6 rounded-lg w-80">
-          <h2 className="text-xl font-bold mb-4">Tambah Komentar</h2>
+          <h2 className="text-xl font-bold mb-4">Tambah Catatan</h2>
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="w-full h-32 p-2 border border-gray-300 rounded"
-            placeholder="Tulis komentar di sini..."
+            placeholder="Tulis catatan di sini..."
           ></textarea>
           <div className="flex justify-end mt-4 space-x-2">
             <button
