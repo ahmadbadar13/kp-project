@@ -8,6 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import Navbar from '../../components/NavOperator';
 import Footer from '../../components/FooterAllPages';
+import dummyData from '../../assets/data/dummy-divisi.json';
 
 Modal.setAppElement('#root');
 
@@ -19,6 +20,7 @@ const DivisiHP_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
+  const [divisions, setDivisions] = useState([]);
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
@@ -35,14 +37,27 @@ const DivisiHP_Op = () => {
 
   const handleSubmitNewUser = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newUser.name);
-    if (newUser.photo) {
-        formData.append('photo', newUser.photo);
+
+    const selectedDivision = dummyData.find((div) => div.id === parseInt(newUser.division));
+    if (!selectedDivision) {
+        Swal.fire(
+            'Error!',
+            'Pilih divisi yang valid.',
+            'error'
+        );
+        return;
     }
 
+    // Tidak perlu formData untuk file upload, cukup data dari dummyData
+    const formData = {
+        nama_div_hp: selectedDivision.nama_div,
+        foto_div_hp: selectedDivision.foto_div,
+        tanggal_lahir: selectedDivision.tanggal_lahir,
+        email: selectedDivision.email,
+        komentar_div_hp: selectedDivision.komentar_div_hp
+    };
+
     try {
-        // Menampilkan notifikasi loading sebelum proses penambahan
         Swal.fire({
             title: 'Menambahkan...',
             text: 'Harap tunggu sebentar.',
@@ -54,38 +69,32 @@ const DivisiHP_Op = () => {
 
         const response = await axios.post('http://localhost:5000/api/divisi-hp-op', formData);
 
-        // Menangani respons dari server
         if (response.data.success) {
-            // Tampilkan notifikasi berhasil
             Swal.fire(
                 'Berhasil!',
-                'Anggota baru telah ditambahkan.',
+                'Data baru telah ditambahkan.',
                 'success'
             );
 
-            // Reset form
-            setNewUser({ name: '', photo: null });
+            setNewUser({ division: '' }); // Reset form
             setIsAddingUser(false);
             fetchUsers(); // Reload users after adding
         } else {
-            // Tampilkan notifikasi kesalahan jika sukses bernilai false
             Swal.fire(
                 'Error!',
-                response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                response.data.message || 'Terjadi kesalahan saat menambahkan data.',
                 'error'
             );
         }
     } catch (error) {
-        // Menangani error dari server
         if (error.response) {
             Swal.fire(
                 'Error!',
-                error.response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
+                error.response.data.message || 'Terjadi kesalahan saat menambahkan data.',
                 'error'
             );
         } else {
-            // Log error di console jika tidak ada response
-            console.error('Error adding user:', error);
+            console.error('Error adding data:', error);
             Swal.fire(
                 'Error!',
                 'Terjadi kesalahan saat menghubungi server.',
@@ -265,7 +274,7 @@ const DivisiHP_Op = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
+    setDivisions(dummyData);
   }, []);
 
   return (
@@ -279,36 +288,40 @@ const DivisiHP_Op = () => {
 
         {/* Start: Popup Tambah Data */}
         {isAddingUser && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-              <button
-                onClick={handleCancelAddUser}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-              <h2 className="text-xl font-semibold mb-4 text-center">Tambah Data Pegawai</h2>
-              <form onSubmit={handleSubmitNewUser}>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Nama:</label>
-                  <input
-                    type="text"
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.name}
-                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                    required
-                  />
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full relative">
+                    <button
+                        onClick={handleCancelAddUser}
+                        className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+                    >
+                        ✕
+                    </button>
+                    <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Tambah Data Divisi</h2>
+                    <form onSubmit={handleSubmitNewUser}>
+                        <div className="mb-6">
+                            <label className="block text-gray-700 font-medium mb-2">Pilih Divisi:</label>
+                            <select
+                                value={newUser.division}
+                                onChange={(e) => setNewUser({ ...newUser, division: e.target.value })}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="">Pilih Divisi</option>
+                                {dummyData.map((div) => (
+                                    <option key={div.id} value={div.id}>
+                                        {div.nama_div}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-200"
+                        >
+                            Tambah
+                        </button>
+                    </form>
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Foto:</label>
-                  <input type="file" accept="image/*" onChange={handleFileChange} />
-                </div>
-                <button type="submit" className="bg-blue-500 text-white py-2 rounded w-full">
-                  Tambah
-                </button>
-              </form>
             </div>
-          </div>
         )}
         {/* End: Popup Tambah Data */}
 
