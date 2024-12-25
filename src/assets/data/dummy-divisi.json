@@ -4,34 +4,39 @@
         "nama_div": "Anzhar Ishal Afryand, M.Pd",
         "foto_div": "/uploads/kurl.jpg",
         "tanggal_lahir": "1990-05-12",
-        "email": "kurl@kpu.com"
+        "email": "kurl@kpu.com",
+        "alamat": "Jl. Siliwangi"
     },
     {
         "id": 2,
         "nama_div": "Yosi Sundansyah, S.T., S.Pd.i",
         "foto_div": "/uploads/tp.jpg",
         "tanggal_lahir": "1990-05-12",
-        "email": "tp@kpu.com"
+        "email": "tp@kpu.com",
+        "alamat": "Jl. Ibu Ganirah"
     },
     {
         "id": 3,
         "nama_div": "Djayadi Rachmat",
         "foto_div": "/uploads/pdi.jpg",
         "tanggal_lahir": "1990-05-12",
-        "email": "pdi@kpu.com"
+        "email": "pdi@kpu.com",
+        "alamat": "Jl. Lapang Tembak"
     },
     {
         "id": 4,
         "nama_div": "Emsidelva Okasti, S.ST.",
         "foto_div": "/uploads/keuangan.jpg",
         "tanggal_lahir": "1990-05-12",
-        "email": "kurl@kpu.com"
+        "email": "kurl@kpu.com",
+        "alamat": "Jl. Brigif"
     },
     {
         "id": 5,
         "nama_div": "La Media, S.Hut., MM",
         "foto_div": "/uploads/keuangan.jpg",
         "tanggal_lahir": "1990-05-12",
-        "email": "kurl@kpu.com"
+        "email": "kurl@kpu.com",
+        "alamat": "Jl. Cimindi"
     }
 ]
