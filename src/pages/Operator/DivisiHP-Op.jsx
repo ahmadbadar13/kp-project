@@ -21,6 +21,8 @@ const DivisiHP_Op = () => {
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [divisions, setDivisions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
@@ -173,15 +175,15 @@ const DivisiHP_Op = () => {
         // Jika anggota mengonfirmasi penghapusan
         await axios.delete(`http://localhost:5000/api/divisi-hp-op/anggota/${userId}`);
   
+        // Hapus user dari state users langsung
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  
         // Tampilkan animasi berhasil
         Swal.fire(
           'Terhapus!',
           'Anggota telah dihapus.',
           'success'
         );
-  
-        // Refresh data setelah berhasil dihapus
-        fetchUsers();
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Jika anggota membatalkan penghapusan
         Swal.fire({
@@ -202,7 +204,7 @@ const DivisiHP_Op = () => {
         'error'
       );
     }
-  };
+  };  
 
   const handleFileChange = (e) => {
     setNewUser({ ...newUser, photo: e.target.files[0] });
@@ -215,11 +217,16 @@ const DivisiHP_Op = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/divisi-hp-op');
-      setUsers(response.data);
+      if (response.data && response.data.length > 0) {
+        setUsers(response.data);
+      } else {
+        setUsers([]); // Mengatur state users menjadi array kosong jika data tidak ada
+      }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching data:', error);
+      setUsers([]); // Set users ke array kosong untuk menangani error
     }
-  };
+  };  
 
   const fetchComments = async (userId) => {
     try {
@@ -274,8 +281,15 @@ const DivisiHP_Op = () => {
   };
 
   useEffect(() => {
-    setDivisions(dummyData);
-  }, []);
+    // Memanggil API untuk mengambil data divisi_hp
+    axios.get('http://localhost:5000/api/divisi-hp-op')
+    .then(response => {
+        setUsers(response.data);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);  // Menampilkan error frontend
+    });
+}, []);
 
   return (
     <div>
@@ -410,23 +424,36 @@ const DivisiHP_Op = () => {
         {/* End: Popup Komen */}
 
         {/* Start: Card Read Data */}
-        {!isAddingUser && !isEditingUser && (
+        {error ? (
+          <p className="text-red-500">Error: {error}</p> // Menambahkan kelas warna merah untuk menandakan error
+        ) : (
           <div>
-            <button
-              onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4 flex items-center"
-            >
-              <FaPlus className="mr-2" /> Tambah Data
-            </button>
-            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Button for adding user */}
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={handleAddUser}
+                className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md flex items-center"
+              >
+                <FaPlus className="mr-2" /> Tambah Data
+              </button>
+            </div>
+
+            {/* User Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative">
+                <div
+                  key={user.id}
+                  className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative"
+                >
+                  {/* Notification Button */}
                   <button
                     onClick={() => toggleComments(user.id)}
                     className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800 transition-colors"
                   >
                     <FontAwesomeIcon icon={faBell} />
                   </button>
+
+                  {/* User Photo */}
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5000" + user.foto_div_hp}
@@ -434,7 +461,19 @@ const DivisiHP_Op = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
+
+                  {/* User Information */}
                   <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
+                  <h3 className="text-lg font-medium mb-2 text-center">
+                    {new Date(user.tanggal_lahir).toLocaleDateString('id-ID', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </h3>
+                  <h3 className="text-lg font-medium mb-2 text-center">{user.email}</h3>
+
+                  {/* Action Buttons */}
                   <div className="flex justify-around w-full mt-2">
                     <button
                       onClick={() => handleEditUser(user)}
