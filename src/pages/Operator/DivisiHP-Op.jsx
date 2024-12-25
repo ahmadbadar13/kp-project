@@ -17,23 +17,19 @@ const DivisiHP_Op = () => {
   const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
+  const [editingUser, setEditingUser] = useState(
+    { id: '', 
+      name: '', 
+      photo: null,
+      tanggal_lahir: '',
+      email: '',
+      komentar_div_hp: ''});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
-
-  const handleEditUser = (user) => {
-    setIsEditingUser(true);
-    setEditingUser({
-      id: user.id,
-      name: user.nama_div_hp,
-      photo: user.foto_div_hp,
-    });
-  };
-  const handleCancelEditUser = () => setIsEditingUser(false);
 
   const handleSubmitNewUser = async (e) => {
     e.preventDefault();
@@ -104,65 +100,75 @@ const DivisiHP_Op = () => {
     }
 };
 
-const handleSubmitEditUser = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append('name', editingUser.name);
+  const handleEditUser = (user) => {
+    setIsEditingUser(true);
+    setEditingUser({
+      id: user.id,
+      name: user.nama_div_hp,
+      photo: user.foto_div_hp,
+      tanggal_lahir: user.tanggal_lahir,
+      email: user.email,
+      komentar_div_hp: user.komentar_div_hp
+    });
+  };
+  const handleCancelEditUser = () => setIsEditingUser(false);
 
-  // Jika ada foto yang diubah, tambahkan ke formData
-  if (editingUser.photo) {
+  const handleSubmitEditUser = async (e) => {
+    e.preventDefault();
+
+    // Siapkan formData untuk mengirim data ke server
+    const formData = new FormData();
+    formData.append('name', editingUser.name);
+    formData.append('tanggal_lahir', editingUser.tanggal_lahir);
+    formData.append('email', editingUser.email);
+    formData.append('komentar_div_hp', editingUser.komentar_div_hp);
+
+    // Jika photo diubah, tambahkan ke formData
+    if (editingUser.photo instanceof File) {
       formData.append('photo', editingUser.photo);
-  }
+    }
 
-  try {
-      // Menampilkan notifikasi loading sebelum proses edit
+    try {
       Swal.fire({
-          title: 'Mengedit...',
-          text: 'Harap tunggu sebentar.',
-          allowOutsideClick: false,
-          didOpen: () => {
-              Swal.showLoading();
-          }
+        title: 'Mengedit...',
+        text: 'Harap tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
 
-      // Pastikan URL API sesuai dengan endpoint backend
-      const response = await axios.put(`http://localhost:5000/api/divisi-hp-op/${editingUser.id}`, formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-          }
-      });
+      // Kirim data ke backend
+      const response = await axios.put(
+        `http://localhost:5000/api/divisi-hp-op/${editingUser.id}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
 
       if (response.data.success) {
-          // Tampilkan notifikasi berhasil
-          Swal.fire(
-              'Berhasil!',
-              'Anggota telah diperbarui.',
-              'success'
-          );
+        Swal.fire('Berhasil!', 'Data anggota telah diperbarui.', 'success');
 
-          // Reset form setelah berhasil
-          setEditingUser({ id: '', name: '', photo: null });
-          setIsEditingUser(false);
-          fetchUsers();
+        // Memperbarui data di frontend
+        fetchUsers(); // Memanggil ulang data dari server
+        setIsEditingUser(false); // Menutup popup edit
       } else {
-          // Tampilkan notifikasi kesalahan
-          Swal.fire(
-              'Error!',
-              response.data.message || 'Terjadi kesalahan saat mengedit anggota.',
-              'error'
-          );
-      }
-  } catch (error) {
-      console.error('Error editing user:', error);
-
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
+        Swal.fire(
           'Error!',
-          'Terjadi kesalahan saat mengedit anggota.',
+          response.data.message || 'Gagal memperbarui data anggota.',
           'error'
+        );
+      }
+    } catch (error) {
+      console.error('Error editing user:', error);
+      Swal.fire(
+        'Error!',
+        'Terjadi kesalahan saat memperbarui data anggota.',
+        'error'
       );
-  }
-};
+    }
+  };
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -340,45 +346,48 @@ const handleSubmitEditUser = async (e) => {
 
         {/* Start: Popup Edit Data */}
         {isEditingUser && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-              <button
-                onClick={handleCancelEditUser}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-              <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
-              <form onSubmit={handleSubmitEditUser}>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Divisi:</label>
-                  <select
-                    value={editingUser.division}
-                    onChange={(e) => setEditingUser({ ...editingUser, division: e.target.value })}
-                    className="border rounded w-full py-2 px-3"
-                    required
-                  >
-                    <option value="">Pilih Divisi</option>
-                    {dummyData.map((div) => (
-                      <option key={div.id} value={div.id}>
-                        {div.nama_div}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
+      <button
+        onClick={handleCancelEditUser}
+        className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
+      >
+        ✕
+      </button>
+      <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
+      <form onSubmit={handleSubmitEditUser}>
+        <div className="mb-4">
+          <label className="block text-gray-700">Pilih Divisi:</label>
+          <select
+            value={editingUser.name}
+            onChange={(e) =>
+              setEditingUser({ ...editingUser, name: e.target.value })
+            }
+            className="border rounded w-full py-2 px-3"
+            required
+          >
+            <option value="">Pilih Divisi</option>
+            {dummyData.map((div) => (
+              <option key={div.id} value={div.nama_div}>
+                {div.nama_div}
+              </option>
+            ))}
+          </select>
+        </div>
 
-                <div>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 rounded w-full"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 rounded w-full hover:bg-blue-600"
+          >
+            Edit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
         {/* End: Popup Edit Data */}
 
         {/* Start: Popup Komen */}
