@@ -23,10 +23,20 @@ const DivisiHP_Op = () => {
       photo: null,
       tanggal_lahir: '',
       email: '',
+      alamat: '',
       komentar_div_hp: ''});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+  
+  const handleNameClick = (user) => {
+    setSelectedUser(user);
+  };
+  
+  const closeModal = () => {
+    setSelectedUser(null);
+  };
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
@@ -50,6 +60,7 @@ const DivisiHP_Op = () => {
         foto_div_hp: selectedDivision.foto_div,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
+        alamat: selectedDivision.alamat,
         komentar_div_hp: selectedDivision.komentar_div_hp
     };
 
@@ -108,6 +119,7 @@ const DivisiHP_Op = () => {
       photo: user.foto_div_hp,
       tanggal_lahir: user.tanggal_lahir,
       email: user.email,
+      alamat: user.alamat,
       komentar_div_hp: user.komentar_div_hp
     });
   };
@@ -121,6 +133,7 @@ const DivisiHP_Op = () => {
     formData.append('name', editingUser.name);
     formData.append('tanggal_lahir', editingUser.tanggal_lahir);
     formData.append('email', editingUser.email);
+    formData.append('alamat', editingUser.alamat);
     formData.append('komentar_div_hp', editingUser.komentar_div_hp);
 
     // Jika photo diubah, tambahkan ke formData
@@ -464,7 +477,6 @@ const DivisiHP_Op = () => {
                     <FontAwesomeIcon icon={faBell} />
                   </button>
 
-                  {/* User Photo */}
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5000" + user.foto_div_hp}
@@ -473,16 +485,12 @@ const DivisiHP_Op = () => {
                     />
                   </div>
 
-                  {/* User Information */}
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_div_hp}</h2>
-                  <h3 className="text-lg font-medium mb-2 text-center">
-                    {new Date(user.tanggal_lahir).toLocaleDateString('id-ID', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </h3>
-                  <h3 className="text-lg font-medium mb-2 text-center">{user.email}</h3>
+                  <h2
+                    className="text-xl font-semibold mb-2 text-center cursor-pointer hover:underline"
+                    onClick={() => handleNameClick(user)}
+                  >
+                    {user.nama_div_hp}
+                  </h2>
 
                   {/* Action Buttons */}
                   <div className="flex justify-around w-full mt-2">
@@ -501,6 +509,45 @@ const DivisiHP_Op = () => {
                   </div>
                 </div>
               ))}
+
+              {/* Detail identitas */}
+              {selectedUser && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="relative bg-white rounded-md shadow-lg p-6 w-11/12 max-w-lg">
+                    <button
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                      onClick={closeModal}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <div className="text-center">
+                      <img
+                        src={`http://localhost:5000${selectedUser.foto_div_hp}`}
+                        alt={selectedUser.nama_div_hp}
+                        className="w-32 h-32 rounded-full mx-auto mb-4"
+                      />
+                      <h2 className="text-xl font-semibold mb-2">{selectedUser.nama_div_hp}</h2>
+                      <p className="text-lg font-medium">Email: {selectedUser.email}</p>
+                      <p className="text-lg font-medium"> Tangal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {
+                          day: '2-digit',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                      <p className="text-lg font-medium">Alamat: {selectedUser.alamat}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
