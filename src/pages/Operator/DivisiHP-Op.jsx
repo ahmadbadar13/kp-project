@@ -20,8 +20,6 @@ const DivisiHP_Op = () => {
   const [editingUser, setEditingUser] = useState({ id: '', name: '', photo: null });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
-  const [divisions, setDivisions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const handleAddUser = () => setIsAddingUser(true);
@@ -78,7 +76,7 @@ const DivisiHP_Op = () => {
                 'success'
             );
 
-            setNewUser({ division: '' }); // Reset form
+            setNewUser({ division: '' });
             setIsAddingUser(false);
             fetchUsers(); // Reload users after adding
         } else {
@@ -106,57 +104,65 @@ const DivisiHP_Op = () => {
     }
 };
 
-  const handleSubmitEditUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', editingUser.name);
-    if (editingUser.photo) {
+const handleSubmitEditUser = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('name', editingUser.name);
+
+  // Jika ada foto yang diubah, tambahkan ke formData
+  if (editingUser.photo) {
       formData.append('photo', editingUser.photo);
-    }
-  
-    try {
+  }
+
+  try {
       // Menampilkan notifikasi loading sebelum proses edit
       Swal.fire({
-        title: 'Mengedit...',
-        text: 'Harap tunggu sebentar.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
+          title: 'Mengedit...',
+          text: 'Harap tunggu sebentar.',
+          allowOutsideClick: false,
+          didOpen: () => {
+              Swal.showLoading();
+          }
       });
-  
-      const response = await axios.put(`http://localhost:5000/api/divisi-hp-op/${editingUser.id}`, formData);
-  
+
+      // Pastikan URL API sesuai dengan endpoint backend
+      const response = await axios.put(`http://localhost:5000/api/divisi-hp-op/${editingUser.id}`, formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          }
+      });
+
       if (response.data.success) {
-        // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota telah diperbarui.',
-          'success'
-        );
-  
-        setEditingUser({ id: '', name: '', photo: null });
-        setIsEditingUser(false);
-        fetchUsers();
+          // Tampilkan notifikasi berhasil
+          Swal.fire(
+              'Berhasil!',
+              'Anggota telah diperbarui.',
+              'success'
+          );
+
+          // Reset form setelah berhasil
+          setEditingUser({ id: '', name: '', photo: null });
+          setIsEditingUser(false);
+          fetchUsers();
       } else {
-        // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat mengedit anggota.',
-          'error'
-        );
+          // Tampilkan notifikasi kesalahan
+          Swal.fire(
+              'Error!',
+              response.data.message || 'Terjadi kesalahan saat mengedit anggota.',
+              'error'
+          );
       }
-    } catch (error) {
+  } catch (error) {
       console.error('Error editing user:', error);
-  
+
       // Tampilkan notifikasi kesalahan jika terjadi error
       Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat mengedit anggota.',
-        'error'
+          'Error!',
+          'Terjadi kesalahan saat mengedit anggota.',
+          'error'
       );
-    }
-  };
+  }
+};
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -204,15 +210,8 @@ const DivisiHP_Op = () => {
         'error'
       );
     }
-  };  
-
-  const handleFileChange = (e) => {
-    setNewUser({ ...newUser, photo: e.target.files[0] });
   };
 
-  const handleFileChangeEdit = (e) => {
-    setEditingUser({ ...editingUser, photo: e.target.files[0] });
-  };
 
   const fetchUsers = async () => {
     try {
@@ -220,11 +219,11 @@ const DivisiHP_Op = () => {
       if (response.data && response.data.length > 0) {
         setUsers(response.data);
       } else {
-        setUsers([]); // Mengatur state users menjadi array kosong jika data tidak ada
+        setUsers([]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setUsers([]); // Set users ke array kosong untuk menangani error
+      setUsers([]);
     }
   };  
 
@@ -352,19 +351,22 @@ const DivisiHP_Op = () => {
               <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
               <form onSubmit={handleSubmitEditUser}>
                 <div className="mb-4">
-                  <label className="block text-gray-700">Nama:</label>
-                  <input
-                    type="text"
+                  <label className="block text-gray-700">Pilih Divisi:</label>
+                  <select
+                    value={editingUser.division}
+                    onChange={(e) => setEditingUser({ ...editingUser, division: e.target.value })}
                     className="border rounded w-full py-2 px-3"
-                    value={editingUser.name}
-                    onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
                     required
-                  />
+                  >
+                    <option value="">Pilih Divisi</option>
+                    {dummyData.map((div) => (
+                      <option key={div.id} value={div.id}>
+                        {div.nama_div}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Foto:</label>
-                  <input type="file" accept="image/*" onChange={handleFileChangeEdit} />
-                </div>
+
                 <div>
                   <button
                     type="submit"
