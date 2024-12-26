@@ -23,7 +23,6 @@ const DivisiHP_Op = () => {
       photo: null,
       tanggal_lahir: '',
       email: '',
-      alamat: '',
       komentar_div_hp: ''});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
@@ -60,7 +59,6 @@ const DivisiHP_Op = () => {
         foto_div_hp: selectedDivision.foto_div,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
-        alamat: selectedDivision.alamat,
         komentar_div_hp: selectedDivision.komentar_div_hp
     };
 
@@ -119,7 +117,6 @@ const DivisiHP_Op = () => {
       photo: user.foto_div_hp,
       tanggal_lahir: user.tanggal_lahir,
       email: user.email,
-      alamat: user.alamat,
       komentar_div_hp: user.komentar_div_hp
     });
   };
@@ -133,7 +130,6 @@ const DivisiHP_Op = () => {
     formData.append('name', editingUser.name);
     formData.append('tanggal_lahir', editingUser.tanggal_lahir);
     formData.append('email', editingUser.email);
-    formData.append('alamat', editingUser.alamat);
     formData.append('komentar_div_hp', editingUser.komentar_div_hp);
 
     // Jika photo diubah, tambahkan ke formData
@@ -299,15 +295,22 @@ const DivisiHP_Op = () => {
   };
 
   useEffect(() => {
-    // Memanggil API untuk mengambil data divisi_hp
-    axios.get('http://localhost:5000/api/divisi-hp-op')
-    .then(response => {
-        setUsers(response.data);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);  // Menampilkan error frontend
-    });
-}, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/divisi-hp-op');
+        if (response.data && Array.isArray(response.data)) {
+          setUsers(response.data); // Update state dengan data atau array kosong
+        } else {
+          setUsers([]); // Pastikan state tetap di-set ke array kosong jika respons tidak sesuai
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Gagal mengambil data. Silakan coba lagi.');
+      }
+    };
+  
+    fetchData();
+  }, []);  
 
   return (
     <div>
@@ -543,7 +546,6 @@ const DivisiHP_Op = () => {
                           year: 'numeric',
                         })}
                       </p>
-                      <p className="text-lg font-medium">Alamat: {selectedUser.alamat}</p>
                     </div>
                   </div>
                 </div>
