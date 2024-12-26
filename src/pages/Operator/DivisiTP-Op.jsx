@@ -114,7 +114,7 @@ const DivisiTP_Op = () => {
     setEditingUser({
       id: user.id,
       name: user.nama_div_tp,
-      photo: user.foto_div_hp,
+      photo: user.foto_div_tp,
       tanggal_lahir: user.tanggal_lahir,
       email: user.email,
       komentar_div_tp: user.komentar_div_tp
