@@ -362,47 +362,47 @@ const DivisiHP_Op = () => {
 
         {/* Start: Popup Edit Data */}
         {isEditingUser && (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-      <button
-        onClick={handleCancelEditUser}
-        className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-      >
-        ✕
-      </button>
-      <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
-      <form onSubmit={handleSubmitEditUser}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Pilih Divisi:</label>
-          <select
-            value={editingUser.name}
-            onChange={(e) =>
-              setEditingUser({ ...editingUser, name: e.target.value })
-            }
-            className="border rounded w-full py-2 px-3"
-            required
-          >
-            <option value="">Pilih Divisi</option>
-            {dummyData.map((div) => (
-              <option key={div.id} value={div.nama_div}>
-                {div.nama_div}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
+              <button
+                onClick={handleCancelEditUser}
+                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+              <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
+              <form onSubmit={handleSubmitEditUser}>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Pilih Divisi:</label>
+                  <select
+                    value={editingUser.name}
+                    onChange={(e) =>
+                      setEditingUser({ ...editingUser, name: e.target.value })
+                    }
+                    className="border rounded w-full py-2 px-3"
+                    required
+                  >
+                    <option value="">Pilih Divisi</option>
+                    {dummyData.map((div) => (
+                      <option key={div.id} value={div.nama_div}>
+                        {div.nama_div}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-        <div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 rounded w-full hover:bg-blue-600"
-          >
-            Edit
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+                <div>
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 rounded w-full hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* End: Popup Edit Data */}
 
