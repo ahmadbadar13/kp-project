@@ -6,5 +6,13 @@
         "foto_sekretaris": "/uploads/sekretaris.jpg",
         "tanggal_lahir": "1985-08-10",
         "email": "sekretaris@kpu.com"
+    },
+    {
+        "id": 2,
+        "nama_sekretaris": "Apa Saja",
+        "nip_sekretaris": "12345678901234567890",
+        "foto_sekretaris": "/uploads/sekretaris2.jpg",
+        "tanggal_lahir": "1999-02-09",
+        "email": "sekretaris2@kpu.com"
     }
 ]

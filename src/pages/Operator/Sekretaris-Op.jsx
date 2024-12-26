@@ -53,14 +53,14 @@ const Sekretaris_Op = () => {
         return;
     }
 
-    // Tidak perlu formData untuk file upload, cukup data dari dummyData
+    // Menyiapkan data untuk dikirim ke server
     const formData = {
-        nama_sekretaris: selectedDivision.nama_div,
-        nip_sekretaris: selectedDivision.nip_div,
-        foto_sekretaris: selectedDivision.foto_div,
+        nama_sekretaris: selectedDivision.nama_sekretaris,
+        nip_sekretaris: selectedDivision.nip_sekretaris,
+        foto_sekretaris: selectedDivision.foto_sekretaris,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
-        komentar_sekretaris: selectedDivision.komentar_sekretaris
+        komentar_sekretaris: selectedDivision.komentar_sekretaris || '', // Menggunakan komentar jika ada
     };
 
     try {
@@ -82,8 +82,8 @@ const Sekretaris_Op = () => {
                 'success'
             );
 
-            setNewUser({ division: '' });
-            setIsAddingUser(false);
+            setNewUser({ division: '' }); // Reset form
+            setIsAddingUser(false); // Close the form
             fetchUsers(); // Reload users after adding
         } else {
             Swal.fire(
@@ -335,28 +335,28 @@ const Sekretaris_Op = () => {
                     </button>
                     <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Tambah Data Divisi</h2>
                     <form onSubmit={handleSubmitNewUser}>
-                        <div className="mb-6">
-                            <label className="block text-gray-700 font-medium mb-2">Pilih Divisi:</label>
-                            <select
-                                value={newUser.division}
-                                onChange={(e) => setNewUser({ ...newUser, division: e.target.value })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">Pilih Divisi</option>
-                                {dummyData.map((div) => (
-                                    <option key={div.id} value={div.id}>
-                                        {div.nama_div}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-200"
-                        >
-                            Tambah
-                        </button>
-                    </form>
+                      <div className="mb-6">
+                          <label className="block text-gray-700 font-medium mb-2">Pilih Divisi:</label>
+                          <select
+                              value={newUser.division}
+                              onChange={(e) => setNewUser({ ...newUser, division: e.target.value })}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                              <option value="">Pilih Divisi</option>
+                              {dummyData.map((div) => (
+                                  <option key={div.id} value={div.id}>
+                                      {div.nama_sekretaris} - {div.nip_sekretaris}
+                                  </option>
+                              ))}
+                          </select>
+                      </div>
+                      <button
+                          type="submit"
+                          className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-200"
+                      >
+                          Tambah
+                      </button>
+                  </form>
                 </div>
             </div>
         )}
@@ -374,34 +374,34 @@ const Sekretaris_Op = () => {
               </button>
               <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
               <form onSubmit={handleSubmitEditUser}>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Divisi:</label>
-                  <select
-                    value={editingUser.name}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, name: e.target.value })
-                    }
-                    className="border rounded w-full py-2 px-3"
-                    required
-                  >
-                    <option value="">Pilih Divisi</option>
-                    {dummyData.map((div) => (
-                      <option key={div.id} value={div.nama_div}>
-                        {div.nama_div}
-                      </option>
-                    ))}
-                  </select>
+                <div className="mb-6">
+                    <label className="block text-gray-700 font-medium mb-2">Pilih Divisi:</label>
+                    <select
+                        value={editingUser.name}
+                        onChange={(e) =>
+                            setEditingUser({ ...editingUser, name: e.target.value })
+                        }
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    >
+                        <option value="">Pilih Divisi</option>
+                          {dummyData.map((div) => (
+                            <option key={div.id} value={div.id}>
+                              {div.nama_sekretaris} - {div.nip_sekretaris}
+                            </option>
+                          ))}
+                    </select>
                 </div>
 
                 <div>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 rounded w-full hover:bg-blue-600"
-                  >
-                    Edit
-                  </button>
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-200"
+                    >
+                        Edit
+                    </button>
                 </div>
-              </form>
+            </form>
             </div>
           </div>
         )}
