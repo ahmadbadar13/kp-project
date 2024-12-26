@@ -1,0 +1,209 @@
+[
+    {
+        "id": 1,
+        "nama_sb": "Wina Winiarti, SH",
+        "nip_sb": "198308242009122002",
+        "posisi_sb": "Kepala",
+        "foto_sb": "/uploads/foto1.jpg",
+        "tanggal_lahir": "1985-08-10",
+        "email": "email1@kpu.com"
+    },
+    {
+        "id": 2,
+        "nama_sb": "Devi Yuni Astuti, S.IP",
+        "nip_sb": "198006242009122001",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto2.jpg",
+        "tanggal_lahir": "1986-03-21",
+        "email": "email2@kpu.com"
+    },
+    {
+        "id": 3,
+        "nama_sb": "Devina Napitupulu",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto3.jpg",
+        "tanggal_lahir": "1976-07-12",
+        "email": "email3@kpu.com"
+    },
+    {
+        "id": 4,
+        "nama_sb": "Iyus Rusyana",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto4.jpg",
+        "tanggal_lahir": "1981-05-20",
+        "email": "email4@kpu.com"
+    },
+    {
+        "id": 5,
+        "nama_sb": "Taufik Mulyana",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto5.jpg",
+        "tanggal_lahir": "1979-07-16",
+        "email": "email5@kpu.com"
+    },
+    {
+        "id": 6,
+        "nama_sb": "Vivid Firmawan, SH",
+        "nip_sb": "197709142009021001",
+        "posisi_sb": "Kepala",
+        "foto_sb": "/uploads/foto6.jpg",
+        "tanggal_lahir": "1984-04-11",
+        "email": "email6@kpu.com"
+    },
+    {
+        "id": 7,
+        "nama_sb": "Risad Bachtiar, A.Md",
+        "nip_sb": "198412092009021005",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto7.jpg",
+        "tanggal_lahir": "1982-12-09",
+        "email": "email7@kpu.com"
+    },
+    {
+        "id": 8,
+        "nama_sb": "Aulia Rahman",
+        "nip_sb": "199501282024211010",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto8.jpg",
+        "tanggal_lahir": "1983-09-15",
+        "email": "email8@kpu.com"
+    },
+    {
+        "id": 9,
+        "nama_sb": "Rian Gustian",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Anggota",
+        "foto_sb": "/uploads/foto9.jpg",
+        "tanggal_lahir": "1987-07-20",
+        "email": "email9@kpu.com"
+    },
+    {
+        "id": 10,
+        "nama_sb": "Yusti Rahayu, SH",
+        "nip_sb": "198511062010122001",
+        "posisi_sb": "Kepala",
+        "foto_sb": "/uploads/foto10.jpg",
+        "tanggal_lahir": "1978-05-12",
+        "email": "email10@kpu.com"
+    },
+    {
+        "id": 11,
+        "nama_sb": "Ani Suhaeni, S.Sos",
+        "nip_sb": "198310172009122005",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto11.jpg",
+        "tanggal_lahir": "1980-02-02",
+        "email": "email11@kpu.com"
+    },
+    {
+        "id": 12,
+        "nama_sb": "Winda Winiarni, SH",
+        "nip_sb": "198004172009122006",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto12.jpg",
+        "tanggal_lahir": "1983-09-21",
+        "email": "email12@kpu.com"
+    },
+    {
+        "id": 13,
+        "nama_sb": "Dhea Sulasti Putri",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto13.jpg",
+        "tanggal_lahir": "1981-07-23",
+        "email": "email13@kpu.com"
+    },
+    {
+        "id": 14,
+        "nama_sb": "Fidalina, SE",
+        "nip_sb": "198202042010122003",
+        "posisi_sb": "Kepala",
+        "foto_sb": "/uploads/foto14.jpg",
+        "tanggal_lahir": "1984-04-03",
+        "email": "email14@kpu.com"
+    },
+    {
+        "id": 15,
+        "nama_sb": "Sri Rahayu Sundayani, S.Sos",
+        "nip_sb": "197706152009122000",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto15.jpg",
+        "tanggal_lahir": "1979-10-12",
+        "email": "email15@kpu.com"
+    },
+    {
+        "id": 16,
+        "nama_sb": "Nurul Eka Sukma, SE",
+        "nip_sb": "198402072010122005",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto16.jpg",
+        "tanggal_lahir": "1985-06-11",
+        "email": "email16@kpu.com"
+    },
+    {
+        "id": 17,
+        "nama_sb": "Indrayana, A.Md",
+        "nip_sb": "198506102010121003",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto17.jpg",
+        "tanggal_lahir": "1982-09-15",
+        "email": "email17@kpu.com"
+    },
+    {
+        "id": 18,
+        "nama_sb": "Gita Sonia, Amd.Kom",
+        "nip_sb": "199506142019032006",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto18.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email18@kpu.com"
+    },
+    {
+        "id": 19,
+        "nama_sb": "Tria Kahaerunisa",
+        "nip_sb": "199404232024212050",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto19.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email19@kpu.com"
+    },
+    {
+        "id": 20,
+        "nama_sb": "Rukmini",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto20.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email20@kpu.com"
+    },
+    {
+        "id": 21,
+        "nama_sb": "Ahmad Solihin",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto21.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email21@kpu.com"
+    },
+    {
+        "id": 22,
+        "nama_sb": "Yayan Taryana",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto22.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email22@kpu.com"
+    },
+    {
+        "id": 23,
+        "nama_sb": "Ahmad Sumadi",
+        "nip_sb": "PPNPN",
+        "posisi_sb": "Staff",
+        "foto_sb": "/uploads/foto23.jpg",
+        "tanggal_lahir": "1987-02-24",
+        "email": "email23@kpu.com"
+    }
+]

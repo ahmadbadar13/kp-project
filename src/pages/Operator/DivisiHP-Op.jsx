@@ -20,10 +20,7 @@ const DivisiHP_Op = () => {
   const [editingUser, setEditingUser] = useState(
     { id: '', 
       name: '', 
-      photo: null,
-      tanggal_lahir: '',
-      email: '',
-      komentar_div_hp: ''});
+      photo: null});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
@@ -107,7 +104,7 @@ const DivisiHP_Op = () => {
             );
         }
     }
-};
+  };
 
   const handleEditUser = (user) => {
     setIsEditingUser(true);
@@ -117,64 +114,61 @@ const DivisiHP_Op = () => {
       photo: user.foto_div_hp,
       tanggal_lahir: user.tanggal_lahir,
       email: user.email,
-      komentar_div_hp: user.komentar_div_hp
+      komentar_div_hp: user.komentar_div_hp,
     });
   };
+  
   const handleCancelEditUser = () => setIsEditingUser(false);
-
+  
   const handleSubmitEditUser = async (e) => {
     e.preventDefault();
-
+  
     // Siapkan formData untuk mengirim data ke server
     const formData = new FormData();
-    formData.append('name', editingUser.name);
-    formData.append('tanggal_lahir', editingUser.tanggal_lahir);
-    formData.append('email', editingUser.email);
-    formData.append('komentar_div_hp', editingUser.komentar_div_hp);
-
-    // Jika photo diubah, tambahkan ke formData
-    if (editingUser.photo instanceof File) {
-      formData.append('photo', editingUser.photo);
-    }
-
+    formData.append("name", editingUser.name);
+    formData.append("photo", editingUser.photo);
+    formData.append("tanggal_lahir", editingUser.tanggal_lahir);
+    formData.append("email", editingUser.email);
+    formData.append("komentar_div_hp", editingUser.komentar_div_hp);
+  
     try {
       Swal.fire({
-        title: 'Mengedit...',
-        text: 'Harap tunggu sebentar.',
+        title: "Mengedit...",
+        text: "Harap tunggu sebentar.",
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
         },
       });
-
+  
       // Kirim data ke backend
       const response = await axios.put(
         `http://localhost:5000/api/divisi-hp-op/${editingUser.id}`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+  
       if (response.data.success) {
-        Swal.fire('Berhasil!', 'Data anggota telah diperbarui.', 'success');
-
+        Swal.fire("Berhasil!", "Data anggota telah diperbarui.", "success");
+  
         // Memperbarui data di frontend
         fetchUsers(); // Memanggil ulang data dari server
         setIsEditingUser(false); // Menutup popup edit
       } else {
         Swal.fire(
-          'Error!',
-          response.data.message || 'Gagal memperbarui data anggota.',
-          'error'
+          "Error!",
+          response.data.message || "Gagal memperbarui data anggota.",
+          "error"
         );
       }
     } catch (error) {
-      console.error('Error editing user:', error);
+      console.error("Error editing user:", error);
       Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat memperbarui data anggota.',
-        'error'
+        "Error!",
+        "Terjadi kesalahan saat memperbarui data anggota.",
+        "error"
       );
     }
   };
@@ -372,25 +366,39 @@ const DivisiHP_Op = () => {
               </button>
               <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
               <form onSubmit={handleSubmitEditUser}>
+                {/* Input Pilih Nama */}
                 <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Divisi:</label>
+                  <label className="block text-gray-700">Pilih Nama:</label>
                   <select
                     value={editingUser.name}
-                    onChange={(e) =>
-                      setEditingUser({ ...editingUser, name: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const selectedName = e.target.value;
+                      const selectedUser = dummyData.find(
+                        (user) => user.nama_div === selectedName
+                      );
+                      if (selectedUser) {
+                        setEditingUser({
+                          ...editingUser,
+                          name: selectedUser.nama_div,
+                          photo: selectedUser.foto_div_hp,
+                          email: selectedUser.email,
+                          tanggal_lahir: selectedUser.tanggal_lahir,
+                        });
+                      }
+                    }}
                     className="border rounded w-full py-2 px-3"
                     required
                   >
-                    <option value="">Pilih Divisi</option>
-                    {dummyData.map((div) => (
-                      <option key={div.id} value={div.nama_div}>
-                        {div.nama_div}
+                    <option value="">Pilih Nama</option>
+                    {dummyData.map((user) => (
+                      <option key={user.id} value={user.nama_div}>
+                        {user.nama_div}
                       </option>
                     ))}
                   </select>
                 </div>
 
+                {/* Tombol Submit */}
                 <div>
                   <button
                     type="submit"
@@ -403,7 +411,6 @@ const DivisiHP_Op = () => {
             </div>
           </div>
         )}
-
         {/* End: Popup Edit Data */}
 
         {/* Start: Popup Komen */}

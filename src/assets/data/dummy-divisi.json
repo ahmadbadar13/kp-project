@@ -2,36 +2,36 @@
     {
         "id": 1,
         "nama_div": "Anzhar Ishal Afryand, M.Pd",
-        "foto_div": "/uploads/kurl.jpg",
+        "foto_div": "/uploads/ANZHAR ISHAL AFRYAND.jpeg",
         "tanggal_lahir": "1993-06-22",
         "email": "kurl@kpu.com"
     },
     {
         "id": 2,
         "nama_div": "Yosi Sundansyah, S.T., S.Pd.i",
-        "foto_div": "/uploads/tp.jpg",
+        "foto_div": "/uploads/YOSI SUNDANSYAH.jpeg",
         "tanggal_lahir": "1980-05-20",
         "email": "tp@kpu.com"
     },
     {
         "id": 3,
         "nama_div": "Djayadi Rachmat",
-        "foto_div": "/uploads/pdi.jpg",
+        "foto_div": "/uploads/DJAYADI RACHMAT.jpeg",
         "tanggal_lahir": "1964-09-11",
         "email": "pdi@kpu.com"
     },
     {
         "id": 4,
         "nama_div": "Emsidelva Okasti, S.ST.",
-        "foto_div": "/uploads/keuangan.jpg",
+        "foto_div": "/uploads/EMSIDELVA OKASTI.jpeg",
         "tanggal_lahir": "1982-10-04",
-        "email": "spppsdm@kpu.com"
+        "email": "hp@kpu.com"
     },
     {
         "id": 5,
         "nama_div": "La Media, S.Hut., MM",
-        "foto_div": "/uploads/keuangan.jpg",
+        "foto_div": "/uploads/LA MEDIA.jpeg",
         "tanggal_lahir": "1981-02-02",
-        "email": "tppph@kpu.com"
+        "email": "spppsdm@kpu.com"
     }
 ]
