@@ -5,7 +5,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
-import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete } from 'react-icons/ai';
 import Navbar from '../../components/NavOperator';
 import Footer from '../../components/FooterAllPages';
 import dummyData from '../../assets/data/dummy-divisi.json';
@@ -14,13 +14,8 @@ Modal.setAppElement('#root');
 
 const DivisiHP_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
-  const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', photo: null });
-  const [editingUser, setEditingUser] = useState(
-    { id: '', 
-      name: '', 
-      photo: null});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
@@ -56,6 +51,7 @@ const DivisiHP_Op = () => {
         foto_div_hp: selectedDivision.foto_div,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
+        masa_jabatan: selectedDivision.masa_jabatan,
         komentar_div_hp: selectedDivision.komentar_div_hp
     };
 
@@ -103,73 +99,6 @@ const DivisiHP_Op = () => {
                 'error'
             );
         }
-    }
-  };
-
-  const handleEditUser = (user) => {
-    setIsEditingUser(true);
-    setEditingUser({
-      id: user.id,
-      name: user.nama_div_hp,
-      photo: user.foto_div_hp,
-      tanggal_lahir: user.tanggal_lahir,
-      email: user.email,
-      komentar_div_hp: user.komentar_div_hp,
-    });
-  };
-  
-  const handleCancelEditUser = () => setIsEditingUser(false);
-  
-  const handleSubmitEditUser = async (e) => {
-    e.preventDefault();
-  
-    // Siapkan formData untuk mengirim data ke server
-    const formData = new FormData();
-    formData.append("name", editingUser.name);
-    formData.append("photo", editingUser.photo);
-    formData.append("tanggal_lahir", editingUser.tanggal_lahir);
-    formData.append("email", editingUser.email);
-    formData.append("komentar_div_hp", editingUser.komentar_div_hp);
-  
-    try {
-      Swal.fire({
-        title: "Mengedit...",
-        text: "Harap tunggu sebentar.",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-  
-      // Kirim data ke backend
-      const response = await axios.put(
-        `http://localhost:5000/api/divisi-hp-op/${editingUser.id}`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-  
-      if (response.data.success) {
-        Swal.fire("Berhasil!", "Data anggota telah diperbarui.", "success");
-  
-        // Memperbarui data di frontend
-        fetchUsers(); // Memanggil ulang data dari server
-        setIsEditingUser(false); // Menutup popup edit
-      } else {
-        Swal.fire(
-          "Error!",
-          response.data.message || "Gagal memperbarui data anggota.",
-          "error"
-        );
-      }
-    } catch (error) {
-      console.error("Error editing user:", error);
-      Swal.fire(
-        "Error!",
-        "Terjadi kesalahan saat memperbarui data anggota.",
-        "error"
-      );
     }
   };
 
@@ -313,7 +242,7 @@ const DivisiHP_Op = () => {
       {/* End: Navbar */}
 
       <div className="flex flex-col min-h-screen p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Hukum dan Pengawasan</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Divisi Hukum dan Pengawasan</h1>
 
         {/* Start: Popup Tambah Data */}
         {isAddingUser && (
@@ -334,7 +263,7 @@ const DivisiHP_Op = () => {
                                 onChange={(e) => setNewUser({ ...newUser, division: e.target.value })}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
-                                <option value="">Pilih Divisi</option>
+                                <option value="">Pilih Nama</option>
                                 {dummyData.map((div) => (
                                     <option key={div.id} value={div.id}>
                                         {div.nama_div}
@@ -353,65 +282,6 @@ const DivisiHP_Op = () => {
             </div>
         )}
         {/* End: Popup Tambah Data */}
-
-        {/* Start: Popup Edit Data */}
-        {isEditingUser && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-              <button
-                onClick={handleCancelEditUser}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-              <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
-              <form onSubmit={handleSubmitEditUser}>
-                {/* Input Pilih Nama */}
-                <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Nama:</label>
-                  <select
-                    value={editingUser.name}
-                    onChange={(e) => {
-                      const selectedName = e.target.value;
-                      const selectedUser = dummyData.find(
-                        (user) => user.nama_div === selectedName
-                      );
-                      if (selectedUser) {
-                        setEditingUser({
-                          ...editingUser,
-                          name: selectedUser.nama_div,
-                          photo: selectedUser.foto_div_hp,
-                          email: selectedUser.email,
-                          tanggal_lahir: selectedUser.tanggal_lahir,
-                        });
-                      }
-                    }}
-                    className="border rounded w-full py-2 px-3"
-                    required
-                  >
-                    <option value="">Pilih Nama</option>
-                    {dummyData.map((user) => (
-                      <option key={user.id} value={user.nama_div}>
-                        {user.nama_div}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Tombol Submit */}
-                <div>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 rounded w-full hover:bg-blue-600"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-        {/* End: Popup Edit Data */}
 
         {/* Start: Popup Komen */}
         {activeComments && (
@@ -505,12 +375,6 @@ const DivisiHP_Op = () => {
                   {/* Action Buttons */}
                   <div className="flex justify-around w-full mt-2">
                     <button
-                      onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
-                    >
-                      <AiFillEdit size={20} />
-                    </button>
-                    <button
                       onClick={() => handleDeleteUser(user.id)}
                       className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
                     >
@@ -553,6 +417,7 @@ const DivisiHP_Op = () => {
                           year: 'numeric',
                         })}
                       </p>
+                      <p className="text-lg font-medium">Masa Jabatan: {selectedUser.masa_jabatan}</p>
                     </div>
                   </div>
                 </div>
