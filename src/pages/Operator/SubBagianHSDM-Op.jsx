@@ -72,7 +72,7 @@ const SubBagianHSDM_Op = () => {
             Swal.fire('Error!', response.data.message || 'Terjadi kesalahan saat menambahkan data.', 'error');
         }
     } catch (error) {
-        Swal.fire('Error!', 'Terjadi kesalahan saat menghubungi server.', 'error');
+        Swal.fire('Error!', 'Data yang ditambahkan sudah ada!', 'error');
     }
 };
 
