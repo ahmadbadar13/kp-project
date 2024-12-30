@@ -374,7 +374,11 @@ const fetchUsers = async () => {
                         className="w-32 h-32 rounded-full mx-auto mb-4"
                       />
                       <h2 className="text-xl font-semibold mb-2">{selectedUser.nama_sb_pdi}</h2>
-                      <p className="text-lg font-medium">NIP: {selectedUser.nip_sb_pdi}</p>
+                      <p className="text-lg font-medium">
+                        {/^\d+$/.test(selectedUser.nip_sb_pdi)
+                          ? `NIP: ${selectedUser.nip_sb_pdi}`
+                          : "PPNPN"}
+                      </p>
                       <p className="text-lg font-medium">Posisi: {selectedUser.posisi_sb_pdi}</p>
                       <p className="text-lg font-medium">Email: {selectedUser.email}</p>
                       <p className="text-lg font-medium"> Tangal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {

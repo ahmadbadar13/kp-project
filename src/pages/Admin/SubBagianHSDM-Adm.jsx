@@ -98,7 +98,7 @@ const SubBagianHSDM_Adm = () => {
   
       <div className="flex flex-col min-h-screen p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">
-          Data Pegawai Sekretaris
+          Data Pegawai Sub Bagian Hukum & SDM
         </h1>
   
         {/* Card Read Data */}
@@ -179,7 +179,9 @@ const SubBagianHSDM_Adm = () => {
                         {selectedUser.nama_sb_hsdm}
                       </h2>
                       <p className="text-lg font-medium">
-                        NIP: {selectedUser.nip_sb_hsdm}
+                        {/^\d+$/.test(selectedUser.nip_sb_hsdm)
+                          ? `NIP: ${selectedUser.nip_sb_hsdm}`
+                          : "PPNPN"}
                       </p>
                       <p className="text-lg font-medium">
                         Posisi: {selectedUser.posisi_sb_hsdm}
