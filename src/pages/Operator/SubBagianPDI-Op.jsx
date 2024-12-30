@@ -5,143 +5,85 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { FaPlus } from 'react-icons/fa';
-import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete } from 'react-icons/ai';
 import Navbar from '../../components/NavOperator';
 import Footer from '../../components/FooterAllPages';
+import dummyData from '../../assets/data/dummy-sub-bagian.json';
 
 Modal.setAppElement('#root');
 
 const SubBagianPDI_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
-  const [isEditingUser, setIsEditingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null });
-  const [editingUser, setEditingUser] = useState({ id: '', name: '', nip: '', position: '', photo: null });
+  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null, tanggal_lahir: '', email: '', });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
+  const [error, setError] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+    
+  const handleNameClick = (user) => {
+    setSelectedUser(user);
+  };
+  
+  const closeModal = () => {
+    setSelectedUser(null);
+  };
 
   const handleAddUser = () => setIsAddingUser(true);
   const handleCancelAddUser = () => setIsAddingUser(false);
 
-  const handleEditUser = (user) => {
-    setIsEditingUser(true);
-    setEditingUser({
-      id: user.id,
-      name: user.nama_sb_pdi,
-      nip: user.nip_sb_pdi,
-      position: user.posisi_sb_pdi,
-      photo: user.foto_sb_pdi,
-    });
-  };
-  const handleCancelEditUser = () => setIsEditingUser(false);
-
   const handleSubmitNewUser = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', newUser.name);
-    formData.append('nip', newUser.nip);
-    formData.append('position', newUser.position);
-    if (newUser.photo) {
-      formData.append('photo', newUser.photo);
-    }
-  
-    try {
-      // Menampilkan notifikasi loading sebelum proses penambahan
-      Swal.fire({
-        title: 'Menambahkan...',
-        text: 'Harap tunggu sebentar.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });
-  
-      const response = await axios.post('http://localhost:5000/api/sub-bagian-pdi-op', formData);
-  
-      if (response.data.success) {
-        // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota baru telah ditambahkan.',
-          'success'
-        );
-  
-        setNewUser({ name: '', nip: '', position: '', photo: null });
-        setIsAddingUser(false);
-        fetchUsers(); // Reload users after adding
-      } else {
-        // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat menambahkan anggota.',
-          'error'
-        );
-      }
-    } catch (error) {
-      console.error('Error adding user:', error);
-  
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat menambahkan anggota.',
-        'error'
-      );
-    }
-  };
 
-  const handleSubmitEditUser = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', editingUser.name);
-    formData.append('nip', editingUser.nip);
-    formData.append('position', editingUser.position);
-    if (editingUser.photo) {
-      formData.append('photo', editingUser.photo);
+    const selectedSubBagian = dummyData.find((sb) => sb.id === parseInt(newUser.subbagian));
+    if (!selectedSubBagian) {
+        Swal.fire('Error!', 'Pilih sub bagian yang valid.', 'error');
+        return;
     }
-  
+
+    const formData = {
+        nama_sb: selectedSubBagian.nama_sb,
+        nip_sb: selectedSubBagian.nip_sb,
+        posisi_sb: selectedSubBagian.posisi_sb,
+        foto_sb: selectedSubBagian.foto_sb,
+        tanggal_lahir: selectedSubBagian.tanggal_lahir,
+        email: selectedSubBagian.email,
+        komentar_sb_pdi: newUser.komentar_sb_pdi || null // Menangani null
+    };
+
     try {
-      // Menampilkan notifikasi loading sebelum proses edit
-      Swal.fire({
-        title: 'Mengedit...',
-        text: 'Harap tunggu sebentar.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
+        Swal.fire({
+            title: 'Menambahkan...',
+            text: 'Harap tunggu sebentar.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const response = await axios.post('http://localhost:5000/api/sub-bagian-pdi-op', formData);
+
+        if (response.data.success) {
+            Swal.fire('Berhasil!', 'Data baru telah ditambahkan.', 'success');
+            setNewUser({ subbagian: '', komentar_sb_pdi: '' });
+            setIsAddingUser(false);
+            fetchUsers(); // Reload users setelah penambahan
+        } else {
+            Swal.fire('Error!', response.data.message || 'Terjadi kesalahan saat menambahkan data.', 'error');
         }
-      });
-  
-      const response = await axios.put(`http://localhost:5000/api/sub-bagian-pdi-op/${editingUser.id}`, formData);
-  
-      if (response.data.success) {
-        // Tampilkan notifikasi berhasil
-        Swal.fire(
-          'Berhasil!',
-          'Anggota telah diperbarui.',
-          'success'
-        );
-  
-        setEditingUser({ id: '', name: '', nip: '', position: '', photo: null });
-        setIsEditingUser(false);
-        fetchUsers();
-      } else {
-        // Tampilkan notifikasi kesalahan
-        Swal.fire(
-          'Error!',
-          response.data.message || 'Terjadi kesalahan saat mengedit anggota.',
-          'error'
-        );
-      }
     } catch (error) {
-      console.error('Error editing user:', error);
-  
-      // Tampilkan notifikasi kesalahan jika terjadi error
-      Swal.fire(
-        'Error!',
-        'Terjadi kesalahan saat mengedit anggota.',
-        'error'
-      );
+        Swal.fire('Error!', 'Data yang ditambahkan sudah ada!', 'error');
     }
-  };
+};
+
+const fetchUsers = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/sub-bagian-pdi-op');
+    setUsers(response.data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+}
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -188,23 +130,6 @@ const SubBagianPDI_Op = () => {
         'Terjadi kesalahan saat menghapus anggota.',
         'error'
       );
-    }
-  };
-
-  const handleFileChange = (e) => {
-    setNewUser({ ...newUser, photo: e.target.files[0] });
-  };
-
-  const handleFileChangeEdit = (e) => {
-    setEditingUser({ ...editingUser, photo: e.target.files[0] });
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/sub-bagian-pdi-op');
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
     }
   };
 
@@ -259,10 +184,20 @@ const SubBagianPDI_Op = () => {
       deleteComment(commentId);
     });
   };
-
+  
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/sub-bagian-pdi-op');
+        setUsers(response.data); // Menyimpan data yang didapat ke state users
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setError('Gagal mengambil data. Silakan coba lagi.'); // Menampilkan pesan error jika request gagal
+      }
+    };
+  
+    fetchData();
+  }, []);  
 
   return (
     <div>
@@ -271,190 +206,46 @@ const SubBagianPDI_Op = () => {
       {/* End: Navbar */}
 
       <div className="flex flex-col min-h-screen p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Perencanaan, Data & Informasi</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Sub Bagian Perencanaan Data dan Informasi</h1>
 
         {/* Start: Popup Tambah Data */}
         {isAddingUser && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-              <button
-                onClick={handleCancelAddUser}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-              <h2 className="text-xl font-semibold mb-4 text-center">Tambah Data Pegawai</h2>
-              <form onSubmit={handleSubmitNewUser}>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Nama:</label>
-                  <input
-                    type="text"
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.name}
-                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                    required
-                  />
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-8 rounded-lg shadow-xl max-w-lg w-full relative">
+                    <button
+                        onClick={handleCancelAddUser}
+                        className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+                    >
+                        ✕
+                    </button>
+                    <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Tambah Data Sub Bagian</h2>
+                    <form onSubmit={handleSubmitNewUser}>
+                        <div className="mb-6">
+                            <label className="block text-gray-700 font-medium mb-2">Pilih Sub Bagian:</label>
+                            <select
+                                value={newUser.subbagian}
+                                onChange={(e) => setNewUser({ ...newUser, subbagian: e.target.value })}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                <option value="">Pilih Sub Bagian</option>
+                                {dummyData.map((sb) => (
+                                    <option key={sb.id} value={sb.id}>
+                                        {sb.nama_sb}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition duration-200"
+                        >
+                            Tambah
+                        </button>
+                    </form>
                 </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Identitas</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.idType}
-                    onChange={(e) => {
-                      const selectedIdType = e.target.value;
-                      setNewUser((prevUser) => {
-                        // Sesuaikan nip dengan pilihan
-                        let nipValue = '';
-                        if (selectedIdType === 'NIP') {
-                          nipValue = ''; // Kosongkan nip untuk input
-                        } else {
-                          nipValue = selectedIdType; // Set nip sesuai dengan pilihan
-                        }
-                        return { ...prevUser, idType: selectedIdType, nip: nipValue }; // Update idType dan nip
-                      });
-                    }}
-                    required
-                  >
-                    <option value="" disabled>Pilih NIP/PPNPN/P3K/PNS</option>
-                    <option value="NIP">NIP</option>
-                    <option value="PPNPN">PPNPN</option>
-                    <option value="P3K">P3K</option>
-                    <option value="PNS">PNS</option>
-                  </select>
-                </div>
-
-                {/* Conditional input untuk NIP */}
-                {newUser.idType === 'NIP' && (
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Masukkan NIP:</label>
-                        <input
-                            type="text"
-                            className="border rounded w-full py-2 px-3"
-                            value={newUser.nip} // Nilai nip
-                            onChange={(e) => setNewUser({ ...newUser, nip: e.target.value })} // Update nip
-                            required
-                            placeholder="Masukkan NIP"
-                        />
-                    </div>
-                )}
-                <div className="mb-4">
-                  <label className="block text-gray-700">Posisi:</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={newUser.position}
-                    onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                    required
-                  >
-                    <option value="" disabled>Pilih Posisi</option>
-                    <option value="Ketua">Ketua</option>
-                    <option value="Anggota">Anggota</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Foto:</label>
-                  <input type="file" accept="image/*" onChange={handleFileChange} />
-                </div>
-                <button type="submit" className="bg-blue-500 text-white py-2 rounded w-full">
-                  Tambah
-                </button>
-              </form>
             </div>
-          </div>
         )}
         {/* End: Popup Tambah Data */}
-
-        {/* Start: Popup Edit Data */}
-        {isEditingUser && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full relative">
-              <button
-                onClick={handleCancelEditUser}
-                className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-              <h2 className="text-xl font-semibold mb-4 text-center">Edit Data Pegawai</h2>
-              <form onSubmit={handleSubmitEditUser}>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Nama:</label>
-                  <input
-                    type="text"
-                    className="border rounded w-full py-2 px-3"
-                    value={editingUser.name}
-                    onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Pilih Identitas</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={editingUser.idType}
-                    onChange={(e) => {
-                      const selectedIdType = e.target.value;
-                      setEditingUser((prevUser) => {
-                        // Kosongkan NIP jika NIP dipilih, jika yang lain tetap set nip ke pilihan
-                        return {
-                          ...prevUser,
-                          idType: selectedIdType,
-                          nip: selectedIdType === 'NIP' ? '' : selectedIdType, // Jika NIP dipilih, nip dikosongkan; jika yang lain, set sesuai idType
-                        };
-                      });
-                    }}
-                    required
-                  >
-                    <option value="" disabled>Pilih NIP/PPNPN/P3K/PNS</option>
-                    <option value="NIP">NIP</option>
-                    <option value="PPNPN">PPNPN</option>
-                    <option value="P3K">P3K</option>
-                    <option value="PNS">PNS</option>
-                  </select>
-                </div>
-
-                {/* Conditional input untuk NIP jika idType adalah NIP */}
-                {editingUser.idType === 'NIP' && (
-                  <div className="mb-4">
-                    <label className="block text-gray-700">Masukkan NIP:</label>
-                    <input
-                      type="text"
-                      className="border rounded w-full py-2 px-3"
-                      value={editingUser.nip}
-                      onChange={(e) => setEditingUser({ ...editingUser, nip: e.target.value })}
-                      required
-                      placeholder="Masukkan NIP"
-                    />
-                  </div>
-                )}
-                <div className="mb-4">
-                  <label className="block text-gray-700">Posisi:</label>
-                  <select
-                    className="border rounded w-full py-2 px-3"
-                    value={editingUser.position}
-                    onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                    required
-                  >
-                    <option value="" disabled>Pilih Posisi</option>
-                    <option value="Ketua">Ketua</option>
-                    <option value="Anggota">Anggota</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Foto:</label>
-                  <input type="file" accept="image/*" onChange={handleFileChangeEdit} />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white py-2 rounded w-full"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-        {/* End: Popup Edit Data */}
 
         {/* Start: Popup Komen */}
         {activeComments && (
@@ -501,23 +292,35 @@ const SubBagianPDI_Op = () => {
         {/* End: Popup Komen */}
 
         {/* Start: Card Read Data */}
-        {!isAddingUser && !isEditingUser && (
+        {error ? (
+          <p className="text-red-500">Error: {error}</p> // Menambahkan kelas warna merah untuk menandakan error
+        ) : (
           <div>
-            <button
-              onClick={handleAddUser}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md mb-4 flex items-center"
-            >
-              <FaPlus className="mr-2" /> Tambah Data
-            </button>
-            <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Button for adding user */}
+            <div className="flex justify-between items-center mb-4">
+              <button
+                onClick={handleAddUser}
+                className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md flex items-center"
+              >
+                <FaPlus className="mr-2" /> Tambah Data
+              </button>
+            </div>
+
+            {/* User Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative">
+                <div
+                  key={user.id}
+                  className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative"
+                >
+                  {/* Notification Button */}
                   <button
                     onClick={() => toggleComments(user.id)}
                     className="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-800 transition-colors"
                   >
                     <FontAwesomeIcon icon={faBell} />
                   </button>
+
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
                       src={"http://localhost:5000" + user.foto_sb_pdi}
@@ -525,21 +328,16 @@ const SubBagianPDI_Op = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sb_pdi}</h2>
-                  {!isNaN(user.nip_sb_pdi) && user.nip_sb_pdi ? (
-                      <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sb_pdi}</p>
-                  ) : (
-                      <p className="text-gray-600 mb-2 text-center">
-                        {newUser.idType !== 'NIP' && user.nip_sb_pdi && ` ${user.nip_sb_pdi}`}</p>
-                  )}
-                  <p className="text-gray-600 mb-2 text-center">Posisi: {user.posisi_sb_pdi}</p>
+
+                  <h2
+                    className="text-xl font-semibold mb-2 text-center cursor-pointer hover:underline"
+                    onClick={() => handleNameClick(user)}
+                  >
+                    {user.nama_sb_pdi}
+                  </h2>
+
+                  {/* Action Buttons */}
                   <div className="flex justify-around w-full mt-2">
-                    <button
-                      onClick={() => handleEditUser(user)}
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
-                    >
-                      <AiFillEdit size={20} />
-                    </button>
                     <button
                       onClick={() => handleDeleteUser(user.id)}
                       className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md shadow-md transition-transform transform hover:scale-105 w-1/4 flex items-center justify-center gap-2"
@@ -549,6 +347,46 @@ const SubBagianPDI_Op = () => {
                   </div>
                 </div>
               ))}
+
+              {/* Detail identitas */}
+              {selectedUser && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="relative bg-white rounded-md shadow-lg p-6 w-11/12 max-w-lg">
+                    <button
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                      onClick={closeModal}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                    <div className="text-center">
+                      <img
+                        src={`http://localhost:5000${selectedUser.foto_sb_pdi}`}
+                        alt={selectedUser.nama_sb_pdi}
+                        className="w-32 h-32 rounded-full mx-auto mb-4"
+                      />
+                      <h2 className="text-xl font-semibold mb-2">{selectedUser.nama_sb_pdi}</h2>
+                      <p className="text-lg font-medium">NIP: {selectedUser.nip_sb_pdi}</p>
+                      <p className="text-lg font-medium">Posisi: {selectedUser.posisi_sb_pdi}</p>
+                      <p className="text-lg font-medium">Email: {selectedUser.email}</p>
+                      <p className="text-lg font-medium"> Tangal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {
+                          day: '2-digit',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
