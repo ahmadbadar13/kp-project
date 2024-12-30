@@ -13,18 +13,33 @@ const Sekretaris_Adm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [comment, setComment] = useState('');
+  const [error, setError] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+  
+  const handleNameClick = (user) => {
+    setSelectedUser(user);
+  };
 
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/sekretaris-adm');
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
+  const closeModalIdentitas = () => {
+    setSelectedUser(null);
   };
 
   useEffect(() => {
-    fetchUsers();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/sekretaris-adm');
+        if (response.data && Array.isArray(response.data)) {
+          setUsers(response.data); // Update state dengan data atau array kosong
+        } else {
+          setUsers([]); // Pastikan state tetap di-set ke array kosong jika respons tidak sesuai
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Gagal mengambil data. Silakan coba lagi.');
+      }
+    };
+  
+    fetchData();
   }, []);
 
   const openModal = (userId) => {
@@ -78,78 +93,155 @@ const Sekretaris_Adm = () => {
 
   return (
     <div>
-      {/* Start: Navbar */}
+      {/* Navbar */}
       <Navbar />
-      {/* End: Navbar */}
-
+  
       <div className="flex flex-col min-h-screen p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Data Pegawai Divisi Sekretaris</h1>
-        {/* Start: Card Read Data */}
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          Data Pegawai Sekretaris
+        </h1>
+  
+        {/* Card Read Data */}
+        {error ? (
+          <p className="text-red-500">
+            Error: {error || "Terjadi kesalahan. Silakan coba lagi."}
+          </p>
+        ) : (
           <div>
+            {/* Grid Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center ">
+                <div
+                  key={user.id}
+                  className="bg-gray-200 shadow-md rounded-md p-4 flex flex-col items-center relative"
+                >
+  
+                  {/* Foto Profil */}
                   <div className="w-32 h-32 mb-4 overflow-hidden rounded-full flex items-center justify-center">
                     <img
-                      src={"http://localhost:5000" + user.foto_sekretaris}
-                      alt={user.nama_sekretaris}
+                      src={`http://localhost:5000${user.foto_sekretaris}`}
+                      alt={`Foto ${user.nama_sekretaris}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h2 className="text-xl font-semibold mb-2 text-center">{user.nama_sekretaris}</h2>
-                  <p className="text-gray-600 mb-2 text-center">NIP: {user.nip_sekretaris}</p>
-                  <button
-                  onClick={() => openModal(user.id)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+  
+                  {/* Nama Pegawai */}
+                  <h2
+                    className="text-xl font-semibold mb-2 text-center cursor-pointer hover:underline"
+                    onClick={() => handleNameClick(user)}
                   >
-                    Tambah Catatan
-                  </button>
-              </div>
+                    {user.nama_sekretaris}
+                  </h2>
+  
+                  {/* Tombol Aksi */}
+                  <div className="flex justify-around w-full mt-2">
+                    <button
+                    onClick={() => openModal(user.id)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Tambah Catatan
+                    </button>
+                  </div>
+                </div>
               ))}
+  
+              {/* Detail Identitas */}
+              {selectedUser && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="relative bg-white rounded-md shadow-lg p-6 w-11/12 max-w-lg">
+                    <button
+                      className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 transition-colors"
+                      onClick={closeModalIdentitas}
+                      aria-label="Tutup Modal"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                    <div className="text-center">
+                      <img
+                        src={`http://localhost:5000${selectedUser.foto_sekretaris}`}
+                        alt={`Foto ${selectedUser.nama_sekretaris}`}
+                        className="w-32 h-32 rounded-full mx-auto mb-4"
+                      />
+                      <h2 className="text-xl font-semibold mb-2">
+                        {selectedUser.nama_sekretaris}
+                      </h2>
+                      <p className="text-lg font-medium">
+                        NIP: {selectedUser.nip_sekretaris}
+                      </p>
+                      <p className="text-lg font-medium">
+                        Email: {selectedUser.email}
+                      </p>
+                      <p className="text-lg font-medium">
+                        Tanggal Lahir:{" "}
+                        {new Date(selectedUser.tanggal_lahir).toLocaleDateString(
+                          "id-ID",
+                          {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          }
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-      </div>
-      {/* End: Card Read Data */}
-
-      {/* Start: Modal */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Catatan Modal"
-        className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
-        overlayClassName="fixed inset-0"
-      >
-        <div className="bg-white p-6 rounded-lg w-80">
-          <h2 className="text-xl font-bold mb-4">Tambah Catatan</h2>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="w-full h-32 p-2 border border-gray-300 rounded"
-            placeholder="Tulis catatan di sini..."
-          ></textarea>
-          <div className="flex justify-end mt-4 space-x-2">
-            <button
-              onClick={closeModal}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              Batal
-            </button>
-            <button
-              onClick={handleCommentSubmit}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Kirim
-            </button>
+        )}
+        {/* End: card Read Data */}
+  
+        {/* Modal */}
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Catatan Modal"
+          className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+          overlayClassName="fixed inset-0"
+        >
+          <div className="bg-white p-6 rounded-lg w-80">
+            <h2 className="text-xl font-bold mb-4">Tambah Catatan</h2>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full h-32 p-2 border border-gray-300 rounded"
+              placeholder="Tulis Catatan di sini..."
+              aria-label="Input Catatan"
+            ></textarea>
+            <div className="flex justify-end mt-4 space-x-2">
+              <button
+                onClick={closeModal}
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleCommentSubmit}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Kirim
+              </button>
+            </div>
           </div>
-        </div>
-      </Modal>
-      {/* End: Modal */}
-
-      {/* Start: Footer */}
+        </Modal>
+      </div>
+      {/* Footer */}
       <Footer />
-      {/* End: Footer */}
     </div>
-  );
+  ); 
 };
 
 export default Sekretaris_Adm;

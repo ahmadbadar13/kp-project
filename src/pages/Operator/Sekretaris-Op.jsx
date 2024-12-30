@@ -412,7 +412,7 @@ const Sekretaris_Op = () => {
                       <h2 className="text-xl font-semibold mb-2">{selectedUser.nama_sekretaris}</h2>
                       <p className="text-lg font-medium">NIP: {selectedUser.nip_sekretaris}</p>
                       <p className="text-lg font-medium">Email: {selectedUser.email}</p>
-                      <p className="text-lg font-medium"> Tangal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {
+                      <p className="text-lg font-medium"> Tanggal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {
                           day: '2-digit',
                           month: 'long',
                           year: 'numeric',
