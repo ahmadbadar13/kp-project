@@ -6,7 +6,8 @@
         "posisi_sb": "Kepala",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1985-08-10",
-        "email": "email1@kpu.com"
+        "email": "email1@kpu.com",
+        "status_kepegawaian": "Penata Muda / III.a"
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1986-03-21",
-        "email": "email2@kpu.com"
+        "email": "email2@kpu.com",
+        "status_kepegawaian": "Penata / III.b"
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1976-07-12",
-        "email": "email3@kpu.com"
+        "email": "email3@kpu.com",
+        "status_kepegawaian": "1 Tahun 6 Bulan"
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1981-05-20",
-        "email": "email4@kpu.com"
+        "email": "email4@kpu.com",
+        "status_kepegawaian": "2 Tahun 8 Bulan"
     },
     {
         "id": 5,
@@ -42,7 +46,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1979-07-16",
-        "email": "email5@kpu.com"
+        "email": "email5@kpu.com",
+        "status_kepegawaian": "3 Tahun 2 Bulan"
     },
     {
         "id": 6,
@@ -51,7 +56,8 @@
         "posisi_sb": "Kepala",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1984-04-11",
-        "email": "email6@kpu.com"
+        "email": "email6@kpu.com",
+        "status_kepegawaian": "Penata / II.a"
     },
     {
         "id": 7,
@@ -60,7 +66,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1982-12-09",
-        "email": "email7@kpu.com"
+        "email": "email7@kpu.com",
+        "status_kepegawaian": "Penata Muda / II.c"
     },
     {
         "id": 8,
@@ -69,7 +76,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1983-09-15",
-        "email": "email8@kpu.com"
+        "email": "email8@kpu.com",
+        "status_kepegawaian": "Penata Muda / III.c"
     },
     {
         "id": 9,
@@ -78,7 +86,8 @@
         "posisi_sb": "Anggota",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-07-20",
-        "email": "email9@kpu.com"
+        "email": "email9@kpu.com",
+        "status_kepegawaian": "1 Tahun 7 Bulan"
     },
     {
         "id": 10,
@@ -87,7 +96,8 @@
         "posisi_sb": "Kepala",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1978-05-12",
-        "email": "email10@kpu.com"
+        "email": "email10@kpu.com",
+        "status_kepegawaian": "Penata / I.a"
     },
     {
         "id": 11,
@@ -96,7 +106,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1980-02-02",
-        "email": "email11@kpu.com"
+        "email": "email11@kpu.com",
+        "status_kepegawaian": "Penata Muda / II.b"
     },
     {
         "id": 12,
@@ -105,7 +116,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1983-09-21",
-        "email": "email12@kpu.com"
+        "email": "email12@kpu.com",
+        "status_kepegawaian": "Penata Muda / II.c"
     },
     {
         "id": 13,
@@ -114,7 +126,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1981-07-23",
-        "email": "email13@kpu.com"
+        "email": "email13@kpu.com",
+        "status_kepegawaian": "3 Tahun 6 Bulan"
     },
     {
         "id": 14,
@@ -123,7 +136,8 @@
         "posisi_sb": "Kepala",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1984-04-03",
-        "email": "email14@kpu.com"
+        "email": "email14@kpu.com",
+        "status_kepegawaian": "Penata / I.c"
     },
     {
         "id": 15,
@@ -132,7 +146,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1979-10-12",
-        "email": "email15@kpu.com"
+        "email": "email15@kpu.com",
+        "status_kepegawaian": "Penata / II.a"
     },
     {
         "id": 16,
@@ -141,7 +156,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1985-06-11",
-        "email": "email16@kpu.com"
+        "email": "email16@kpu.com",
+        "status_kepegawaian": "Penata Muda / III.c"
     },
     {
         "id": 17,
@@ -150,7 +166,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1982-09-15",
-        "email": "email17@kpu.com"
+        "email": "email17@kpu.com",
+        "status_kepegawaian": "Penata Muda / I.a"
     },
     {
         "id": 18,
@@ -159,7 +176,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email18@kpu.com"
+        "email": "email18@kpu.com",
+        "status_kepegawaian": "Penata Muda / I.c"
     },
     {
         "id": 19,
@@ -168,7 +186,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email19@kpu.com"
+        "email": "email19@kpu.com",
+        "status_kepegawaian": "Penata Muda / II.b"
     },
     {
         "id": 20,
@@ -177,7 +196,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email20@kpu.com"
+        "email": "email20@kpu.com",
+        "status_kepegawaian": "1 Tahun 8 Bulan"
     },
     {
         "id": 21,
@@ -186,7 +206,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email21@kpu.com"
+        "email": "email21@kpu.com",
+        "status_kepegawaian": "2 Tahun 1 Bulan"
     },
     {
         "id": 22,
@@ -195,7 +216,8 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email22@kpu.com"
+        "email": "email22@kpu.com",
+        "status_kepegawaian": "2 Tahun 3 Bulan"
     },
     {
         "id": 23,
@@ -204,6 +226,7 @@
         "posisi_sb": "Staff",
         "foto_sb": "/uploads/FOTO DEFAULT.jpg",
         "tanggal_lahir": "1987-02-24",
-        "email": "email23@kpu.com"
+        "email": "email23@kpu.com",
+        "status_kepegawaian": "1 Tahun 7 Bulan"
     }
 ]

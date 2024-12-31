@@ -200,6 +200,11 @@ const SubBagianHSDM_Adm = () => {
                           }
                         )}
                       </p>
+                      <p className="text-lg font-medium">
+                        {selectedUser.status_kepegawaian.includes('/')
+                          ? `Pangkat/Gol: ${selectedUser.status_kepegawaian}`
+                          : `Kontrak: ${selectedUser.status_kepegawaian}`}
+                      </p>
                     </div>
                   </div>
                 </div>

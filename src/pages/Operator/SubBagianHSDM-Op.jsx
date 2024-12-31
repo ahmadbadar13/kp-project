@@ -15,7 +15,7 @@ Modal.setAppElement('#root');
 const SubBagianHSDM_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null, tanggal_lahir: '', email: '', });
+  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null, tanggal_lahir: '', email: '', status_kepegawaian: '', });
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
@@ -48,7 +48,8 @@ const SubBagianHSDM_Op = () => {
         foto_sb: selectedSubBagian.foto_sb,
         tanggal_lahir: selectedSubBagian.tanggal_lahir,
         email: selectedSubBagian.email,
-        komentar_sb_hsdm: newUser.komentar_sb_hsdm || null // Menangani null
+        status_kepegawaian: selectedSubBagian.status_kepegawaian,
+        komentar_sb_hsdm: newUser.komentar_sb_hsdm || null
     };
 
     try {
@@ -386,6 +387,11 @@ const fetchUsers = async () => {
                           month: 'long',
                           year: 'numeric',
                         })}
+                      </p>
+                      <p className="text-lg font-medium">
+                        {selectedUser.status_kepegawaian.includes('/')
+                          ? `Pangkat/Gol: ${selectedUser.status_kepegawaian}`
+                          : `Kontrak: ${selectedUser.status_kepegawaian}`}
                       </p>
                     </div>
                   </div>
