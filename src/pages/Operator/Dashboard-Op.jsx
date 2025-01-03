@@ -3,6 +3,7 @@ import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import Navbar from '../../components/NavOperator';
 import Jumbotron from '../../components/Jumbotron';
 import Footer from '../../components/FooterAllPages';
+import Tentang from '../../assets/tentang.png'
 
 const Dashboard_Op = () => {
   const [loading, setLoading] = useState(true);
@@ -112,10 +113,10 @@ const Dashboard_Op = () => {
 
       {/* Start: Konten */}
       <h1 className="text-3xl font-bold mb-8 text-center m-5">Tugas Operator</h1>
-      <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-3 w-full max-w-5xl mx-auto">
-        
+      {/* Grid utama untuk 3 card atas */}
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-3 m-10 w-full max-w-6xl mx-auto">
         {/* Card 1 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
               <FaPlus className="w-12 h-12 text-black-900" />
@@ -123,12 +124,12 @@ const Dashboard_Op = () => {
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Menambahkan Data</h2>
-            <p className="text-gray-600 text-justify">Operator bertugas untuk menambahkan data pegawai yang mencakup nama, NIP (Nomor Induk Pegawai), dan jabatan, baik untuk divisi maupun sub bagian. Informasi ini sangat penting dalam pengelolaan sumber daya manusia di organisasi. Dengan mencatat nama dan NIP, setiap pegawai dapat diidentifikasi secara unik, sementara jabatan memberikan gambaran tentang peran dan tanggung jawab mereka di dalam divisi atau sub bagian tertentu. Operator harus memastikan bahwa data yang dimasukkan akurat dan diperbarui secara berkala, agar organisasi dapat berfungsi dengan efisien dan memudahkan proses administrasi.</p>
+            <p className="text-gray-600 text-justify">Operator bertugas untuk menambahkan data pegawai yang mencakup nama, NIP (Nomor Induk Pegawai), dan jabatan, baik untuk divisi maupun sub bagian. Informasi ini sangat penting dalam pengelolaan sumber daya manusia di organisasi...</p>
           </div>
         </div>
-        
+
         {/* Card 2 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
               <FaEdit className="w-12 h-12 text-black-900" />
@@ -136,12 +137,12 @@ const Dashboard_Op = () => {
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Mengedit Data</h2>
-            <p className="text-gray-600 text-justify">Operator memiliki tugas untuk mengedit data pegawai yang telah terdaftar, termasuk informasi mengenai nama, NIP (Nomor Induk Pegawai), dan jabatan. Tugas ini meliputi pembaruan data yang mungkin berubah, seperti perubahan nama, penggantian jabatan, atau perbaikan NIP yang salah. Proses pengeditan harus dilakukan dengan teliti untuk memastikan bahwa semua informasi yang tercatat tetap akurat dan relevan. Dengan melakukan pengeditan secara rutin, operator membantu menjaga integritas dan keakuratan data pegawai, yang sangat penting untuk pengelolaan sumber daya manusia dan kelancaran operasional organisasi.</p>
+            <p className="text-gray-600 text-justify">Operator memiliki tugas untuk mengedit data pegawai yang telah terdaftar, termasuk informasi mengenai nama, NIP (Nomor Induk Pegawai), dan jabatan. Tugas ini meliputi pembaruan data yang mungkin berubah...</p>
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
               <FaTrash className="w-12 h-12 text-black-900" />
@@ -149,12 +150,23 @@ const Dashboard_Op = () => {
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Menghapus Data</h2>
-            <p className="text-gray-600 text-justify">Operator bertugas untuk menghapus data pegawai yang tidak lagi relevan atau diperlukan dalam sistem. Proses ini meliputi penghapusan informasi pegawai berdasarkan kriteria tertentu, seperti nama, NIP (Nomor Induk Pegawai), dan jabatan. Dengan melakukan penghapusan data yang sudah tidak aktif atau sudah keluar dari organisasi, operator dapat menjaga kebersihan dan keteraturan database pegawai. Hal ini penting untuk memastikan bahwa informasi yang tersedia adalah data yang akurat dan terkini, sehingga mendukung efisiensi operasional dan pengambilan keputusan yang tepat dalam manajemen sumber daya manusia. Operator harus berhati-hati dalam melakukan proses penghapusan untuk menghindari kehilangan data yang masih diperlukan.</p>
+            <p className="text-gray-600 text-justify">Operator bertugas untuk menghapus data pegawai yang tidak lagi relevan atau diperlukan dalam sistem. Proses ini meliputi penghapusan informasi pegawai berdasarkan kriteria tertentu...</p>
           </div>
         </div>
-        
       </div>
-      {/* End: Konten */}
+
+      {/* Card Tentang Sistem */}
+      <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-auto w-full max-w-6xl md:flex-row md:justify-between mt-10">
+        <div className="md:w-2/3">
+          <h1 className="text-2xl font-bold mb-4">Tentang Sistem</h1>
+          <p className="text-gray-600 text-justify">
+          Sistem informasi ini dirancang untuk mencatat dan mengelola data pegawai yang terdaftar di Sistem Informasi Manajemen Kepegawaian (SIMPEG) KPU RI. Tujuan utama dari sistem ini adalah untuk memberikan kemudahan dalam mencatat, menyimpan, dan mengakses data pegawai secara efektif. Data yang tersimpan dalam sistem ini akan digunakan untuk mendukung pencetakan daftar pegawai, yang kemudian diorganisasikan sesuai dengan struktur organisasi yang berlaku. Dengan adanya sistem ini, diharapkan proses pengelolaan data kepegawaian menjadi lebih cepat dan transparan, sehingga memudahkan KPU Kota Cimahi dalam menjalankan tugas administrasi kepegawaian.
+          </p>
+        </div>
+        <div className="mt-6 md:mt-0 md:w-1/3 flex justify-center">
+          <img src={Tentang} alt="Tentang" className="bg-gray-200 rounded-full w-56 h-56 border-2 border-black" />
+        </div>
+      </div>
 
       {/* Start: Footer */}
       <Footer />

@@ -15,7 +15,7 @@ Modal.setAppElement('#root');
 const SubBagianKUL_Op = () => {
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null, tanggal_lahir: '', email: '', status_kepegawaian: '', });
+  const [newUser, setNewUser] = useState({ name: '', nip: '', position: '', photo: null, tanggal_lahir: '', email: '', status_kepegawaian: '', surat_keputusan: ''});
   const [comments, setComments] = useState({});
   const [activeComments, setActiveComments] = useState(null);
   const [error, setError] = useState(null);
@@ -49,6 +49,7 @@ const SubBagianKUL_Op = () => {
         tanggal_lahir: selectedSubBagian.tanggal_lahir,
         email: selectedSubBagian.email,
         status_kepegawaian: selectedSubBagian.status_kepegawaian,
+        surat_keputusan: selectedSubBagian.surat_keputusan,
         komentar_sb_kul: newUser.komentar_sb_kul || null
     };
 
@@ -392,6 +393,9 @@ const fetchUsers = async () => {
                         {selectedUser.status_kepegawaian.includes('/')
                           ? `Pangkat/Gol: ${selectedUser.status_kepegawaian}`
                           : `Kontrak: ${selectedUser.status_kepegawaian}`}
+                      </p>
+                      <p className="text-lg font-medium">
+                        Surat Keputusan: <a href={selectedUser.surat_keputusan} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Unduh</a>
                       </p>
                     </div>
                   </div>

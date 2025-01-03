@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../../components/NavAdmin';
 import Jumbotron from '../../components/Jumbotron';
 import Footer from '../../components/FooterAllPages';
+import Tentang from '../../assets/tentang.png'
 
 const Dashboard_Adm = () => {
   const [struktur, setStruktur] = useState([]);
@@ -316,49 +317,66 @@ const Dashboard_Adm = () => {
 
       {/* Start: Konten */}
       <h1 className="text-3xl font-bold mb-8 text-center m-5">Tugas Admin</h1>
-      <div className="grid gap-8 grid-cols-1 m-10 md:grid-cols-3 w-full max-w-5xl mx-auto">
-        
+      {/* Grid utama untuk 3 card atas */}
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-3 m-10 w-full max-w-6xl mx-auto">
         {/* Card 1 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
-              <FaEye className="w-12 h-12 text-black-900" />
+              <FaEye className="w-12 h-12 text-black" />
             </div>
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Memantau</h2>
-            <p className="text-gray-600 text-justify">Admin perlu secara rutin memeriksa dan mengawasi informasi yang tercatat tentang setiap pegawai. Informasi tersebut mencakup berbagai aspek penting, seperti data pribadi serta jabatan. Dengan melakukan pengawasan yang teratur, admin dapat memastikan bahwa semua data pegawai selalu diperbarui dan akurat, sehingga mendukung pengambilan keputusan yang tepat dan efektif.</p>
+            <p className="text-gray-600 text-justify">
+              Admin perlu secara rutin memeriksa dan mengawasi informasi yang tercatat tentang setiap pegawai. Informasi tersebut mencakup berbagai aspek penting, seperti data pribadi serta jabatan. Dengan melakukan pengawasan yang teratur, admin dapat memastikan bahwa semua data pegawai selalu diperbarui dan akurat, sehingga mendukung pengambilan keputusan yang tepat dan efektif.
+            </p>
           </div>
         </div>
-        
+
         {/* Card 2 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
-              <FaCog className="w-12 h-12 text-black-900" />
+              <FaCog className="w-12 h-12 text-black" />
             </div>
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Mengelola</h2>
-            <p className="text-gray-600 text-justify">Admin bertugas untuk memastikan keakuratan data pegawai di KPU Kota Cimahi. Admin akan memeriksa jika terdapat kesalahan input data yang dilakukan oleh Operator, melakukan verifikasi terhadap data yang dimasukkan, serta memastikan bahwa data tersebut selalu diperbarui sesuai dengan perubahan yang terjadi. Selain itu, Admin juga bertanggung jawab untuk melaporkan dan mengoreksi kesalahan data serta memberikan komentar kepada Operator untuk mencegah terjadinya kesalahan serupa.</p>
+            <p className="text-gray-600 text-justify">
+              Admin bertugas untuk memastikan keakuratan data pegawai di KPU Kota Cimahi. Admin akan memeriksa jika terdapat kesalahan input data yang dilakukan oleh Operator, melakukan verifikasi terhadap data yang dimasukkan, serta memastikan bahwa data tersebut selalu diperbarui sesuai dengan perubahan yang terjadi.
+            </p>
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-4 w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg">
           <div className="w-24 h-24 mb-4">
             <div className="bg-gray-300 w-full h-full rounded-full flex items-center justify-center">
-              <FaNewspaper className="w-12 h-12 text-black-900" />
+              <FaNewspaper className="w-12 h-12 text-black" />
             </div>
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold mb-2">Berita</h2>
-            <p className="text-gray-600 text-justify">Admin memiliki tugas untuk menambahkan berita terbaru yang berkaitan dengan kegiatan dan informasi di KPU Kota Cimahi. Melalui penambahan berita, admin dapat memberikan informasi kepada pegawai dan masyarakat. Dengan adanya berita yang selalu diperbarui, diharapkan semua pihak dapat mengikuti perkembangan terbaru dan meningkatkan transparansi serta komunikasi di lingkungan KPU.</p>
+            <p className="text-gray-600 text-justify">
+              Admin memiliki tugas untuk menambahkan berita terbaru yang berkaitan dengan kegiatan dan informasi di KPU Kota Cimahi. Melalui penambahan berita, admin dapat memberikan informasi kepada pegawai dan masyarakat.
+            </p>
           </div>
         </div>
-        
       </div>
-      {/* End: Konten */}
+
+      {/* Card Tentang Sistem */}
+      <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-lg mx-auto w-full max-w-6xl md:flex-row md:justify-between mt-10">
+        <div className="md:w-2/3">
+          <h1 className="text-2xl font-bold mb-4">Tentang Sistem</h1>
+          <p className="text-gray-600 text-justify">
+          Sistem informasi ini dirancang untuk mencatat dan mengelola data pegawai yang terdaftar di Sistem Informasi Manajemen Kepegawaian (SIMPEG) KPU RI. Tujuan utama dari sistem ini adalah untuk memberikan kemudahan dalam mencatat, menyimpan, dan mengakses data pegawai secara efektif. Data yang tersimpan dalam sistem ini akan digunakan untuk mendukung pencetakan daftar pegawai, yang kemudian diorganisasikan sesuai dengan struktur organisasi yang berlaku. Dengan adanya sistem ini, diharapkan proses pengelolaan data kepegawaian menjadi lebih cepat dan transparan, sehingga memudahkan KPU Kota Cimahi dalam menjalankan tugas administrasi kepegawaian.
+          </p>
+        </div>
+        <div className="mt-6 md:mt-0 md:w-1/3 flex justify-center">
+          <img src={Tentang} alt="Tentang" className="bg-gray-200 rounded-full w-56 h-56 border-2 border-black" />
+        </div>
+      </div>
 
       {/* Start: Struktur Organisasi */}
       <div className="p-6 bg-white min-h-screen mb-11">

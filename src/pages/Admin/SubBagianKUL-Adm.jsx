@@ -205,6 +205,9 @@ const SubBagianKUL_Adm = () => {
                           ? `Pangkat/Gol: ${selectedUser.status_kepegawaian}`
                           : `Kontrak: ${selectedUser.status_kepegawaian}`}
                       </p>
+                      <p className="text-lg font-medium">
+                        Surat Keputusan: <a href={selectedUser.surat_keputusan} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Unduh</a>
+                      </p>
                     </div>
                   </div>
                 </div>
