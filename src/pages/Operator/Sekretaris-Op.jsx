@@ -8,7 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import { AiFillDelete } from 'react-icons/ai';
 import Navbar from '../../components/NavOperator';
 import Footer from '../../components/FooterAllPages';
-import dummyData from '../../assets/data/dummy-sekretaris.json';
+import dummyData from '../../assets/data/dummy-divisi';
 
 Modal.setAppElement('#root');
 
@@ -47,11 +47,12 @@ const Sekretaris_Op = () => {
 
     // Tidak perlu formData untuk file upload, cukup data dari dummyData
     const formData = {
-        nama_sekretaris: selectedDivision.nama_sekretaris,
-        nip_sekretaris: selectedDivision.nip_sekretaris,
-        foto_sekretaris: selectedDivision.foto_sekretaris,
+        nama_sekretaris: selectedDivision.nama_div,
+        nip_sekretaris: selectedDivision.nip_div,
+        foto_sekretaris: selectedDivision.foto_div,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
+        masa_jabatan: selectedDivision.masa_jabatan,
         komentar_sekretaris: selectedDivision.komentar_sekretaris
     };
 
@@ -242,7 +243,7 @@ const Sekretaris_Op = () => {
       {/* End: Navbar */}
 
       <div className="flex flex-col min-h-screen p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Divisi Perencanaan, Data, & Informasi</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">Data Sekretaris</h1>
 
         {/* Start: Popup Tambah Data */}
         {isAddingUser && (
@@ -264,9 +265,9 @@ const Sekretaris_Op = () => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Pilih Nama</option>
-                                {dummyData.map((sekretaris) => (
-                                    <option key={sekretaris.id} value={sekretaris.id}>
-                                        {sekretaris.nama_sekretaris}
+                                {dummyData.map((div) => (
+                                    <option key={div.id} value={div.id}>
+                                        {div.nama_div}
                                     </option>
                                 ))}
                             </select>

@@ -48,6 +48,7 @@ const DivisiSPPP_SDM_Op = () => {
     // Tidak perlu formData untuk file upload, cukup data dari dummyData
     const formData = {
         nama_div_sppp_sdm: selectedDivision.nama_div,
+        nip_sppp_sdm: selectedDivision.nip_div,
         foto_div_sppp_sdm: selectedDivision.foto_div,
         tanggal_lahir: selectedDivision.tanggal_lahir,
         email: selectedDivision.email,
@@ -410,6 +411,7 @@ const DivisiSPPP_SDM_Op = () => {
                         className="w-32 h-32 rounded-full mx-auto mb-4"
                       />
                       <h2 className="text-xl font-semibold mb-2">{selectedUser.nama_div_sppp_sdm}</h2>
+                      <p className="text-lg font-medium">NIP: {selectedUser.nip_sppp_sdm}</p>
                       <p className="text-lg font-medium">Email: {selectedUser.email}</p>
                       <p className="text-lg font-medium"> Tangal Lahir: {new Date(selectedUser.tanggal_lahir).toLocaleDateString('id-ID', {
                           day: '2-digit',
